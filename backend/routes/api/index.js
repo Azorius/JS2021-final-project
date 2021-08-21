@@ -1,7 +1,7 @@
-const { router: users } = require('./users');
-const { router: posts } = require('./posts');
+const { router: usersRouter } = require('./users');
+const { router: postsRouter } = require('./posts');
 
 module.exports = {
-  users,
-  posts,
+  usersRouter,
+  postsRouter,
 };
