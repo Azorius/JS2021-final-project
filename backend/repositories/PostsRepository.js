@@ -62,7 +62,6 @@ class PostsRepository {
           )
           .writeAsync(pathFile);
         imgUrl = path.join(POSTS_IMG_DIR, `${uuidv4()}.jpg`);
-        console.log(`imgUrl: ${imgUrl}`);
         await fs.rename(pathFile, imgUrl);
       } else {
         imgUrl = path.join(POSTS_IMG_DIR, 'default-img.jpg');

@@ -16,12 +16,10 @@ class DbStorage {
   }
   async create(data) {
     const fields = Object.keys(data);
-    console.log(fields);
     const values = Object.values(data).reduce((values, value, idx, arr) => {
       if (arr[idx+1]) return values += `'${value}', `;
       return values += `'${value}'`;
     }, "");
-    console.log(values);
 
     const [meta] = await pool
       .promise()

@@ -21,7 +21,7 @@ class Post {
     const dataCopy = Object.assign({}, this._data);
     delete dataCopy.imgUrl;
     delete dataCopy.date;
-    dataCopy.image_url = this._data.imgUrl;
+    dataCopy.image_url = this._data.imgUrl.replace(/\\/g, '\\\\');
     dataCopy.entry_date = this._data.date;
     return dataCopy;
   }
