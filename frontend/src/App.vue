@@ -1,9 +1,25 @@
 <template>
   <div>
     <div id="nav">
-      <router-link to="/">Home</router-link>
-      <router-link to="/posts">Posts</router-link>
+      <NavigationBar :links="navLinks" />
     </div>
     <router-view />
   </div>
 </template>
+<script>
+import NavigationBar from '@/components/NavigationBar'
+
+export default {
+  components: {
+    NavigationBar,
+  },
+  data() {
+    return {
+      navLinks: [
+        { name: 'Home', link: '/' },
+        { name: 'Articles', link: '/posts' },
+      ],
+    }
+  },
+}
+</script>
