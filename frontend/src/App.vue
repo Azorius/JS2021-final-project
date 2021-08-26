@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="nav">
-      <NavigationBar />
+      <NavigationBar :links="navLinks" />
     </div>
     <router-view />
   </div>
@@ -12,6 +12,14 @@ import NavigationBar from '@/components/NavigationBar'
 export default {
   components: {
     NavigationBar,
+  },
+  data() {
+    return {
+      navLinks: [
+        { name: 'Home', link: '/' },
+        { name: 'Articles', link: '/posts' },
+      ],
+    }
   },
 }
 </script>

@@ -1,18 +1,27 @@
 <template>
   <header>
     <img src="@/assets/placeholder_icon.png" alt="" />
-    <router-link class="navlink" to="/">
+    <router-link
+      v-for="(link, index) in links"
+      :key="`link-${index}`"
+      class="navlink"
+      :to="link.link"
+    >
       <div>
-        Home
-      </div>
-    </router-link>
-    <router-link class="navlink" to="/posts">
-      <div>
-        Posts
+        {{ link.name }}
       </div>
     </router-link>
   </header>
 </template>
+
+<script>
+export default {
+  name: 'NavigationBar',
+  props: {
+    links: Array,
+  },
+}
+</script>
 
 <style scoped>
 header {
