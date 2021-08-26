@@ -27,6 +27,7 @@ export default {
 header {
   display: flex;
   flex-direction: row;
+  border: 1px solid blueviolet;
 }
 .navlink {
   text-decoration: none;
