@@ -29,6 +29,23 @@ class PostsRepository {
     }
   }
 
+  async getById(id) {
+    try {
+      const post = await this._storage.getById(id);
+      const postModel = new Post({
+        title: post.title,
+        text: post.text,
+        imgUrl: post.image_url,
+        description: post.description,
+        date: post.entry_date,
+      });
+      postModel.setId(post.id);
+      return postModel.getData();
+    } catch (e) {
+      throw new Error(`Error with storage: ${e}`);
+    }
+  }
+
   async create({ title, text, description, date, pathFile }) {
     const POSTS_IMG_DIR = path.join(process.cwd(), 'public', 'pictures');
     let imgUrl = '';

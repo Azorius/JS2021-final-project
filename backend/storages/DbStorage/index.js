@@ -8,6 +8,12 @@ class DbStorage {
     const [rows] = await pool.promise().execute(`SELECT * FROM ${this._table}`);
     return rows;
   }
+  async getById(id) {
+    const [rows] = await pool
+      .promise()
+      .execute(`SELECT * FROM ${this._table} WHERE id = ?`, [id]);
+    return rows[0];
+  }
   async create(data) {
     const fields = Object.keys(data);
     console.log(fields);

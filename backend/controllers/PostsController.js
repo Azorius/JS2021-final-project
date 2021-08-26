@@ -17,6 +17,23 @@ class PostsController {
     }
   }
 
+  async getOne(req, res, next) {
+    const { postId } = req.params;
+
+    try {
+      const post = await postsRepository.getById(postId);
+      res.json({
+        status: 'success',
+        code: 200,
+        data: {
+          post,
+        },
+      });
+    } catch (e) {
+      next(e);
+    }
+  }
+
   async create(req, res, next) {
     try {
       let date = MOMENT().format('YYYY-MM-DD  HH:mm:ss.000');
