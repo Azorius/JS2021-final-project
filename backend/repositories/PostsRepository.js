@@ -15,13 +15,13 @@ class PostsRepository {
       const posts = await this._storage.getAll();
       return posts.map((post) => {
         const postModel = new Post({
-          id: post.id,
           title: post.title,
           text: post.text,
           imgUrl: post.image_url,
           description: post.description,
           date: post.entry_date,
         });
+        postModel.setId(post.id);
         return postModel.getData();
       });
     } catch (e) {
