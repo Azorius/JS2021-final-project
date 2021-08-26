@@ -1,12 +1,17 @@
+require('dotenv').config();
+
 const express = require('express');
 const logger = require('morgan');
 const cors = require('cors');
-const { 
-  usersRouter,
-  postsRouter
-} = require('./routes/api');
+const fs = require('fs').promises;
+const path = require('path');
+const { createFolderIfNotExist } = require('./helpers/fileSystem');
+const { usersRouter, postsRouter } = require('./routes/api');
 
 const PORT = process.env.PORT || 3000;
+const TEMP_DIR = path.join(process.cwd(), process.env.TEMP_DIR);
+const POSTS_IMG_DIR = path.join(__dirname, '/public', 'pictures');
+
 const app = express();
 
 // Middlewares
@@ -14,6 +19,7 @@ const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
 app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Routing
 app.use('/api/posts', postsRouter);
@@ -33,8 +39,14 @@ app.use((err, _, res, __) => {
 });
 
 // Starting server
-app.listen(PORT, () => {
-  console.log(`Server is listening on port ${PORT}`);
+app.listen(PORT, async () => {
+  try {
+    await createFolderIfNotExist(TEMP_DIR);
+    await createFolderIfNotExist(POSTS_IMG_DIR);
+    console.log(`Server is listening on port ${PORT}`);
+  } catch (error) {
+    console.log(`Error with file system: ${error}`);
+  }
 });
 
 // On app termination from command line
