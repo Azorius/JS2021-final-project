@@ -31,8 +31,8 @@ export default {
   background-position: center center;
 
   /* debug */
-  /* border: 1px solid fuchsia;
-  box-sizing: border-box; */
+  border: 1px solid fuchsia;
+  box-sizing: border-box;
 }
 
 .article-card:hover {
@@ -44,5 +44,9 @@ export default {
   width: 18rem;
   height: 18rem;
   margin: 5px;
+}
+
+h3 {
+  background: black;
 }
 </style>
