@@ -22,6 +22,13 @@ class PostsController {
 
     try {
       const post = await postsRepository.getById(postId);
+      if (!post) {
+        next({
+          status: 404,
+          message: 'User not found'
+        })
+      }
+
       res.json({
         status: 'success',
         code: 200,
@@ -42,6 +49,7 @@ class PostsController {
         date,
         pathFile: req.file ? req.file.path : null,
       });
+
       res.status(201).json({
         status: 'success',
         code: 201,

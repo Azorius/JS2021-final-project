@@ -32,6 +32,8 @@ class PostsRepository {
   async getById(id) {
     try {
       const post = await this._storage.getById(id);
+      if (!post) return null;
+      
       const postModel = new Post({
         title: post.title,
         text: post.text,
