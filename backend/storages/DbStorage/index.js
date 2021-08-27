@@ -1,4 +1,4 @@
-const pool = require("./db");
+const pool = require('./db');
 
 class DbStorage {
   constructor(tableName) {
@@ -14,12 +14,21 @@ class DbStorage {
       .execute(`SELECT * FROM ${this._table} WHERE id = ?`, [id]);
     return rows[0];
   }
+  async getOne(filter) {
+    const field = Object.entries(filter)[0];
+    const [rows] = await pool
+      .promise()
+      .execute(
+        `SELECT * FROM ${this._table} WHERE ${field[0]} = '${field[1]}'`
+      );
+    return rows[0];
+  }
   async create(data) {
     const fields = Object.keys(data);
     const values = Object.values(data).reduce((values, value, idx, arr) => {
-      if (arr[idx+1]) return values += `'${value}', `;
-      return values += `'${value}'`;
-    }, "");
+      if (arr[idx + 1]) return (values += `'${value}', `);
+      return (values += `'${value}'`);
+    }, '');
 
     const [meta] = await pool
       .promise()

@@ -21,7 +21,7 @@ class User {
   }
 
   comparePassword(password) {
-    return bcrypt.compareSync(password, this._data.password)
+    return bcrypt.compareSync(password, this._data.password);
   }
 
   getDataForStorage() {
