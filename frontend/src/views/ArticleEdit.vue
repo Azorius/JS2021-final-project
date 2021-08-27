@@ -25,4 +25,8 @@
   border: 1px solid coral;
   box-sizing: border-box;
 }
+
+textarea {
+  resize: none;
+}
 </style>
