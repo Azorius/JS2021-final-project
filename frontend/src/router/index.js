@@ -2,12 +2,18 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Posts from '../views/Posts.vue'
 import NotFound from '../views/NotFound.vue'
+import ArticleEdit from '../views/ArticleEdit.vue'
 
 const routes = [
   {
     path: '/',
     name: 'Home',
     component: Home,
+  },
+  {
+    path: '/posts/edit/:id?',
+    name: 'Edit',
+    component: ArticleEdit,
   },
   {
     path: '/posts',

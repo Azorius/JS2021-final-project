@@ -18,6 +18,7 @@ export default {
       navLinks: [
         { name: 'Home', link: '/' },
         { name: 'Articles', link: '/posts' },
+        { name: 'Add', link: '/posts/edit' },
       ],
     }
   },
