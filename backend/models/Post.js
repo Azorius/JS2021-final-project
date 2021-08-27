@@ -1,9 +1,9 @@
 class Post {
-  constructor({ title, text, description, imgUrl, date, author }) {
+  constructor({ title, text, description, imgName, date, author }) {
     this._data = {
       title,
       text,
-      imgUrl,
+      imgName,
       date,
       description,
     };
@@ -19,9 +19,9 @@ class Post {
 
   getDataForStorage() {
     const dataCopy = Object.assign({}, this._data);
-    delete dataCopy.imgUrl;
+    delete dataCopy.imgName;
     delete dataCopy.date;
-    dataCopy.image_url = this._data.imgUrl.replace(/\\/g, '\\\\');
+    dataCopy.image_url = this._data.imgName;
     dataCopy.entry_date = this._data.date;
     return dataCopy;
   }
