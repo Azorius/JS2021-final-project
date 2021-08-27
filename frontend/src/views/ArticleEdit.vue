@@ -1,9 +1,14 @@
 <template>
   <div class="content">
     <div class="editor">
-      <input type="text" v-model="title" />
-      <textarea cols="30" rows="3" v-model="description"></textarea>
-      <textarea cols="30" rows="10" v-model="text"></textarea>
+      <input type="text" maxlength="50" v-model="title" />
+      <textarea
+        cols="30"
+        maxlength="280"
+        rows="3"
+        v-model="description"
+      ></textarea>
+      <textarea cols="30" rows="10" maxlength="4000" v-model="text"></textarea>
       <button @click="submitArticle">Submit</button>
     </div>
   </div>
