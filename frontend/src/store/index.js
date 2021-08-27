@@ -1,4 +1,5 @@
 import { createStore } from 'vuex'
+const axios = require('axios')
 
 export default createStore({
   strict: true,
@@ -44,6 +45,24 @@ export default createStore({
     },
     articles(state) {
       return state.articles.slice().reverse()
+    },
+  },
+  mutations: {
+    updateArticles(state, { articles }) {
+      state.articles = articles
+    },
+  },
+  actions: {
+    requestArticles() {
+      console.log('request articles')
+      axios
+        .get('http://localhost:3000/api/posts')
+        .then(response => {
+          console.log(response)
+        })
+        .catch(error => {
+          console.log(error)
+        })
     },
   },
 })
