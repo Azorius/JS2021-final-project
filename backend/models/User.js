@@ -20,6 +20,10 @@ class User {
     this._data.password = bcrypt.hashSync(password, 10);
   }
 
+  setHashedPasswordFromStorage(password) {
+    this._data.password = password;
+  }
+
   comparePassword(password) {
     return bcrypt.compareSync(password, this._data.password);
   }
