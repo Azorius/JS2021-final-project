@@ -25,18 +25,34 @@ class DbStorage {
   }
   async create(data) {
     const fields = Object.keys(data);
-    const values = Object.values(data).reduce((values, value, idx, arr) => {
-      if (arr[idx + 1]) return (values += `'${value}', `);
-      return (values += `'${value}'`);
-    }, '');
+    const values = Object.values(data);
+
+    let dataLength = values.length - 1;
+    let valuesPlaceholder = '?';
+    while (dataLength) {
+      valuesPlaceholder += ', ?';
+      dataLength -= 1;
+    }
 
     const [meta] = await pool
       .promise()
-      .execute(
-        `INSERT INTO ${this._table} (${fields.join(', ')}) VALUES (${values})`
-      );
+      .execute(`INSERT INTO ${this._table} (${fields}) VALUES (${valuesPlaceholder})`, values);
 
     return Object.assign({}, data, { id: meta.insertId });
+  }
+  async update(id, data) {
+    if (!id) throw new Error(`Missing "id" in data for DbStorage.update`);
+
+    const fields = Object.keys(data).join('=?,') + '=?';
+    const values = Object.values(data);
+
+    await pool
+      .promise()
+      .execute(
+        `UPDATE ${this._table} SET ${fields} WHERE id =?`,
+        [...values, id]
+      );
+    return data;
   }
 }
 
