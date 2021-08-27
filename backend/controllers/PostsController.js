@@ -25,7 +25,7 @@ class PostsController {
       if (!post) {
         next({
           status: 404,
-          message: 'User not found'
+          message: 'Post not found'
         })
       }
 
