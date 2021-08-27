@@ -4,11 +4,8 @@
       v-for="(article, index) in latestArticles"
       :key="`article-${index}`"
       :title="article.title"
-      :img="article.imgUrl"
+      img="http://localhost:3000/pictures/default-img.jpg"
     />
-    <!-- <div v-for="(article, index) in latestArticles" :key="`article-${index}`">
-      {{ article }}
-    </div> -->
   </div>
 </template>
 
@@ -25,7 +22,6 @@ export default {
     ...mapGetters(['latestArticles']),
   },
   mounted() {
-    console.log('dispatching action')
     this.$store.dispatch('requestArticles')
   },
 }
