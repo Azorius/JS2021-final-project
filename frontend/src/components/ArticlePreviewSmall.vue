@@ -41,7 +41,6 @@ export default {
 }
 
 .container {
-  background: darkmagenta;
   width: 18rem;
   height: 18rem;
   margin: 5px;
