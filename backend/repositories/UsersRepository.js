@@ -17,6 +17,25 @@ class UsersRepository {
     return userModel.getData();
   }
 
+  async authenticateLogin(email, password) {
+    const user = await this._storage.getOne({ email });
+    if (!user) {
+      return null;
+    }
+
+    const userModel = new User(user);
+    userModel.setHashedPasswordFromStorage(user.password);
+    if (userModel.comparePassword(password)) {
+      userModel.setId(user.id);
+      return userModel.getData();
+    }
+    return null;
+  }
+
+  async updateById(id, update) {
+    await this._storage.update(id, update);
+  }
+
   async create({ name, email, password }) {
     const userModel = new User({ name, email });
     userModel.setPassword(password);
