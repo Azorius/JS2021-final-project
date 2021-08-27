@@ -58,6 +58,20 @@ export default createStore({
       axios
         .get('http://localhost:3000/api/posts')
         .then(response => {
+          console.log(response.data.data.posts)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    addPost(context, data) {
+      console.log(context)
+      axios({
+        method: 'post',
+        url: 'http://localhost:3000/api/posts',
+        data: data,
+      })
+        .then(response => {
           console.log(response)
         })
         .catch(error => {
