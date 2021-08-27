@@ -4,8 +4,11 @@
       v-for="(article, index) in latestArticles"
       :key="`article-${index}`"
       :title="article.title"
-      :img="article.img"
+      :img="article.imgUrl"
     />
+    <!-- <div v-for="(article, index) in latestArticles" :key="`article-${index}`">
+      {{ article }}
+    </div> -->
   </div>
 </template>
 
