@@ -21,5 +21,9 @@ export default {
   computed: {
     ...mapGetters(['latestArticles']),
   },
+  mounted() {
+    console.log('dispatching action')
+    this.$store.dispatch('requestArticles')
+  },
 }
 </script>
