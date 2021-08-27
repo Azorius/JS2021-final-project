@@ -1,4 +1,4 @@
-const pool = require("./db");
+const pool = require('./db');
 
 class DbStorage {
   constructor(tableName) {
@@ -16,16 +16,18 @@ class DbStorage {
   }
   async create(data) {
     const fields = Object.keys(data);
-    const values = Object.values(data).reduce((values, value, idx, arr) => {
-      if (arr[idx+1]) return values += `'${value}', `;
-      return values += `'${value}'`;
-    }, "");
+    const values = Object.values(data);
+
+    let dataLength = values.length - 1;
+    let valuesPlaceholder = '?';
+    while (dataLength) {
+      valuesPlaceholder += ', ?';
+      dataLength -= 1;
+    }
 
     const [meta] = await pool
       .promise()
-      .execute(
-        `INSERT INTO ${this._table} (${fields.join(', ')}) VALUES (${values})`
-      );
+      .execute(`INSERT INTO ${this._table} (${fields}) VALUES (${valuesPlaceholder})`, values);
 
     return Object.assign({}, data, { id: meta.insertId });
   }
