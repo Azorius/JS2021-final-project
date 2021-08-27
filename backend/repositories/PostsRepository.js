@@ -33,7 +33,7 @@ class PostsRepository {
     try {
       const post = await this._storage.getById(id);
       if (!post) return null;
-      
+
       const postModel = new Post({
         title: post.title,
         text: post.text,
@@ -50,7 +50,7 @@ class PostsRepository {
 
   async create({ title, text, description, date, pathFile }) {
     const POSTS_IMG_DIR = path.join(process.cwd(), 'public', 'pictures');
-    let imgUrl = '';
+    let imgName = '';
 
     try {
       if (pathFile) {
@@ -63,18 +63,20 @@ class PostsRepository {
             Jimp.HORIZONTAL_ALIGN_CENTER || Jimp.VERTICAL_ALIGN_MIDDLE
           )
           .writeAsync(pathFile);
-        imgUrl = path.join(POSTS_IMG_DIR, `${uuidv4()}.jpg`);
-        await fs.rename(pathFile, imgUrl);
+        imgName = `${uuidv4()}.jpg`;
+        await fs.rename(pathFile, path.join(POSTS_IMG_DIR, imgName));
       } else {
-        imgUrl = path.join(POSTS_IMG_DIR, 'default-img.jpg');
+        imgName = 'default-img.jpg';
       }
 
-      const postModel = new Post({ title, text, description, date, imgUrl });
+      const postModel = new Post({ title, text, description, date, imgName });
       const dataToStore = postModel.getDataForStorage();
 
       const { id } = await this._storage.create(dataToStore);
       postModel.setId(id);
-      return postModel.getData();
+      const data = postModel.getData();
+      data.imgPath = '/pictures/' + data.imgName;
+      return data;
     } catch (e) {
       console.log(e);
       throw new Error(`Error with storage: ${e}`);
