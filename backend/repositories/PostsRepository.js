@@ -17,12 +17,14 @@ class PostsRepository {
         const postModel = new Post({
           title: post.title,
           text: post.text,
-          imgUrl: post.image_url,
+          imgName: post.image_url,
           description: post.description,
           date: post.entry_date,
         });
         postModel.setId(post.id);
-        return postModel.getData();
+        const data = postModel.getData();
+        data.imgPath = '/pictures/' + data.imgName;
+        return data;
       });
     } catch (e) {
       throw new Error(`Error with storage: ${e}`);
@@ -37,12 +39,14 @@ class PostsRepository {
       const postModel = new Post({
         title: post.title,
         text: post.text,
-        imgUrl: post.image_url,
+        imgName: post.image_url,
         description: post.description,
         date: post.entry_date,
       });
       postModel.setId(post.id);
-      return postModel.getData();
+      const data = postModel.getData();
+      data.imgPath = '/pictures/' + data.imgName;
+      return data;
     } catch (e) {
       throw new Error(`Error with storage: ${e}`);
     }
