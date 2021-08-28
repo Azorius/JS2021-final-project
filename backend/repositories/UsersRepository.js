@@ -7,43 +7,59 @@ class UsersRepository {
   }
 
   async getOne(filter) {
-    const user = await this._storage.getOne(filter);
-    if (!user) {
-      return null;
+    try {
+      const user = await this._storage.getOne(filter);
+      if (!user) {
+        return null;
+      }
+  
+      const userModel = new User(user);
+      userModel.setId(user.id);
+      return userModel.getData();      
+    } catch (e) {
+      throw new Error(`Error with storage: ${e}`);      
     }
-
-    const userModel = new User(user);
-    userModel.setId(user.id);
-    return userModel.getData();
   }
 
   async authenticateLogin(email, password) {
-    const user = await this._storage.getOne({ email });
-    if (!user) {
+    try {
+      const user = await this._storage.getOne({ email });
+      if (!user) {
+        return null;
+      }
+  
+      const userModel = new User(user);
+      userModel.setHashedPasswordFromStorage(user.password);
+      if (userModel.comparePassword(password)) {
+        userModel.setId(user.id);
+        return userModel.getData();
+      }
       return null;
+    } catch (e) {
+      throw new Error(`Error with storage: ${e}`);      
     }
-
-    const userModel = new User(user);
-    userModel.setHashedPasswordFromStorage(user.password);
-    if (userModel.comparePassword(password)) {
-      userModel.setId(user.id);
-      return userModel.getData();
-    }
-    return null;
   }
 
   async updateById(id, update) {
-    await this._storage.update(id, update);
+    try {
+      await this._storage.update(id, update);
+    } catch (e) {
+      throw new Error(`Error with storage: ${e}`);      
+    }
   }
 
   async create({ name, email, password }) {
-    const userModel = new User({ name, email });
-    userModel.setPassword(password);
-    const dataToStore = userModel.getDataForStorage();
-
-    const { id } = await this._storage.create(dataToStore);
-    userModel.setId(id);
-    return userModel.getData();
+    try {
+      const userModel = new User({ name, email });
+      userModel.setPassword(password);
+      const dataToStore = userModel.getDataForStorage();
+  
+      const { id } = await this._storage.create(dataToStore);
+      userModel.setId(id);
+      return userModel.getData();
+    } catch (e) {
+      throw new Error(`Error with storage: ${e}`);      
+    }
   }
 }
 
