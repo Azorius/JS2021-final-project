@@ -6,6 +6,11 @@ const schemaSignup = Joi.object({
   password: Joi.string().min(6).max(30).required(),
 });
 
+const schemaLogin = Joi.object({
+  email: Joi.string().email(),
+  password: Joi.string().min(6).max(30).required(),
+});
+
 const validate = (schema, body, next) => {
   const { error } = schema.validate(body);
   if (error) {
@@ -21,4 +26,8 @@ const validate = (schema, body, next) => {
 
 module.exports.validateSignup = (req, _, next) => {
   return validate(schemaSignup, req.body, next);
+};
+
+module.exports.validateLogin = (req, _, next) => {
+  return validate(schemaLogin, req.body, next);
 };
