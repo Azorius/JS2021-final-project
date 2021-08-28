@@ -23,7 +23,7 @@ class PostsController {
     try {
       const post = await postsRepository.getById(postId);
       if (!post) {
-        next({
+        return next({
           status: 404,
           message: 'Post not found'
         })

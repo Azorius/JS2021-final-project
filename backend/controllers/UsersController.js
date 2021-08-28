@@ -8,7 +8,7 @@ class usersController {
     try {
       const user = await usersRepository.getOne({ email });
       if (user) {
-        next({
+        return next({
           status: 409,
           message: 'Email in use',
         });
@@ -34,7 +34,7 @@ class usersController {
     try {
       const user = await usersRepository.authenticateLogin( email, password );
       if (!user) {
-        next({
+        return next({
           status: 400,
           message: 'Wrong email or password',
         });
