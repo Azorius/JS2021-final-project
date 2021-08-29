@@ -20,6 +20,10 @@ class User {
     this._data.password = bcrypt.hashSync(password, 10);
   }
 
+  setToken(token) {
+    this._data.token = token;
+  }
+
   setHashedPasswordFromStorage(password) {
     this._data.password = password;
   }
