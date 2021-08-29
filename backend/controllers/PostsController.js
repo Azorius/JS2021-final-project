@@ -48,6 +48,7 @@ class PostsController {
         ...req.body,
         date,
         pathFile: req.file ? req.file.path : null,
+        owner: req.user.id,
       });
 
       res.status(201).json({
