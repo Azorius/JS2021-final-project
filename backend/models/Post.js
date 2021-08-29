@@ -18,6 +18,10 @@ class Post {
     this._data.id = id;
   }
 
+  setOwnerData(name) {
+    this._data.owner = { name };
+  }
+
   getDataForStorage() {
     const dataCopy = Object.assign({}, this._data);
     delete dataCopy.imgName;
