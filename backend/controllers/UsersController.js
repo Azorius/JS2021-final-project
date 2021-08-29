@@ -79,6 +79,19 @@ class usersController {
       next(e);
     }
   }
+
+  async logout(req, res, next) {
+    const { id } = req.user;
+    try {
+      await usersRepository.updateById(id, { token: null });
+      res.status(204).json({
+        status: 'success',
+        code: 204,
+      });
+    } catch (e) {
+      next(e);
+    }
+  }
 }
 
 module.exports = new usersController();

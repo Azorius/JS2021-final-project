@@ -11,6 +11,7 @@ const {
 
 router.post('/signup', validateSignup, ctrl.signup);
 router.post('/login', validateLogin, ctrl.login);
-router.get('/current', auth, ctrl.getCurrent)
+router.get('/current', auth, ctrl.getCurrent);
+router.post('/logout', auth, ctrl.logout);
 
 module.exports = { router };
