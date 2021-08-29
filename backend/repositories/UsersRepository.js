@@ -14,7 +14,7 @@ class UsersRepository {
       }
   
       const userModel = new User(user);
-      userModel.setId(user.id);
+      userModel.setId(user.id_users);
       userModel.setToken(user.token);
       return userModel.getData();
     } catch (e) {
@@ -32,7 +32,7 @@ class UsersRepository {
       const userModel = new User(user);
       userModel.setHashedPasswordFromStorage(user.password);
       if (userModel.comparePassword(password)) {
-        userModel.setId(user.id);
+        userModel.setId(user.id_users);
         return userModel.getData();
       }
       return null;
@@ -55,8 +55,8 @@ class UsersRepository {
       userModel.setPassword(password);
       const dataToStore = userModel.getDataForStorage();
   
-      const { id } = await this._storage.create(dataToStore);
-      userModel.setId(id);
+      const { id_users } = await this._storage.create(dataToStore);
+      userModel.setId(id_users);
       return userModel.getData();
     } catch (e) {
       throw new Error(`Error with storage: ${e}`);      

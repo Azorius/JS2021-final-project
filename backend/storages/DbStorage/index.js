@@ -1,22 +1,60 @@
 const pool = require('./db');
 
+const foreignKeysStatement = `
+  SELECT
+    column_name,
+    referenced_table_schema AS foreign_db, 
+    referenced_table_name AS foreign_table, 
+    referenced_column_name  AS foreign_column 
+  FROM
+    information_schema.KEY_COLUMN_USAGE
+  WHERE
+    constraint_schema = SCHEMA()
+  AND
+    table_schema = DATABASE()
+  AND
+    referenced_column_name IS NOT NULL
+  ORDER BY
+    column_name;
+`;
+
 class DbStorage {
   constructor(tableName) {
     this._table = tableName;
   }
   async getAll() {
-    const [rows] = await pool.promise().execute(`SELECT * FROM ${this._table}`);
+    let [rows] = await pool.promise().execute(foreignKeysStatement);
+    [rows] = await pool.promise().execute(`
+      SELECT * 
+      FROM ${this._table} 
+      JOIN ${rows[0].foreign_table} 
+      ON ${this._table}.${rows[0].column_name} = ${rows[0].foreign_table}.${rows[0].foreign_column}`
+    );
     return rows;
   }
   async getFiltered(filter) {
     const field = Object.entries(filter)[0];
-    const [rows] = await pool.promise().execute(`SELECT * FROM ${this._table} WHERE ${field[0]} = ?`, [field[1]]);
+    let [rows] = await pool.promise().execute(foreignKeysStatement);
+    [rows] = await pool.promise().execute(`
+    SELECT * 
+    FROM ${this._table} 
+    JOIN ${rows[0].foreign_table} 
+    ON ${this._table}.${rows[0].column_name} = ${rows[0].foreign_table}.${rows[0].foreign_column} 
+    WHERE ${field[0]} = ?`, [
+      field[1],
+    ]
+  );
     return rows;
   }
   async getById(id) {
-    const [rows] = await pool
-      .promise()
-      .execute(`SELECT * FROM ${this._table} WHERE id = ?`, [id]);
+    let [rows] = await pool.promise().execute(foreignKeysStatement);
+    [rows] = await pool.promise().execute(`
+      SELECT * 
+      FROM ${this._table} 
+      JOIN ${rows[0].foreign_table} 
+      ON ${this._table}.${rows[0].column_name} = ${rows[0].foreign_table}.${rows[0].foreign_column}
+      WHERE id_${this._table} = ?`, [id]
+    );
     return rows[0];
   }
   async getOne(filter) {
@@ -41,22 +79,26 @@ class DbStorage {
 
     const [meta] = await pool
       .promise()
-      .execute(`INSERT INTO ${this._table} (${fields}) VALUES (${valuesPlaceholder})`, values);
+      .execute(
+        `INSERT INTO ${this._table} (${fields}) VALUES (${valuesPlaceholder})`,
+        values
+      );
 
-    return Object.assign({}, data, { id: meta.insertId });
+    return Object.assign({}, data, { [`id_${this._table}`]: meta.insertId });
   }
   async update(id, data) {
     if (!id) throw new Error(`Missing "id" in data for DbStorage.update`);
 
     const fields = Object.keys(data).join('=?,') + '=?';
     const values = Object.values(data);
+    console.log(id, data)
 
     await pool
       .promise()
-      .execute(
-        `UPDATE ${this._table} SET ${fields} WHERE id =?`,
-        [...values, id]
-      );
+      .execute(`UPDATE ${this._table} SET ${fields} WHERE id_${this._table} =?`, [
+        ...values,
+        id,
+      ]);
     return data;
   }
 }
