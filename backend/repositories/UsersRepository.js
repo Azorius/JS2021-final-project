@@ -15,9 +15,10 @@ class UsersRepository {
   
       const userModel = new User(user);
       userModel.setId(user.id);
-      return userModel.getData();      
+      userModel.setToken(user.token);
+      return userModel.getData();
     } catch (e) {
-      throw new Error(`Error with storage: ${e}`);      
+      throw new Error(`Error with storage: ${e}`);
     }
   }
 

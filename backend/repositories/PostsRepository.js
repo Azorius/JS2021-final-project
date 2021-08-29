@@ -10,9 +10,9 @@ class PostsRepository {
     this._storage = new DbStorage('posts');
   }
 
-  async getAll() {
+  async getAll(filter) {
     try {
-      const posts = await this._storage.getAll();
+      const posts = filter ? await this._storage.getFiltered(filter) : await this._storage.getAll();
       return posts.map((post) => {
         const postModel = new Post({
           title: post.title,
@@ -20,6 +20,7 @@ class PostsRepository {
           imgName: post.image_url,
           description: post.description,
           date: post.entry_date,
+          owner: post.owner,
         });
         postModel.setId(post.id);
         const data = postModel.getData();
@@ -52,7 +53,7 @@ class PostsRepository {
     }
   }
 
-  async create({ title, text, description, date, pathFile }) {
+  async create({ title, text, description, date, pathFile, owner }) {
     const POSTS_IMG_DIR = path.join(process.cwd(), 'public', 'pictures');
     let imgName = '';
 
@@ -73,7 +74,7 @@ class PostsRepository {
         imgName = 'default-img.jpg';
       }
 
-      const postModel = new Post({ title, text, description, date, imgName });
+      const postModel = new Post({ title, text, description, date, imgName, owner });
       const dataToStore = postModel.getDataForStorage();
 
       const { id } = await this._storage.create(dataToStore);

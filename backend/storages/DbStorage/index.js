@@ -8,6 +8,11 @@ class DbStorage {
     const [rows] = await pool.promise().execute(`SELECT * FROM ${this._table}`);
     return rows;
   }
+  async getFiltered(filter) {
+    const field = Object.entries(filter)[0];
+    const [rows] = await pool.promise().execute(`SELECT * FROM ${this._table} WHERE ${field[0]} = ?`, [field[1]]);
+    return rows;
+  }
   async getById(id) {
     const [rows] = await pool
       .promise()

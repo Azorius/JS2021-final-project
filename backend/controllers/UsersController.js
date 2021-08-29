@@ -1,6 +1,6 @@
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
-const { usersRepository } = require('../repositories');
+const { usersRepository, postsRepository } = require('../repositories');
 
 class usersController {
   async signup(req, res, next) {
@@ -32,7 +32,7 @@ class usersController {
   async login(req, res, next) {
     const { email, password } = req.body;
     try {
-      const user = await usersRepository.authenticateLogin( email, password );
+      const user = await usersRepository.authenticateLogin(email, password);
       if (!user) {
         return next({
           status: 400,
@@ -51,9 +51,30 @@ class usersController {
           token,
           user: {
             email,
-          }
-        }
-      })
+          },
+        },
+      });
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  async getCurrent(req, res, next) {
+    const { id, name, email } = req.user;
+    try {
+      const posts = await postsRepository.getAll({ owner: id });
+      res.json({
+        status: 'success',
+        code: 200,
+        data: {
+          user: {
+            name,
+            email,
+            id,
+            posts,
+          },
+        },
+      });
     } catch (e) {
       next(e);
     }
