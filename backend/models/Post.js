@@ -1,11 +1,12 @@
 class Post {
-  constructor({ title, text, description, imgName, date, author }) {
+  constructor({ title, text, description, imgName, date, owner }) {
     this._data = {
       title,
       text,
       imgName,
       date,
       description,
+      owner,
     };
   }
 
@@ -15,6 +16,10 @@ class Post {
 
   setId(id) {
     this._data.id = id;
+  }
+
+  setOwnerData(name) {
+    this._data.owner = { name };
   }
 
   getDataForStorage() {
