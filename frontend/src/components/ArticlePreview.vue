@@ -24,11 +24,7 @@ export default {
 
 <style scoped>
 .article-image {
-  width: 50%;
-  height: 18rem;
-  color: #fff;
-
-  display: inline-block;
+  flex: 1;
 
   background-size: cover;
   background-repeat: no-repeat;
@@ -36,10 +32,9 @@ export default {
 }
 
 .article-text {
-  width: 50%;
+  flex: 1;
   color: #000;
 
-  display: inline-block;
   justify-content: center;
   /* debug */
   border: 1px solid darkorange;
@@ -53,13 +48,28 @@ export default {
 
 .container {
   width: 100%;
-  height: 18rem;
-  margin: 5px;
+  height: 100%;
 
   display: flex;
 
   /* debug */
   border: 1px solid fuchsia;
   box-sizing: border-box;
+}
+
+@media (max-width: 480px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .article-image {
+    width: 100%;
+    flex: 1;
+  }
+
+  .article-text {
+    width: 100%;
+    flex: 1.5;
+  }
 }
 </style>

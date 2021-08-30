@@ -1,6 +1,7 @@
 <template>
-  <div>
+  <div class="article-list">
     <ArticlePreview
+      class="article-card"
       v-for="(article, index) in articles"
       :key="`article-${index}`"
       :title="article.title"
@@ -24,3 +25,14 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.article-card {
+  height: 19rem;
+  margin: 5px;
+}
+
+.article-list {
+  padding: 5px;
+}
+</style>
