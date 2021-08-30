@@ -76,7 +76,7 @@ class PostsRepository {
       const data = postModel.getData();
       data.imgPath = '/pictures/' + data.imgName;
       return data;
-    } catch (e)
+    } catch (e) {
       throw new Error(`Error with storage: ${e}`);
     }
   }
