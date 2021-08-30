@@ -62,6 +62,10 @@ header > div {
   font-weight: bold;
 }
 
+.navlink:hover {
+  background: #777777;
+}
+
 img {
   width: 3rem;
   height: 3rem;
