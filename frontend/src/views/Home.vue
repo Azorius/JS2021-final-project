@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="page-content">
     <ArticlePreviewSmall
       v-for="(article, index) in latestArticles"
       :key="`article-${index}`"
@@ -26,3 +26,11 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.page-content {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+</style>

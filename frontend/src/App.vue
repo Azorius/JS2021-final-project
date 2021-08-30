@@ -24,3 +24,9 @@ export default {
   },
 }
 </script>
+
+<style>
+.page-content {
+  max-width: 60rem;
+}
+</style>
