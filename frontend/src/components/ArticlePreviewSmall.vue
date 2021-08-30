@@ -42,5 +42,6 @@ export default {
 
 h3 {
   color: #ffffff;
+  margin-bottom: var(--spacing);
 }
 </style>
