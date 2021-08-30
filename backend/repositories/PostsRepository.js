@@ -47,7 +47,7 @@ class PostsRepository {
     }
   }
 
-  async create({ title, text, description, date, pathFile, owner }) {
+  async create({ title, text, description, date, pathFile, owner, ownersName }) {
     const POSTS_IMG_DIR = path.join(process.cwd(), 'public', 'pictures');
     let imgName = '';
 
@@ -73,6 +73,7 @@ class PostsRepository {
 
       const { id_posts } = await this._storage.create(dataToStore);
       postModel.setId(id_posts);
+      postModel.setOwnerData(ownersName);
       const data = postModel.getData();
       data.imgPath = '/pictures/' + data.imgName;
       return data;
