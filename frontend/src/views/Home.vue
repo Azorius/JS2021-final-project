@@ -1,14 +1,12 @@
 <template>
-  <div>
-    <div class="page-content">
-      <ArticlePreviewSmall
-        class="article-card"
-        v-for="(article, index) in latestArticles"
-        :key="`article-${index}`"
-        :title="article.title"
-        img="http://localhost:3000/pictures/default-img.jpg"
-      />
-    </div>
+  <div class="article-list">
+    <ArticlePreviewSmall
+      class="article-card"
+      v-for="(article, index) in latestArticles"
+      :key="`article-${index}`"
+      :title="article.title"
+      img="http://localhost:3000/pictures/default-img.jpg"
+    />
   </div>
 </template>
 
@@ -31,17 +29,14 @@ export default {
 </script>
 
 <style scoped>
-.page-content {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  padding: 5px;
-}
-
 .article-card {
   width: 19rem;
   height: 19rem;
   margin: 5px;
+}
+
+.article-list {
+  padding: 5px;
 }
 
 @media (max-width: 768px) {

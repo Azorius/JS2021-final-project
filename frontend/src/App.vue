@@ -1,9 +1,11 @@
 <template>
-  <div>
+  <div class="content">
     <div id="nav">
       <NavigationBar :links="navLinks" />
     </div>
-    <router-view class="content" />
+    <div class="page-wrapper">
+      <router-view class="page-content" />
+    </div>
   </div>
 </template>
 <script>
@@ -29,9 +31,19 @@ export default {
 .content {
   display: flex;
   justify-content: center;
+  flex-direction: column;
+}
+
+.page-wrapper {
+  border: 1px solid blueviolet;
+  display: flex;
+  justify-content: center;
 }
 
 .page-content {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   max-width: 60rem;
   border: 1px solid black;
 }
