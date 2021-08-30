@@ -58,7 +58,7 @@ body {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  max-width: 60rem;
+  max-width: 62rem;
 }
 
 @media (max-width: 768px) {
