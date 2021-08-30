@@ -42,13 +42,15 @@ class PostsController {
   }
 
   async create(req, res, next) {
+    const { id: userId, name } = req.user;
     try {
       let date = MOMENT().format('YYYY-MM-DD  HH:mm:ss.000');
       const post = await postsRepository.create({
         ...req.body,
         date,
         pathFile: req.file ? req.file.path : null,
-        owner: req.user.id,
+        owner: userId,
+        ownersName: name,
       });
 
       res.status(201).json({
