@@ -18,8 +18,8 @@ export default {
 
 <style scoped>
 .article-card {
-  width: 18rem;
-  height: 18rem;
+  width: 100%;
+  height: 100%;
   color: #fff;
 
   display: flex;
@@ -41,9 +41,8 @@ export default {
 }
 
 .container {
-  width: 18rem;
-  height: 18rem;
-  margin: 5px;
+  width: 100%;
+  height: 100%;
 }
 
 h3 {

@@ -3,7 +3,7 @@
     <div id="nav">
       <NavigationBar :links="navLinks" />
     </div>
-    <router-view />
+    <router-view class="content" />
   </div>
 </template>
 <script>
@@ -26,7 +26,19 @@ export default {
 </script>
 
 <style>
+.content {
+  display: flex;
+  justify-content: center;
+}
+
 .page-content {
   max-width: 60rem;
+  border: 1px solid black;
+}
+
+@media (max-width: 768px) {
+  .page-content {
+    width: 100%;
+  }
 }
 </style>
