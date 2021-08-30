@@ -9,9 +9,9 @@
           class="navlink"
           :to="link.link"
         >
-          <p>
+          <div>
             {{ link.name }}
-          </p>
+          </div>
         </router-link>
       </div>
     </div>
@@ -47,14 +47,15 @@ header > div {
 
 .navlink {
   text-decoration: none;
+  display: flex;
 }
 
-.navlink > p {
+.navlink > div {
   width: 8rem;
   height: 3rem;
   text-align: center;
   vertical-align: middle;
-  text-decoration: none;
+  padding-top: 12px;
 
   box-sizing: border-box;
   color: #ffffff;
