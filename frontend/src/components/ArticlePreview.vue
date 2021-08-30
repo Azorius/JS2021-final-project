@@ -43,7 +43,7 @@ export default {
 
 .contents {
   height: 100%;
-  padding: 20px;
+  padding: var(--spacing);
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -63,7 +63,7 @@ export default {
 }
 .author-block > p {
   margin: auto;
-  margin-left: 20px;
+  margin-left: var(--spacing);
 }
 
 .container:hover {

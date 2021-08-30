@@ -32,11 +32,11 @@ export default {
 .article-card {
   width: 19rem;
   height: 19rem;
-  margin: 5px;
+  margin: var(--spacing-half);
 }
 
 .article-list {
-  padding: 5px;
+  padding: var(--spacing-half);
 }
 
 @media (max-width: 768px) {

@@ -29,7 +29,10 @@ export default {
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Quicksand');
-
+:root {
+  --spacing-half: 10px;
+  --spacing: 20px;
+}
 * {
   font-family: 'Quicksand', sans-serif;
   padding: 0px;

@@ -29,10 +29,10 @@ export default {
 <style scoped>
 .article-card {
   height: 19rem;
-  margin: 5px;
+  margin: var(--spacing-half);
 }
 
 .article-list {
-  padding: 5px;
+  padding: var(--spacing-half);
 }
 </style>
