@@ -1,17 +1,19 @@
 <template>
   <header>
     <div>
-      <img src="@/assets/placeholder_icon.png" alt="" />
-      <router-link
-        v-for="(link, index) in links"
-        :key="`link-${index}`"
-        class="navlink"
-        :to="link.link"
-      >
-        <div>
-          {{ link.name }}
-        </div>
-      </router-link>
+      <div class="navbar">
+        <img src="@/assets/placeholder_icon.png" alt="" />
+        <router-link
+          v-for="(link, index) in links"
+          :key="`link-${index}`"
+          class="navlink"
+          :to="link.link"
+        >
+          <p>
+            {{ link.name }}
+          </p>
+        </router-link>
+      </div>
     </div>
   </header>
 </template>
@@ -27,32 +29,36 @@ export default {
 
 <style scoped>
 header {
-  border: 1px solid blueviolet;
   display: flex;
   justify-content: center;
 }
 header > div {
   width: var(--content-width);
+  padding-left: var(--spacing);
+  padding-right: var(--spacing);
+  box-sizing: border-box;
+}
+
+.navbar {
   flex-direction: row;
   display: flex;
-  border: 1px solid fuchsia;
-  padding-left: var(--spacing-half);
-  padding-right: var(--spacing-half);
-  box-sizing: border-box;
+  background: #555555;
 }
 
 .navlink {
   text-decoration: none;
 }
 
-.navlink > div {
+.navlink > p {
   width: 8rem;
   height: 3rem;
   text-align: center;
+  vertical-align: middle;
   text-decoration: none;
 
-  border: 1px solid royalblue;
   box-sizing: border-box;
+  color: #ffffff;
+  font-weight: bold;
 }
 
 img {

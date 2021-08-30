@@ -42,6 +42,7 @@ export default {
 
 body {
   background: #f0f0f0;
+  overflow-y: scroll;
 }
 
 .content {
@@ -60,6 +61,7 @@ body {
   flex-direction: row;
   flex-wrap: wrap;
   max-width: var(--content-width);
+  box-sizing: border-box;
 }
 
 @media (max-width: 768px) {
