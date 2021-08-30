@@ -48,6 +48,7 @@ export default {
   height: 100%;
 
   display: flex;
+  background: #f0f0f0;
 }
 
 @media (max-width: 480px) {
