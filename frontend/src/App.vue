@@ -35,7 +35,6 @@ export default {
 }
 
 .page-wrapper {
-  border: 1px solid blueviolet;
   display: flex;
   justify-content: center;
 }
@@ -45,7 +44,6 @@ export default {
   flex-direction: row;
   flex-wrap: wrap;
   max-width: 60rem;
-  border: 1px solid black;
 }
 
 @media (max-width: 768px) {

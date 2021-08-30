@@ -36,9 +36,6 @@ export default {
   color: #000;
 
   justify-content: center;
-  /* debug */
-  border: 1px solid darkorange;
-  box-sizing: border-box;
 }
 
 .container:hover {
@@ -51,10 +48,6 @@ export default {
   height: 100%;
 
   display: flex;
-
-  /* debug */
-  border: 1px solid fuchsia;
-  box-sizing: border-box;
 }
 
 @media (max-width: 480px) {
