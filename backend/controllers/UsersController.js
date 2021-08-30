@@ -62,7 +62,10 @@ class usersController {
   async getCurrent(req, res, next) {
     const { id, name, email } = req.user;
     try {
-      const posts = await postsRepository.getAll({ owner: id });
+      const posts = await postsRepository.getAll({
+        filter: { owner: id },
+        query: req.query,
+      });
       res.json({
         status: 'success',
         code: 200,

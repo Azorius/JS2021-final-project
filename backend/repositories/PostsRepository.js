@@ -22,12 +22,14 @@ class PostsRepository {
       const data = postModel.getData();
       data.imgPath = '/pictures/' + data.imgName;
       return data;
-    }
+    };
   }
 
-  async getAll(filter) {
+  async getAll({ filter, query }) {
     try {
-      const posts = filter ? await this._storage.getFiltered(filter) : await this._storage.getAll();
+      const posts = filter
+        ? await this._storage.getFiltered(filter, query)
+        : await this._storage.getAll(query);
       return posts.map((post) => {
         return this.generatePostDataToReturn(post);
       });
@@ -47,7 +49,15 @@ class PostsRepository {
     }
   }
 
-  async create({ title, text, description, date, pathFile, owner, ownersName }) {
+  async create({
+    title,
+    text,
+    description,
+    date,
+    pathFile,
+    owner,
+    ownersName,
+  }) {
     const POSTS_IMG_DIR = path.join(process.cwd(), 'public', 'pictures');
     let imgName = '';
 
@@ -68,7 +78,14 @@ class PostsRepository {
         imgName = 'default-img.jpg';
       }
 
-      const postModel = new Post({ title, text, description, date, imgName, owner });
+      const postModel = new Post({
+        title,
+        text,
+        description,
+        date,
+        imgName,
+        owner,
+      });
       const dataToStore = postModel.getDataForStorage();
 
       const { id_posts } = await this._storage.create(dataToStore);

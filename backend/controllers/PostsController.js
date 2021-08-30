@@ -2,9 +2,9 @@ const { postsRepository } = require('../repositories');
 const MOMENT = require('moment');
 
 class PostsController {
-  async getAll(_, res, next) {
+  async getAll(req, res, next) {
     try {
-      const posts = await postsRepository.getAll();
+      const posts = await postsRepository.getAll({query: req.query});
       res.json({
         status: 'success',
         code: 200,
