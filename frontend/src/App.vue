@@ -36,6 +36,10 @@ export default {
   margin: 0px;
 }
 
+body {
+  background: #f0f0f0;
+}
+
 .content {
   display: flex;
   justify-content: center;

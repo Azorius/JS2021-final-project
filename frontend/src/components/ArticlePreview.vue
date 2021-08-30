@@ -48,7 +48,8 @@ export default {
   height: 100%;
 
   display: flex;
-  background: #f0f0f0;
+  background: #ffffff;
+  box-shadow: inset 0px 0px 0px 1px #ccc;
 }
 
 @media (max-width: 480px) {
