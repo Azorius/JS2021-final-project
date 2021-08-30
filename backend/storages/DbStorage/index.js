@@ -22,38 +22,48 @@ class DbStorage {
   constructor(tableName) {
     this._table = tableName;
   }
-  async getAll() {
-    let [rows] = await pool.promise().execute(foreignKeysStatement);
-    [rows] = await pool.promise().execute(`
-      SELECT * 
-      FROM ${this._table} 
-      JOIN ${rows[0].foreign_table} 
-      ON ${this._table}.${rows[0].column_name} = ${rows[0].foreign_table}.${rows[0].foreign_column}`
-    );
-    return rows;
-  }
-  async getFiltered(filter) {
-    const field = Object.entries(filter)[0];
-    let [rows] = await pool.promise().execute(foreignKeysStatement);
-    [rows] = await pool.promise().execute(`
-    SELECT * 
-    FROM ${this._table} 
-    JOIN ${rows[0].foreign_table} 
-    ON ${this._table}.${rows[0].column_name} = ${rows[0].foreign_table}.${rows[0].foreign_column} 
-    WHERE ${field[0]} = ?`, [
-      field[1],
-    ]
-  );
-    return rows;
-  }
-  async getById(id) {
+  async getAll(query) {
     let [rows] = await pool.promise().execute(foreignKeysStatement);
     [rows] = await pool.promise().execute(`
       SELECT * 
       FROM ${this._table} 
       JOIN ${rows[0].foreign_table} 
       ON ${this._table}.${rows[0].column_name} = ${rows[0].foreign_table}.${rows[0].foreign_column}
-      WHERE id_${this._table} = ?`, [id]
+      ${query
+        ? `${query.startWith ? `WHERE id_${this._table} >= ${query.startWith}` : ''}
+          ${query.limit ? `ORDER BY id_${this._table} ASC LIMIT ${query.limit}` : ''}` 
+        : ''}
+    `);
+    return rows;
+  }
+  async getFiltered(filter, query) {
+    const field = Object.entries(filter)[0];
+    let [rows] = await pool.promise().execute(foreignKeysStatement);
+    [rows] = await pool.promise().execute(
+      `
+      SELECT * 
+      FROM ${this._table} 
+      JOIN ${rows[0].foreign_table} 
+      ON ${this._table}.${rows[0].column_name} = ${rows[0].foreign_table}.${rows[0].foreign_column} 
+      WHERE ${field[0]} = ?
+      ${query
+        ? `${query.startWith ? `AND id_${this._table} >= ${query.startWith}` : ''}
+          ${query.limit ? `ORDER BY id_${this._table} ASC LIMIT ${query.limit}` : ''}` 
+        : ''}`,
+      [field[1]]
+    );
+    return rows;
+  }
+  async getById(id) {
+    let [rows] = await pool.promise().execute(foreignKeysStatement);
+    [rows] = await pool.promise().execute(
+      `
+      SELECT * 
+      FROM ${this._table} 
+      JOIN ${rows[0].foreign_table} 
+      ON ${this._table}.${rows[0].column_name} = ${rows[0].foreign_table}.${rows[0].foreign_column}
+      WHERE id_${this._table} = ?`,
+      [id]
     );
     return rows[0];
   }
@@ -91,14 +101,14 @@ class DbStorage {
 
     const fields = Object.keys(data).join('=?,') + '=?';
     const values = Object.values(data);
-    console.log(id, data)
+    console.log(id, data);
 
     await pool
       .promise()
-      .execute(`UPDATE ${this._table} SET ${fields} WHERE id_${this._table} =?`, [
-        ...values,
-        id,
-      ]);
+      .execute(
+        `UPDATE ${this._table} SET ${fields} WHERE id_${this._table} =?`,
+        [...values, id]
+      );
     return data;
   }
 }
