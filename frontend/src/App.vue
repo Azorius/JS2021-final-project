@@ -32,6 +32,8 @@ export default {
 
 * {
   font-family: 'Quicksand', sans-serif;
+  padding: 0px;
+  margin: 0px;
 }
 
 .content {
