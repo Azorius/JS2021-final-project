@@ -18,9 +18,8 @@ export default {
 
 <style scoped>
 .article-card {
-  width: 18rem;
-  height: 18rem;
-  color: #fff;
+  width: 100%;
+  height: 100%;
 
   display: flex;
   align-items: flex-end;
@@ -29,10 +28,6 @@ export default {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
-
-  /* debug */
-  border: 1px solid fuchsia;
-  box-sizing: border-box;
 }
 
 .article-card:hover {
@@ -41,12 +36,12 @@ export default {
 }
 
 .container {
-  width: 18rem;
-  height: 18rem;
-  margin: 5px;
+  width: 100%;
+  height: 100%;
 }
 
 h3 {
-  background: black;
+  color: #ffffff;
+  margin-bottom: var(--spacing);
 }
 </style>

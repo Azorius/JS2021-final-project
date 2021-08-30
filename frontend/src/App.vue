@@ -1,9 +1,11 @@
 <template>
-  <div>
+  <div class="content">
     <div id="nav">
       <NavigationBar :links="navLinks" />
     </div>
-    <router-view />
+    <div class="page-wrapper">
+      <router-view class="page-content" />
+    </div>
   </div>
 </template>
 <script>
@@ -24,3 +26,44 @@ export default {
   },
 }
 </script>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Quicksand');
+:root {
+  --spacing-half: 10px;
+  --spacing: 20px;
+}
+* {
+  font-family: 'Quicksand', sans-serif;
+  padding: 0px;
+  margin: 0px;
+}
+
+body {
+  background: #f0f0f0;
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.page-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.page-content {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  max-width: 62rem;
+}
+
+@media (max-width: 768px) {
+  .page-content {
+    width: 100%;
+  }
+}
+</style>

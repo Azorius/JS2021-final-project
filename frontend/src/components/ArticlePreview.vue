@@ -4,9 +4,15 @@
       class="article-image"
       :style="{ backgroundImage: `url(${img})` }"
     ></div>
-    <div class="article-text">
-      <h3>{{ title }}</h3>
-      <p>{{ text }}</p>
+    <div class="article-contents-wrapper">
+      <div class="contents">
+        <h2>{{ title }}</h2>
+        <p>{{ text }}</p>
+        <div class="author-block">
+          <img src="@/assets/placeholder_icon.png" />
+          <p>Username Placeholder</p>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -25,25 +31,39 @@ export default {
 <style scoped>
 .article-image {
   width: 50%;
-  height: 18rem;
-  color: #fff;
-
-  display: inline-block;
 
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
 }
 
-.article-text {
+.article-contents-wrapper {
   width: 50%;
-  color: #000;
+}
 
-  display: inline-block;
-  justify-content: center;
-  /* debug */
-  border: 1px solid darkorange;
+.contents {
+  height: 100%;
+  padding: var(--spacing);
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.contents > p {
+  flex: 1;
+}
+
+.author-block {
+  display: flex;
+  flex-direction: row;
+}
+.author-block > img {
+  width: 3rem;
+  height: 3rem;
+}
+.author-block > p {
+  margin: auto;
+  margin-left: var(--spacing);
 }
 
 .container:hover {
@@ -53,13 +73,26 @@ export default {
 
 .container {
   width: 100%;
-  height: 18rem;
-  margin: 5px;
+  height: 100%;
 
   display: flex;
+  background: #ffffff;
+  box-shadow: inset 0px 0px 0px 1px #ccc;
+}
 
-  /* debug */
-  border: 1px solid fuchsia;
-  box-sizing: border-box;
+@media (max-width: 480px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .article-image {
+    width: 100%;
+    height: 30%;
+  }
+
+  .article-contents-wrapper {
+    width: 100%;
+    height: 70%;
+  }
 }
 </style>
