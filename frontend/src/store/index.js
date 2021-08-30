@@ -8,7 +8,7 @@ export default createStore({
   },
   getters: {
     latestArticles(state) {
-      return state.articles.slice(-5).reverse()
+      return state.articles.slice(-3).reverse()
     },
     articles(state) {
       return state.articles.slice().reverse()
