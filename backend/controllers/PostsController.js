@@ -23,7 +23,7 @@ class PostsController {
     try {
       const post = await postsRepository.getById(postId);
       if (!post) {
-        next({
+        return next({
           status: 404,
           message: 'Post not found'
         })
@@ -48,6 +48,7 @@ class PostsController {
         ...req.body,
         date,
         pathFile: req.file ? req.file.path : null,
+        owner: req.user.id,
       });
 
       res.status(201).json({
