@@ -28,6 +28,12 @@ export default {
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Quicksand');
+
+* {
+  font-family: 'Quicksand', sans-serif;
+}
+
 .content {
   display: flex;
   justify-content: center;
