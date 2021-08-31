@@ -32,6 +32,9 @@ export default createStore({
     token(state) {
       return state.currentUser.token
     },
+    loginStatus(state) {
+      return state.currentUser && state.currentUser.token
+    },
   },
   mutations: {
     // todo: simplify
