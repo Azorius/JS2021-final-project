@@ -101,7 +101,6 @@ class DbStorage {
 
     const fields = Object.keys(data).join('=?,') + '=?';
     const values = Object.values(data);
-    console.log(id, data);
 
     await pool
       .promise()
