@@ -18,11 +18,11 @@ export default {
   data() {
     return {
       navLinks: [
-        { name: 'Home', link: '/' },
-        { name: 'Articles', link: '/posts' },
-        { name: 'Add', link: '/posts/edit' },
-        { name: 'Login/Register', link: '/login' },
-        { name: 'My Posts', link: '/posts/user' },
+        { name: 'Home', link: '/', show: true },
+        { name: 'Articles', link: '/posts', show: true },
+        { name: 'Add', link: '/posts/edit', show: false },
+        { name: 'Login/Register', link: '/login', show: true },
+        { name: 'My Posts', link: '/posts/user', show: false },
       ],
     }
   },

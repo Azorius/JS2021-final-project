@@ -4,7 +4,7 @@
       <div class="navbar">
         <img src="@/assets/placeholder_icon.png" alt="" />
         <router-link
-          v-for="(link, index) in links"
+          v-for="(link, index) in links.filter(link => link.show)"
           :key="`link-${index}`"
           class="navlink"
           :to="link.link"
