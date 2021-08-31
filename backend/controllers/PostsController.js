@@ -95,6 +95,28 @@ class PostsController {
       next(e);
     }
   }
+
+  async remove(req, res, next) {
+    const { postId } = req.params;
+    try {
+      const [post] = await postsRepository.getAll({filter: { id_posts: postId }});
+      if (!post) {
+        return next({
+          status: 404,
+          message: 'Post not found',
+        });
+      }
+
+      await postsRepository.remove(postId);
+      res.status(204).json({
+        status: 'success',
+        code: 204,
+        message: 'Deleted successfully',
+      })
+    } catch (e) {
+      next(e);      
+    }
+  }
 }
 
 module.exports = new PostsController();

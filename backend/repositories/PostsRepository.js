@@ -125,6 +125,14 @@ class PostsRepository {
       throw new Error(`Error with storage: ${e}`);
     }
   }
+
+  async remove(id) {
+    try {
+      await this._storage.remove(id);
+    } catch (e) {
+      throw new Error(`Error with storage: ${e}`);
+    }
+  }
 }
 
 module.exports = new PostsRepository();
