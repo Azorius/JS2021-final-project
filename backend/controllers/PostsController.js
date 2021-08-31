@@ -2,9 +2,9 @@ const { postsRepository } = require('../repositories');
 const MOMENT = require('moment');
 
 class PostsController {
-  async getAll(_, res, next) {
+  async getAll(req, res, next) {
     try {
-      const posts = await postsRepository.getAll();
+      const posts = await postsRepository.getAll({query: req.query});
       res.json({
         status: 'success',
         code: 200,
@@ -42,13 +42,15 @@ class PostsController {
   }
 
   async create(req, res, next) {
+    const { id: userId, name } = req.user;
     try {
       let date = MOMENT().format('YYYY-MM-DD  HH:mm:ss.000');
       const post = await postsRepository.create({
         ...req.body,
         date,
         pathFile: req.file ? req.file.path : null,
-        owner: req.user.id,
+        owner: userId,
+        ownersName: name,
       });
 
       res.status(201).json({
