@@ -1,16 +1,20 @@
 <template>
   <header>
-    <img src="@/assets/placeholder_icon.png" alt="" />
-    <router-link
-      v-for="(link, index) in links"
-      :key="`link-${index}`"
-      class="navlink"
-      :to="link.link"
-    >
-      <div>
-        {{ link.name }}
+    <div>
+      <div class="navbar">
+        <img src="@/assets/placeholder_icon.png" alt="" />
+        <router-link
+          v-for="(link, index) in links"
+          :key="`link-${index}`"
+          class="navlink"
+          :to="link.link"
+        >
+          <div>
+            {{ link.name }}
+          </div>
+        </router-link>
       </div>
-    </router-link>
+    </div>
   </header>
 </template>
 
@@ -26,21 +30,40 @@ export default {
 <style scoped>
 header {
   display: flex;
-  flex-direction: row;
-  border: 1px solid blueviolet;
+  justify-content: center;
 }
+header > div {
+  width: var(--content-width);
+  padding-left: var(--spacing);
+  padding-right: var(--spacing);
+  box-sizing: border-box;
+}
+
+.navbar {
+  flex-direction: row;
+  display: flex;
+  background: #555555;
+}
+
 .navlink {
   text-decoration: none;
+  display: flex;
 }
 
 .navlink > div {
   width: 8rem;
   height: 3rem;
   text-align: center;
-  text-decoration: none;
+  vertical-align: middle;
+  padding-top: 12px;
 
-  border: 1px solid royalblue;
   box-sizing: border-box;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.navlink:hover {
+  background: #777777;
 }
 
 img {

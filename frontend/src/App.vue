@@ -32,6 +32,7 @@ export default {
 :root {
   --spacing-half: 10px;
   --spacing: 20px;
+  --content-width: 62rem;
 }
 * {
   font-family: 'Quicksand', sans-serif;
@@ -41,6 +42,7 @@ export default {
 
 body {
   background: #f0f0f0;
+  overflow-y: scroll;
 }
 
 .content {
@@ -58,7 +60,8 @@ body {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  max-width: 62rem;
+  max-width: var(--content-width);
+  box-sizing: border-box;
 }
 
 @media (max-width: 768px) {
