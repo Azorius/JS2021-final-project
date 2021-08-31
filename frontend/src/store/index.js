@@ -1,6 +1,17 @@
 import { createStore } from 'vuex'
 const axios = require('axios')
 
+function api(endpoint) {
+  return `http://localhost:3000/api${endpoint}`
+}
+function auth(token) {
+  return {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+}
+
 export default createStore({
   strict: true,
   state: {
@@ -14,10 +25,13 @@ export default createStore({
     articles(state) {
       return state.articles.slice().reverse()
     },
+    token(state) {
+      return state.currentUser.token
+    },
   },
   mutations: {
     // todo: simplify
-    updateArticles(state, { articles }) {
+    updateArticles(state, articles) {
       state.articles = articles
     },
     setCurrentUser(state, user) {
@@ -27,24 +41,14 @@ export default createStore({
   },
   actions: {
     requestArticles(context) {
-      axios
-        .get('http://localhost:3000/api/posts')
-        .then(response => {
-          context.commit('updateArticles', {
-            articles: response.data.data.posts,
-          })
-        })
-        .catch(error => {
-          console.log(error)
-        })
-    },
-    addPost(context, data) {
-      console.log(context)
-      axios({
-        method: 'post',
-        url: 'http://localhost:3000/api/posts',
-        data: data,
+      axios.get(api('/posts')).then(response => {
+        context.commit('updateArticles', response.data.data.posts)
       })
+    },
+
+    addPost({ getters }, data) {
+      axios
+        .post(api('/posts'), data, auth(getters.token))
         .then(response => {
           console.log(response)
         })
@@ -52,13 +56,9 @@ export default createStore({
           console.log(error)
         })
     },
-    register(context, { email, name, password, callback }) {
-      console.log(context)
-      axios({
-        method: 'post',
-        url: 'http://localhost:3000/api/users/signup',
-        data: { email, name, password },
-      })
+    register(context, { data, callback }) {
+      axios
+        .post(api('/users/signup'), data)
         .then(response => {
           callback(response.data)
         })
@@ -66,12 +66,9 @@ export default createStore({
           callback(error.response.data)
         })
     },
-    login(context, { email, password, callback }) {
-      axios({
-        method: 'post',
-        url: 'http://localhost:3000/api/users/login',
-        data: { email, password },
-      })
+    login(context, { data, callback }) {
+      axios
+        .post(api('/users/login'), data)
         .then(response => {
           context.commit('setCurrentUser', {
             token: response.data.data.token,

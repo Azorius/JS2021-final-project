@@ -34,9 +34,11 @@ export default {
       // todo: passowrd >= 6 characters
       // todo: validate email
       this.$store.dispatch('register', {
-        email: this.email,
-        name: this.name,
-        password: this.password,
+        data: {
+          email: this.email,
+          name: this.name,
+          password: this.password,
+        },
         callback: response => {
           this.debug = response
         },
@@ -44,8 +46,10 @@ export default {
     },
     login() {
       this.$store.dispatch('login', {
-        email: this.email,
-        password: this.password,
+        data: {
+          email: this.email,
+          password: this.password,
+        },
         callback: response => {
           this.debug = response
         },
