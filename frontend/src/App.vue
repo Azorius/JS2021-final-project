@@ -3,6 +3,7 @@
     <div id="nav">
       <NavigationBar
         :links="navLinks.filter(link => (link.login ? loginStatus : true))"
+        @actionPressed="actionPressed"
       />
     </div>
     <div class="page-wrapper">
@@ -21,18 +22,27 @@ export default {
   data() {
     return {
       navLinks: [
-        { name: 'Home', link: '/', login: false },
-        { name: 'Articles', link: '/posts', login: false },
-        { name: 'Add', link: '/posts/edit', login: true },
-        { name: 'Login/Register', link: '/login', login: false },
-        { name: 'My Posts', link: '/posts/user', login: true },
+        { login: false, name: 'Home', link: '/' },
+        { login: false, name: 'Articles', link: '/posts' },
+        { login: true, name: 'Add', link: '/posts/edit' },
+        { login: false, name: 'Login/Register', link: '/login' },
+        { login: true, name: 'My Posts', link: '/posts/user' },
+        { login: true, name: 'Logout', action: 'logout' },
       ],
     }
   },
   computed: {
     ...mapGetters(['loginStatus']),
   },
-  watch: {},
+  methods: {
+    actionPressed(action) {
+      console.log('pressed')
+      if (action == 'logout') {
+        this.$store.dispatch('logout')
+        this.$router.push('/')
+      }
+    },
+  },
 }
 </script>
 

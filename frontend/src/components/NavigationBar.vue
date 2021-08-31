@@ -3,16 +3,21 @@
     <div>
       <div class="navbar">
         <img src="@/assets/placeholder_icon.png" alt="" />
-        <router-link
+        <div
           v-for="(link, index) in links"
           :key="`link-${index}`"
           class="navlink"
-          :to="link.link"
         >
-          <div>
+          <router-link class="router-link" v-if="link.link" :to="link.link">
+            <div>
+              {{ link.name }}
+            </div>
+          </router-link>
+
+          <div v-else @click="actionPressed(link.action)">
             {{ link.name }}
           </div>
-        </router-link>
+        </div>
       </div>
     </div>
   </header>
@@ -23,6 +28,11 @@ export default {
   name: 'NavigationBar',
   props: {
     links: Array,
+  },
+  methods: {
+    actionPressed(action) {
+      this.$emit('actionPressed', action)
+    },
   },
 }
 </script>
@@ -46,11 +56,10 @@ header > div {
 }
 
 .navlink {
-  text-decoration: none;
   display: flex;
 }
 
-.navlink > div {
+.navlink div {
   width: 8rem;
   height: 3rem;
   text-align: center;
@@ -60,6 +69,10 @@ header > div {
   box-sizing: border-box;
   color: #ffffff;
   font-weight: bold;
+}
+
+.router-link {
+  text-decoration: none;
 }
 
 .navlink:hover {
