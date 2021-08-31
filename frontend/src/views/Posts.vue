@@ -29,7 +29,7 @@ export default {
     ...mapGetters(['articles', 'userArticles']),
   },
   mounted() {
-    if (this.$route.name.endsWith('user')) {
+    if (this.$route.name == 'UserPosts') {
       this.viewUser = true
       this.$store.dispatch('requestUserArticles')
     } else {

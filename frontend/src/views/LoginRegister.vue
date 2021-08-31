@@ -50,6 +50,7 @@ export default {
           password: this.password,
         })
         .then(data => {
+          console.log('i am here')
           console.log(data)
         })
     },

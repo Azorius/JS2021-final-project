@@ -26,6 +26,9 @@ export default createStore({
     articles(state) {
       return state.articles.slice().reverse()
     },
+    userArticles(state) {
+      return state.userArticles.slice().reverse()
+    },
     token(state) {
       return state.currentUser.token
     },
@@ -39,7 +42,6 @@ export default createStore({
       state.userArticles = articles
     },
     setCurrentUser(state, user) {
-      console.log('user set: ', user)
       state.currentUser = user
     },
   },
@@ -50,17 +52,22 @@ export default createStore({
       })
     },
 
-    requestUserArticles({ context, getters }) {
-      axios.get(api('/users/current', auth(getters.token))).then(response => {
-        context.commit('setUserArticles', response.data.data.posts)
-      })
+    requestUserArticles(context) {
+      axios
+        .get(api('/users/current'), auth(context.getters.token))
+        .then(response => {
+          context.commit('setUserArticles', response.data.data.user.posts)
+        })
+        .catch(error => {
+          console.log(error)
+        })
     },
 
     addPost({ getters }, data) {
-      axios
+      return axios
         .post(api('/posts'), data, auth(getters.token))
         .then(response => {
-          console.log(response)
+          return response
         })
         .catch(error => {
           console.log(error)
@@ -76,7 +83,7 @@ export default createStore({
           return error.response.data
         })
     },
-    async login(context, data) {
+    login(context, data) {
       return axios
         .post(api('/users/login'), data)
         .then(response => {

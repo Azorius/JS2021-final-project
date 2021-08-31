@@ -22,6 +22,7 @@ export default {
         { name: 'Articles', link: '/posts' },
         { name: 'Add', link: '/posts/edit' },
         { name: 'Login/Register', link: '/login' },
+        { name: 'My Posts', link: '/posts/user' },
       ],
     }
   },
