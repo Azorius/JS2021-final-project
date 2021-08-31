@@ -101,5 +101,10 @@ export default createStore({
           return error.response.data
         })
     },
+    logout({ getters }) {
+      return axios
+        .post(api('/users/logout'), null, auth(getters.token))
+        .then(response => console.log(response))
+    },
   },
 })
