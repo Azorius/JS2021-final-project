@@ -4,6 +4,7 @@ import Posts from '../views/Posts.vue'
 import NotFound from '../views/NotFound.vue'
 import ArticleEdit from '../views/ArticleEdit.vue'
 import LoginRegister from '../views/LoginRegister.vue'
+import SinglePost from '../views/SinglePost.vue'
 
 const routes = [
   {
@@ -26,6 +27,11 @@ const routes = [
     path: '/posts/user',
     name: 'UserPosts',
     component: Posts,
+  },
+  {
+    path: '/posts/:id',
+    name: 'SinglePost',
+    component: SinglePost,
   },
   {
     path: '/posts',
