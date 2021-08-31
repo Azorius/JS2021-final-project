@@ -2,8 +2,8 @@
   <div class="view">
     <label>email</label>
     <input type="text" v-model="email" />
-    <label>username</label>
-    <input type="text" v-model="username" />
+    <label>name</label>
+    <input type="text" v-model="name" />
     <label>password</label>
     <input type="text" v-model="password" />
     <button @click="login">Login</button>
@@ -16,12 +16,21 @@ export default {
   data() {
     return {
       email: '',
-      username: '',
+      name: '',
       password: '',
     }
   },
   methods: {
-    register() {},
+    register() {
+      this.$store.dispatch('register', {
+        email: this.email,
+        name: this.name,
+        password: this.password,
+        callback: response => {
+          console.log(response)
+        },
+      })
+    },
     login() {},
   },
 }
