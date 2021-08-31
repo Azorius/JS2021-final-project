@@ -1,10 +1,22 @@
 import { createStore } from 'vuex'
 const axios = require('axios')
 
+function api(endpoint) {
+  return `http://localhost:3000/api${endpoint}`
+}
+function auth(token) {
+  return {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+}
+
 export default createStore({
   strict: true,
   state: {
     articles: [],
+    userArticles: [],
     currentUser: null,
   },
   getters: {
@@ -14,74 +26,79 @@ export default createStore({
     articles(state) {
       return state.articles.slice().reverse()
     },
+    userArticles(state) {
+      return state.userArticles.slice().reverse()
+    },
+    token(state) {
+      return state.currentUser.token
+    },
+    loginStatus(state) {
+      return state.currentUser && state.currentUser.token
+    },
   },
   mutations: {
     // todo: simplify
-    updateArticles(state, { articles }) {
+    updateArticles(state, articles) {
       state.articles = articles
     },
+    setUserArticles(state, articles) {
+      state.userArticles = articles
+    },
     setCurrentUser(state, user) {
-      console.log('user set: ', user)
       state.currentUser = user
     },
   },
   actions: {
-    requestArticles(context) {
+    requestArticles(context, id = null) {
+      axios.get(api(`/posts${id ? `/${id}` : ''}`)).then(response => {
+        context.commit('updateArticles', response.data.data.posts)
+      })
+    },
+
+    requestUserArticles(context) {
       axios
-        .get('http://localhost:3000/api/posts')
+        .get(api('/users/current'), auth(context.getters.token))
         .then(response => {
-          context.commit('updateArticles', {
-            articles: response.data.data.posts,
-          })
+          context.commit('setUserArticles', response.data.data.user.posts)
         })
         .catch(error => {
           console.log(error)
         })
     },
-    addPost(context, data) {
-      console.log(context)
-      axios({
-        method: 'post',
-        url: 'http://localhost:3000/api/posts',
-        data: data,
-      })
+
+    addPost({ getters }, data) {
+      return axios
+        .post(api('/posts'), data, auth(getters.token))
         .then(response => {
-          console.log(response)
+          return response
         })
         .catch(error => {
           console.log(error)
         })
     },
-    register(context, { email, name, password, callback }) {
-      console.log(context)
-      axios({
-        method: 'post',
-        url: 'http://localhost:3000/api/users/signup',
-        data: { email, name, password },
-      })
+    register(context, data) {
+      axios
+        .post(api('/users/signup'), data)
         .then(response => {
-          callback(response.data)
+          return response.data
         })
         .catch(error => {
-          callback(error.response.data)
+          return error.response.data
         })
     },
-    login(context, { email, password, callback }) {
-      axios({
-        method: 'post',
-        url: 'http://localhost:3000/api/users/login',
-        data: { email, password },
-      })
+    login(context, data) {
+      return axios
+        .post(api('/users/login'), data)
         .then(response => {
           context.commit('setCurrentUser', {
             token: response.data.data.token,
             name: '',
             email: response.data.data.user.email,
           })
-          callback(response.data)
+          return response.data
         })
         .catch(error => {
-          callback(error.response.data)
+          return error.response.data
         })
     },
   },

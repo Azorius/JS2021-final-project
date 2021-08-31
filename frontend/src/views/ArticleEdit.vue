@@ -25,11 +25,16 @@ export default {
   },
   methods: {
     submitArticle() {
-      this.$store.dispatch('addPost', {
-        title: this.title,
-        text: this.text,
-        description: this.description,
-      })
+      this.$store
+        .dispatch('addPost', {
+          title: this.title,
+          text: this.text,
+          description: this.description,
+        })
+        .then(response => {
+          this.$router.push('/posts/user')
+          console.log(response)
+        })
     },
   },
 }

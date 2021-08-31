@@ -23,6 +23,11 @@ const routes = [
     component: ArticleEdit,
   },
   {
+    path: '/posts/user',
+    name: 'UserPosts',
+    component: Posts,
+  },
+  {
     path: '/posts',
     name: 'Posts',
     component: Posts,

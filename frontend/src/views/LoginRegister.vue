@@ -33,23 +33,26 @@ export default {
       // todo: username >= 2 characters
       // todo: passowrd >= 6 characters
       // todo: validate email
-      this.$store.dispatch('register', {
-        email: this.email,
-        name: this.name,
-        password: this.password,
-        callback: response => {
+      this.$store
+        .dispatch('register', {
+          email: this.email,
+          name: this.name,
+          password: this.password,
+        })
+        .then(response => {
           this.debug = response
-        },
-      })
+        })
     },
     login() {
-      this.$store.dispatch('login', {
-        email: this.email,
-        password: this.password,
-        callback: response => {
-          this.debug = response
-        },
-      })
+      this.$store
+        .dispatch('login', {
+          email: this.email,
+          password: this.password,
+        })
+        .then(data => {
+          console.log('i am here')
+          console.log(data)
+        })
     },
     autofill() {
       this.email = 'test@test.com'
