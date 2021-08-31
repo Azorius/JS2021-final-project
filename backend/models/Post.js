@@ -19,7 +19,7 @@ class Post {
   }
 
   setOwnerData(name) {
-    this._data.owner = { name };
+    this._data.owner = { id: this._data.owner, name };
   }
 
   getDataForStorage() {

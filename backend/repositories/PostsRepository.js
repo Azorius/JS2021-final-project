@@ -98,6 +98,41 @@ class PostsRepository {
       throw new Error(`Error with storage: ${e}`);
     }
   }
+
+  async update(id, update) {
+    const { pathFile, ...dataToUpdate} = update;
+
+    try {
+      if (update.pathFile) {
+        const POSTS_IMG_DIR = path.join(process.cwd(), 'public', 'pictures');
+        const img = await Jimp.read(pathFile);
+        await img
+          .autocrop()
+          .cover(
+            700,
+            700,
+            Jimp.HORIZONTAL_ALIGN_CENTER || Jimp.VERTICAL_ALIGN_MIDDLE
+          )
+          .writeAsync(pathFile);
+        const imgName = `${uuidv4()}.jpg`;
+        await fs.rename(pathFile, path.join(POSTS_IMG_DIR, imgName));
+        dataToUpdate.image_url = imgName;
+      }
+
+      const data = await this._storage.update(id, dataToUpdate);
+      return data;
+    } catch (e) {
+      throw new Error(`Error with storage: ${e}`);
+    }
+  }
+
+  async remove(id) {
+    try {
+      await this._storage.remove(id);
+    } catch (e) {
+      throw new Error(`Error with storage: ${e}`);
+    }
+  }
 }
 
 module.exports = new PostsRepository();
