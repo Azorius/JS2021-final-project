@@ -6,6 +6,7 @@
       :key="`article-${index}`"
       :title="article.title"
       img="http://localhost:3000/pictures/default-img.jpg"
+      @click="openArticle(article.id)"
     />
   </div>
 </template>
@@ -21,6 +22,11 @@ export default {
   },
   computed: {
     ...mapGetters(['latestArticles']),
+  },
+  methods: {
+    openArticle(id) {
+      this.$router.push(`/posts/${id}`)
+    },
   },
   mounted() {
     this.$store.dispatch('requestArticles')

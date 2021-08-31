@@ -7,6 +7,7 @@
       :title="article.title"
       :text="article.text"
       img="http://localhost:3000/pictures/default-img.jpg"
+      @click="openArticle(article.id)"
     />
   </div>
 </template>
@@ -27,6 +28,11 @@ export default {
   },
   computed: {
     ...mapGetters(['articles', 'userArticles']),
+  },
+  methods: {
+    openArticle(id) {
+      this.$router.push(`/posts/${id}`)
+    },
   },
   mounted() {
     if (this.$route.name == 'UserPosts') {
