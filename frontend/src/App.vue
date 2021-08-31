@@ -1,7 +1,9 @@
 <template>
   <div class="content">
     <div id="nav">
-      <NavigationBar :links="navLinks" />
+      <NavigationBar
+        :links="navLinks.filter(link => (link.login ? loginStatus : true))"
+      />
     </div>
     <div class="page-wrapper">
       <router-view class="page-content" />
@@ -10,6 +12,7 @@
 </template>
 <script>
 import NavigationBar from '@/components/NavigationBar'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -18,14 +21,18 @@ export default {
   data() {
     return {
       navLinks: [
-        { name: 'Home', link: '/', show: true },
-        { name: 'Articles', link: '/posts', show: true },
-        { name: 'Add', link: '/posts/edit', show: false },
-        { name: 'Login/Register', link: '/login', show: true },
-        { name: 'My Posts', link: '/posts/user', show: false },
+        { name: 'Home', link: '/', login: false },
+        { name: 'Articles', link: '/posts', login: false },
+        { name: 'Add', link: '/posts/edit', login: true },
+        { name: 'Login/Register', link: '/login', login: false },
+        { name: 'My Posts', link: '/posts/user', login: true },
       ],
     }
   },
+  computed: {
+    ...mapGetters(['loginStatus']),
+  },
+  watch: {},
 }
 </script>
 
