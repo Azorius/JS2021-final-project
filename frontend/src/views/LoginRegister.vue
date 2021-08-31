@@ -8,6 +8,7 @@
     <input type="text" v-model="password" />
     <button @click="login">Login</button>
     <button @click="register">Register</button>
+    <button @click="autofill">Debug: autofill</button>
     <br />
     <div v-if="this.$store.state.currentUser">current user:</div>
     <p>{{ this.$store.state.currentUser }}</p>
@@ -21,9 +22,9 @@ export default {
   name: 'LoginRegister',
   data() {
     return {
-      email: 'test@test.com',
-      name: 'test',
-      password: '123456',
+      email: '',
+      name: '',
+      password: '',
       debug: '',
     }
   },
@@ -49,6 +50,11 @@ export default {
           this.debug = response
         },
       })
+    },
+    autofill() {
+      this.email = 'test@test.com'
+      this.name = 'test'
+      this.password = '123456'
     },
   },
 }
