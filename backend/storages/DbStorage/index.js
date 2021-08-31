@@ -110,6 +110,11 @@ class DbStorage {
       );
     return data;
   }
+  async remove(id) {
+    if (!id) throw new Error(`Missing "id" in data for DbStorage.update`);
+
+    await pool.promise().execute(`DELETE FROM ${this._table} WHERE id_${this._table} =?`, [id])
+  }
 }
 
 module.exports = DbStorage;
