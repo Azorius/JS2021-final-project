@@ -38,8 +38,9 @@ export default {
     actionPressed(action) {
       console.log('pressed')
       if (action == 'logout') {
-        this.$store.dispatch('logout')
-        this.$router.push('/')
+        this.$store.dispatch('logout').then(() => {
+          this.$router.push('/')
+        })
       }
     },
   },
