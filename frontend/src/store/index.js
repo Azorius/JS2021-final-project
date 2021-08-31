@@ -16,6 +16,7 @@ export default createStore({
   strict: true,
   state: {
     articles: [],
+    userArticles: [],
     currentUser: null,
   },
   getters: {
@@ -40,8 +41,8 @@ export default createStore({
     },
   },
   actions: {
-    requestArticles(context) {
-      axios.get(api('/posts')).then(response => {
+    requestArticles(context, id = null) {
+      axios.get(api(`/posts${id ? `/${id}` : ''}`)).then(response => {
         context.commit('updateArticles', response.data.data.posts)
       })
     },
