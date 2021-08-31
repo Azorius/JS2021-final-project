@@ -2,7 +2,7 @@
   <div class="article-list">
     <ArticlePreview
       class="article-card"
-      v-for="(article, index) in articles"
+      v-for="(article, index) in viewUser ? userArticles : articles"
       :key="`article-${index}`"
       :title="article.title"
       :text="article.text"
@@ -20,8 +20,21 @@ export default {
   components: {
     ArticlePreview,
   },
+  data() {
+    return {
+      viewUser: false,
+    }
+  },
   computed: {
-    ...mapGetters(['articles']),
+    ...mapGetters(['articles', 'userArticles']),
+  },
+  mounted() {
+    if (this.$route.name.endsWith('user')) {
+      this.viewUser = true
+      this.$store.dispatch('requestUserArticles')
+    } else {
+      this.$store.dispatch('requestArticles')
+    }
   },
 }
 </script>

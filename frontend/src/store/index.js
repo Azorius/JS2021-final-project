@@ -35,6 +35,9 @@ export default createStore({
     updateArticles(state, articles) {
       state.articles = articles
     },
+    setUserArticles(state, articles) {
+      state.userArticles = articles
+    },
     setCurrentUser(state, user) {
       console.log('user set: ', user)
       state.currentUser = user
@@ -44,6 +47,12 @@ export default createStore({
     requestArticles(context, id = null) {
       axios.get(api(`/posts${id ? `/${id}` : ''}`)).then(response => {
         context.commit('updateArticles', response.data.data.posts)
+      })
+    },
+
+    requestUserArticles({ context, getters }) {
+      axios.get(api('/users/current', auth(getters.token))).then(response => {
+        context.commit('setUserArticles', response.data.data.posts)
       })
     },
 
@@ -57,18 +66,18 @@ export default createStore({
           console.log(error)
         })
     },
-    register(context, { data, callback }) {
+    register(context, data) {
       axios
         .post(api('/users/signup'), data)
         .then(response => {
-          callback(response.data)
+          return response.data
         })
         .catch(error => {
-          callback(error.response.data)
+          return error.response.data
         })
     },
-    login(context, { data, callback }) {
-      axios
+    async login(context, data) {
+      return axios
         .post(api('/users/login'), data)
         .then(response => {
           context.commit('setCurrentUser', {
@@ -76,10 +85,10 @@ export default createStore({
             name: '',
             email: response.data.data.user.email,
           })
-          callback(response.data)
+          return response.data
         })
         .catch(error => {
-          callback(error.response.data)
+          return error.response.data
         })
     },
   },
