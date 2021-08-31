@@ -5,6 +5,7 @@ export default createStore({
   strict: true,
   state: {
     articles: [],
+    currentUser: null,
   },
   getters: {
     latestArticles(state) {
@@ -15,8 +16,13 @@ export default createStore({
     },
   },
   mutations: {
+    // todo: simplify
     updateArticles(state, { articles }) {
       state.articles = articles
+    },
+    setCurrentUser(state, user) {
+      console.log('user set: ', user)
+      state.currentUser = user
     },
   },
   actions: {
@@ -44,6 +50,38 @@ export default createStore({
         })
         .catch(error => {
           console.log(error)
+        })
+    },
+    register(context, { email, name, password, callback }) {
+      console.log(context)
+      axios({
+        method: 'post',
+        url: 'http://localhost:3000/api/users/signup',
+        data: { email, name, password },
+      })
+        .then(response => {
+          callback(response.data)
+        })
+        .catch(error => {
+          callback(error.response.data)
+        })
+    },
+    login(context, { email, password, callback }) {
+      axios({
+        method: 'post',
+        url: 'http://localhost:3000/api/users/login',
+        data: { email, password },
+      })
+        .then(response => {
+          context.commit('setCurrentUser', {
+            token: response.data.data.token,
+            name: '',
+            email: response.data.data.user.email,
+          })
+          callback(response.data)
+        })
+        .catch(error => {
+          callback(error.response.data)
         })
     },
   },

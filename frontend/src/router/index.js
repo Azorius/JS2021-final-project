@@ -3,12 +3,19 @@ import Home from '../views/Home.vue'
 import Posts from '../views/Posts.vue'
 import NotFound from '../views/NotFound.vue'
 import ArticleEdit from '../views/ArticleEdit.vue'
+import LoginRegister from '../views/LoginRegister.vue'
 
 const routes = [
   {
     path: '/',
     name: 'Home',
     component: Home,
+  },
+  {
+    path: '/login',
+    alias: '/register',
+    name: 'LoginRegister',
+    component: LoginRegister,
   },
   {
     path: '/posts/edit/:id?',
