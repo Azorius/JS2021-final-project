@@ -82,6 +82,11 @@ export default {
       }
     },
   },
+  created() {
+    if (this.$route.name != 'Home') {
+      this.$router.push('/')
+    }
+  },
 }
 </script>
 
