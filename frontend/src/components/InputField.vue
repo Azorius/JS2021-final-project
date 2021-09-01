@@ -40,18 +40,25 @@ export default {
       switch (true) {
         case val.length < this.minlength:
           message = 'too short'
+          this.setOk(false)
           break
         case val.length <= this.maxlength:
           message = `${val.length}/${this.maxlength}`
+          this.setOk(true)
           break
         case val.length > this.maxlength:
           message = 'too long'
+          this.setOk(false)
           break
         default:
+          this.setOk(true)
           message = 'ok'
       }
 
       this.$el.querySelector('#message').innerHTML = message
+    },
+    setOk(value) {
+      this.$emit('valid', this.label, value)
     },
   },
 }

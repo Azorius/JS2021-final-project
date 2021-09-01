@@ -1,16 +1,41 @@
 <template>
   <div class="view">
-    <InputField label="email" :value="email" minlength="2" maxlength="255" />
-    <InputField label="name" :value="name" minlength="2" maxlength="30" />
+    <InputField
+      label="email"
+      :value="email"
+      minlength="2"
+      maxlength="255"
+      @valid="setValidationState"
+    />
+    <InputField
+      label="name"
+      :value="name"
+      minlength="2"
+      maxlength="30"
+      @valid="setValidationState"
+    />
     <InputField
       label="password"
       :value="password"
       type="password"
       minlength="6"
       maxlength="255"
+      @valid="setValidationState"
     />
-    <button @click="login">Login</button>
-    <button @click="register">Register</button>
+    <button
+      :disabled="!(validFields.email && validFields.password)"
+      @click="login"
+    >
+      Login
+    </button>
+    <button
+      :disabled="
+        !(validFields.email && validFields.password && validFields.name)
+      "
+      @click="register"
+    >
+      Register
+    </button>
     <button @click="autofill">Debug: autofill</button>
   </div>
 </template>
@@ -27,14 +52,11 @@ export default {
       email: '',
       name: '',
       password: '',
-      debug: '',
+      validFields: {},
     }
   },
   methods: {
     register() {
-      // todo: username >= 2 characters
-      // todo: passowrd >= 6 characters
-      // todo: validate email
       this.$store
         .dispatch('register', {
           email: this.email,
@@ -60,6 +82,10 @@ export default {
       this.email = 'test@test.com'
       this.name = 'test'
       this.password = '123456'
+    },
+    setValidationState(name, value) {
+      this.validFields[name] = value
+      console.log(this.validFields)
     },
   },
 }
