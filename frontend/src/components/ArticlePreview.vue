@@ -20,7 +20,7 @@
           <img
             v-if="editMode"
             class="action-button"
-            @click="action('edit')"
+            @click.stop="action('edit')"
             src="@/assets/icon_edit.png"
           />
         </div>

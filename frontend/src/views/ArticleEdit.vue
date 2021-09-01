@@ -37,6 +37,16 @@ export default {
         })
     },
   },
+  created() {
+    if (this.$route.params.id) {
+      let article = this.$store.getters.articles.find(
+        article => article.id == this.$route.params.id
+      )
+      this.title = article.title
+      this.description = article.description
+      this.text = article.text
+    }
+  },
 }
 </script>
 

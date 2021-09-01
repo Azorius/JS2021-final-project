@@ -10,6 +10,7 @@
       :name="article.owner.name"
       :editMode="viewUser"
       @delete="deleteArticle(article.id)"
+      @edit="editArticle(article.id)"
       @click="openArticle(article.id)"
     />
   </div>
@@ -39,6 +40,9 @@ export default {
   methods: {
     openArticle(id) {
       this.$router.push(`/posts/${id}`)
+    },
+    editArticle(id) {
+      this.$router.push(`/posts/edit/${id}`)
     },
     deleteArticle(id) {
       this.$store.dispatch('deletePost', id).then(() => {
