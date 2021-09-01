@@ -4,6 +4,7 @@ require('./configs/passport-config');
 const express = require('express');
 const logger = require('morgan');
 const cors = require('cors');
+const cookieParser = require("cookie-parser");
 const fs = require('fs').promises;
 const path = require('path');
 const { createFolderIfNotExist } = require('./helpers/fileSystem');
@@ -21,8 +22,13 @@ app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cookieParser());
 
 // Routing
+app.get("/private", (req, res) => {
+  if (!req.cookies.token) return res.status(401).send();
+  res.status(200).json({ secret: "Ginger ale is a specific Root Beer" });
+});
 app.use('/api/posts', postsRouter);
 app.use('/api/users', usersRouter);
 app.use((_, res) => {

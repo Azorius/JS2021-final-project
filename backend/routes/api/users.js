@@ -10,7 +10,9 @@ const {
 } = require('../../middlewares');
 
 router.post('/signup', validateSignup, ctrl.signup);
-router.post('/login', validateLogin, ctrl.login);
+router.post('/login', validateLogin, ctrl.login)
+  .post('/refresh-tokens', auth, ctrl.refreshTokens);
+
 router.get('/current', auth, ctrl.getCurrent);
 router.post('/logout', auth, ctrl.logout);
 

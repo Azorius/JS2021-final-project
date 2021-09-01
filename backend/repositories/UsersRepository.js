@@ -16,6 +16,7 @@ class UsersRepository {
       const userModel = new User(user);
       userModel.setId(user.id_users);
       userModel.setToken(user.token);
+      userModel.setRefreshToken(user.refreshToken)
       return userModel.getData();
     } catch (e) {
       throw new Error(`Error with storage: ${e}`);

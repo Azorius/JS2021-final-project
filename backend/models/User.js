@@ -24,6 +24,10 @@ class User {
     this._data.token = token;
   }
 
+  setRefreshToken(token) {
+    this._data.refreshToken = token;
+  }
+
   setHashedPasswordFromStorage(password) {
     this._data.password = password;
   }
