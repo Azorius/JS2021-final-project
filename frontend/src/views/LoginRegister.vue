@@ -1,17 +1,17 @@
 <template>
   <div class="view">
-    <InputField label="email" :value="email" />
-    <InputField label="name" :value="name" />
-    <InputField label="password" :value="password" type="password" />
+    <InputField label="email" :value="email" minlength="2" maxlength="255" />
+    <InputField label="name" :value="name" minlength="2" maxlength="30" />
+    <InputField
+      label="password"
+      :value="password"
+      type="password"
+      minlength="6"
+      maxlength="255"
+    />
     <button @click="login">Login</button>
     <button @click="register">Register</button>
     <button @click="autofill">Debug: autofill</button>
-    <br />
-    <div v-if="this.$store.state.currentUser">current user:</div>
-    <p>{{ this.$store.state.currentUser }}</p>
-    <br />
-    <div v-if="debug">response</div>
-    <p>{{ debug }}</p>
   </div>
 </template>
 <script>
