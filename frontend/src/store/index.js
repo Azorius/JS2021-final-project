@@ -4,10 +4,11 @@ const axios = require('axios')
 function api(endpoint) {
   return `${process.env.VUE_APP_API_ENDPOINT}${endpoint}`
 }
-function auth(token) {
+function auth(token, additionalHeaders) {
   return {
     headers: {
       Authorization: `Bearer ${token}`,
+      ...additionalHeaders,
     },
   }
 }
@@ -85,7 +86,9 @@ export default createStore({
         url: api(`/posts${id ? `/${id}` : ''}`),
         method: id ? 'patch' : 'post',
         data,
-        ...auth(context.getters.token),
+        ...auth(context.getters.token, {
+          'content-type': 'multipart/form-data',
+        }),
       })
         .then(response => {
           return response

@@ -9,6 +9,8 @@
         v-model="description"
       ></textarea>
       <textarea cols="30" rows="10" maxlength="4000" v-model="text"></textarea>
+      <label>image</label>
+      <input type="file" id="imageFile" />
       <button @click="submitArticle">Submit</button>
     </div>
   </div>
@@ -25,12 +27,14 @@ export default {
   },
   methods: {
     submitArticle() {
+      let formData = new FormData()
+      let imagefile = document.querySelector('#imageFile')
+      formData.append('image', imagefile.files[0])
+      formData.append('title', this.title)
+      formData.append('text', this.text)
+      formData.append('description', this.description)
       let payload = {
-        data: {
-          title: this.title,
-          text: this.text,
-          description: this.description,
-        },
+        data: formData,
       }
       if (this.$route.params.id) {
         payload.id = this.$route.params.id
