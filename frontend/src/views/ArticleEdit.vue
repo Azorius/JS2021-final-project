@@ -25,17 +25,32 @@ export default {
   },
   methods: {
     submitArticle() {
-      this.$store
-        .dispatch('addPost', {
+      let payload = {
+        data: {
           title: this.title,
           text: this.text,
           description: this.description,
-        })
-        .then(response => {
-          this.$router.push('/posts/user')
-          console.log(response)
-        })
+        },
+      }
+      if (this.$route.params.id) {
+        payload.id = this.$route.params.id
+      }
+
+      this.$store.dispatch('sendPost', payload).then(response => {
+        this.$router.push('/posts/user')
+        console.log(response)
+      })
     },
+  },
+  created() {
+    if (this.$route.params.id) {
+      let article = this.$store.getters.userArticles.find(
+        article => article.id == this.$route.params.id
+      )
+      this.title = article.title
+      this.description = article.description
+      this.text = article.text
+    }
   },
 }
 </script>

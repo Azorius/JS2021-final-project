@@ -8,6 +8,9 @@
       :text="article.text"
       :img="`${imgEndpoint}/${article.imgName}`"
       :name="article.owner.name"
+      :editMode="viewUser"
+      @delete="deleteArticle(article.id)"
+      @edit="editArticle(article.id)"
       @click="openArticle(article.id)"
     />
   </div>
@@ -16,6 +19,7 @@
 <script>
 import ArticlePreview from '@/components/ArticlePreview'
 import { mapGetters } from 'vuex'
+// import Vue from 'vue'
 
 export default {
   name: 'Posts',
@@ -36,6 +40,15 @@ export default {
   methods: {
     openArticle(id) {
       this.$router.push(`/posts/${id}`)
+    },
+    editArticle(id) {
+      this.$router.push(`/posts/edit/${id}`)
+    },
+    deleteArticle(id) {
+      this.$store.dispatch('deletePost', id).then(() => {
+        // could not figure out a good way to do this - Vue did not react to
+        this.$store.dispatch('requestUserArticles')
+      })
     },
   },
   mounted() {
