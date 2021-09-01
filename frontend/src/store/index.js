@@ -2,7 +2,7 @@ import { createStore } from 'vuex'
 const axios = require('axios')
 
 function api(endpoint) {
-  return `http://localhost:3000/api${endpoint}`
+  return `${process.env.VUE_APP_API_ENDPOINT}${endpoint}`
 }
 function auth(token) {
   return {
