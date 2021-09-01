@@ -70,5 +70,6 @@ export default {
 
 .article-list {
   padding: var(--spacing-half);
+  width: 100%;
 }
 </style>
