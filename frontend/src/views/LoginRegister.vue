@@ -1,11 +1,8 @@
 <template>
   <div class="view">
-    <label>email</label>
-    <input type="text" v-model="email" />
-    <label>name</label>
-    <input type="text" v-model="name" />
-    <label>password</label>
-    <input type="text" v-model="password" />
+    <InputField label="email" :value="email" />
+    <InputField label="name" :value="name" />
+    <InputField label="password" :value="password" />
     <button @click="login">Login</button>
     <button @click="register">Register</button>
     <button @click="autofill">Debug: autofill</button>
@@ -18,8 +15,13 @@
   </div>
 </template>
 <script>
+import InputField from '@/components/InputField'
+
 export default {
   name: 'LoginRegister',
+  components: {
+    InputField,
+  },
   data() {
     return {
       email: '',
