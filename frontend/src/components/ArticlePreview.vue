@@ -10,7 +10,7 @@
         <p>{{ text }}</p>
         <div class="author-block">
           <img src="@/assets/placeholder_icon.png" />
-          <p>Username Placeholder</p>
+          <p>{{ name }}</p>
         </div>
       </div>
     </div>
@@ -24,6 +24,7 @@ export default {
     title: String,
     text: String,
     img: String,
+    name: String,
   },
 }
 </script>

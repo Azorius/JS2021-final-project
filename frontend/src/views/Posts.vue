@@ -7,6 +7,7 @@
       :title="article.title"
       :text="article.text"
       :img="`${imgEndpoint}/${article.imgName}`"
+      :name="article.owner.name"
       @click="openArticle(article.id)"
     />
   </div>
