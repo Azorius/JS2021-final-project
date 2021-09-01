@@ -29,7 +29,7 @@ export default {
     submitArticle() {
       let formData = new FormData()
       let imagefile = document.querySelector('#imageFile')
-      formData.append('image', imagefile.files[0])
+      formData.append('postImg', imagefile.files[0])
       formData.append('title', this.title)
       formData.append('text', this.text)
       formData.append('description', this.description)
