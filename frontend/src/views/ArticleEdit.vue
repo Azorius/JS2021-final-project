@@ -44,7 +44,7 @@ export default {
   },
   created() {
     if (this.$route.params.id) {
-      let article = this.$store.getters.articles.find(
+      let article = this.$store.getters.userArticles.find(
         article => article.id == this.$route.params.id
       )
       this.title = article.title
