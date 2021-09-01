@@ -89,4 +89,19 @@ body {
     width: 100%;
   }
 }
+
+button {
+  background: indigo;
+  color: white;
+  height: 2rem;
+  margin-top: calc(var(--spacing) * 2);
+  border: none;
+}
+button:hover {
+  background: rgb(96, 0, 165);
+}
+
+button:disabled {
+  background: rgb(153, 143, 160);
+}
 </style>

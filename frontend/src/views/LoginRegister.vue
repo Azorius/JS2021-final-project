@@ -1,38 +1,65 @@
 <template>
   <div class="view">
-    <label>email</label>
-    <input type="text" v-model="email" />
-    <label>name</label>
-    <input type="text" v-model="name" />
-    <label>password</label>
-    <input type="text" v-model="password" />
-    <button @click="login">Login</button>
-    <button @click="register">Register</button>
+    <InputField
+      label="email"
+      :value="email"
+      minlength="2"
+      maxlength="255"
+      @valid="setValidationState"
+    />
+    <InputField
+      v-if="this.$route.name == 'Register'"
+      label="name"
+      :value="name"
+      minlength="2"
+      maxlength="30"
+      @valid="setValidationState"
+    />
+    <InputField
+      label="password"
+      :value="password"
+      type="password"
+      minlength="6"
+      maxlength="255"
+      @valid="setValidationState"
+    />
+    <button
+      v-if="this.$route.name == 'Login'"
+      :disabled="!(validFields.email && validFields.password)"
+      @click="login"
+    >
+      Login
+    </button>
+    <button
+      v-if="this.$route.name == 'Register'"
+      :disabled="
+        !(validFields.email && validFields.password && validFields.name)
+      "
+      @click="register"
+    >
+      Register
+    </button>
     <button @click="autofill">Debug: autofill</button>
-    <br />
-    <div v-if="this.$store.state.currentUser">current user:</div>
-    <p>{{ this.$store.state.currentUser }}</p>
-    <br />
-    <div v-if="debug">response</div>
-    <p>{{ debug }}</p>
   </div>
 </template>
 <script>
+import InputField from '@/components/InputField'
+
 export default {
   name: 'LoginRegister',
+  components: {
+    InputField,
+  },
   data() {
     return {
       email: '',
       name: '',
       password: '',
-      debug: '',
+      validFields: {},
     }
   },
   methods: {
     register() {
-      // todo: username >= 2 characters
-      // todo: passowrd >= 6 characters
-      // todo: validate email
       this.$store
         .dispatch('register', {
           email: this.email,
@@ -59,6 +86,13 @@ export default {
       this.name = 'test'
       this.password = '123456'
     },
+    setValidationState(name, value) {
+      this.validFields[name] = value
+      console.log(this.validFields)
+    },
+  },
+  mounted() {
+    console.log(this.$route)
   },
 }
 </script>
