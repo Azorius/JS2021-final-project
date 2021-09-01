@@ -63,6 +63,7 @@ class PostsRepository {
 
     try {
       if (pathFile) {
+        const ext = pathFile.split('.').pop();
         const img = await Jimp.read(pathFile);
         await img
           .autocrop()
@@ -72,7 +73,7 @@ class PostsRepository {
             Jimp.HORIZONTAL_ALIGN_CENTER || Jimp.VERTICAL_ALIGN_MIDDLE
           )
           .writeAsync(pathFile);
-        imgName = `${uuidv4()}.jpg`;
+        imgName = `${uuidv4()}.${ext}`;
         await fs.rename(pathFile, path.join(POSTS_IMG_DIR, imgName));
       } else {
         imgName = 'default-img.jpg';
@@ -105,6 +106,7 @@ class PostsRepository {
     try {
       if (update.pathFile) {
         const POSTS_IMG_DIR = path.join(process.cwd(), 'public', 'pictures');
+        const ext = pathFile.split('.').pop();
         const img = await Jimp.read(pathFile);
         await img
           .autocrop()
@@ -114,7 +116,7 @@ class PostsRepository {
             Jimp.HORIZONTAL_ALIGN_CENTER || Jimp.VERTICAL_ALIGN_MIDDLE
           )
           .writeAsync(pathFile);
-        const imgName = `${uuidv4()}.jpg`;
+        const imgName = `${uuidv4()}.${ext}`;
         await fs.rename(pathFile, path.join(POSTS_IMG_DIR, imgName));
         dataToUpdate.image_url = imgName;
       }
