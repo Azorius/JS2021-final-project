@@ -18,6 +18,7 @@
 <script>
 import ArticlePreview from '@/components/ArticlePreview'
 import { mapGetters } from 'vuex'
+// import Vue from 'vue'
 
 export default {
   name: 'Posts',
@@ -40,7 +41,10 @@ export default {
       this.$router.push(`/posts/${id}`)
     },
     deleteArticle(id) {
-      this.$store.dispatch('deletePost', id)
+      this.$store.dispatch('deletePost', id).then(() => {
+        // could not figure out a good way to do this - Vue did not react to
+        this.$store.dispatch('requestUserArticles')
+      })
     },
   },
   mounted() {

@@ -73,7 +73,7 @@ export default createStore({
     },
 
     deletePost(context, id) {
-      axios
+      return axios
         .delete(api(`/posts/${id}`), auth(context.getters.token))
         .then(() => {
           context.commit('deleteArticle', id)
