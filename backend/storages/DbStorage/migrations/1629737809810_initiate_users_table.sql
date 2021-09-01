@@ -3,5 +3,6 @@ CREATE TABLE IF NOT EXISTS users (
     `name` varchar(30) not null,
     `email` varchar(255) not null,
     `password` varchar(255) not null,
-    `token` varchar(255) default null
+    `token` varchar(255) default null,
+    `refreshToken` varchar(255) default null
 );
