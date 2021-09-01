@@ -37,35 +37,31 @@ export default {
           link: '/posts',
         },
         {
-          logout: false,
           login: true,
           name: 'Add',
           link: '/posts/edit',
         },
         {
           logout: true,
-          login: false,
           name: 'Login',
           link: '/login',
         },
         {
           logout: true,
-          login: false,
           name: 'Register',
           link: '/register',
         },
         {
-          logout: false,
           login: true,
           name: 'My Posts',
           link: '/posts/user',
         },
         {
-          logout: false,
           login: true,
           name: 'Logout',
           action: 'logout',
         },
+        {},
       ],
     }
   },
