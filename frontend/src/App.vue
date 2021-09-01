@@ -2,7 +2,9 @@
   <div class="content">
     <div id="nav">
       <NavigationBar
-        :links="navLinks.filter(link => (link.login ? loginStatus : true))"
+        :links="
+          navLinks.filter(link => (loginStatus ? link.login : link.logout))
+        "
         @actionPressed="actionPressed"
       />
     </div>
@@ -22,12 +24,48 @@ export default {
   data() {
     return {
       navLinks: [
-        { login: false, name: 'Home', link: '/' },
-        { login: false, name: 'Articles', link: '/posts' },
-        { login: true, name: 'Add', link: '/posts/edit' },
-        { login: false, name: 'Login/Register', link: '/login' },
-        { login: true, name: 'My Posts', link: '/posts/user' },
-        { login: true, name: 'Logout', action: 'logout' },
+        {
+          logout: true,
+          login: true,
+          name: 'Home',
+          link: '/',
+        },
+        {
+          logout: true,
+          login: true,
+          name: 'Articles',
+          link: '/posts',
+        },
+        {
+          logout: false,
+          login: true,
+          name: 'Add',
+          link: '/posts/edit',
+        },
+        {
+          logout: true,
+          login: false,
+          name: 'Login',
+          link: '/login',
+        },
+        {
+          logout: true,
+          login: false,
+          name: 'Register',
+          link: '/register',
+        },
+        {
+          logout: false,
+          login: true,
+          name: 'My Posts',
+          link: '/posts/user',
+        },
+        {
+          logout: false,
+          login: true,
+          name: 'Logout',
+          action: 'logout',
+        },
       ],
     }
   },
