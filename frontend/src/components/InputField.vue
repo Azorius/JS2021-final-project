@@ -69,6 +69,7 @@ export default {
   width: 100%;
   display: flex;
   flex-direction: column;
+  margin-top: var(--spacing);
 }
 
 .label-container {
@@ -78,5 +79,15 @@ export default {
   margin-left: 10;
   flex: 1;
   text-align: right;
+}
+input {
+  border: 1px solid #999;
+  height: 2rem;
+  outline: none;
+  padding-left: var(--spacing-half);
+  padding-right: var(--spacing-half);
+}
+input:focus {
+  border: 1px solid indigo;
 }
 </style>
