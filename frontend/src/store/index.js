@@ -80,9 +80,13 @@ export default createStore({
         })
     },
 
-    addPost({ getters }, data) {
-      return axios
-        .post(api('/posts'), data, auth(getters.token))
+    sendPost(context, { data, id = null }) {
+      return axios({
+        url: api(`/posts${id ? `/${id}` : ''}`),
+        method: id ? 'patch' : 'post',
+        data,
+        ...auth(context.getters.token),
+      })
         .then(response => {
           return response
         })
@@ -90,6 +94,7 @@ export default createStore({
           console.log(error)
         })
     },
+
     register(context, data) {
       axios
         .post(api('/users/signup'), data)
