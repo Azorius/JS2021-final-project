@@ -5,7 +5,7 @@
       v-for="(article, index) in viewUser ? userArticles : articles"
       :key="`article-${index}`"
       :title="article.title"
-      :text="article.text"
+      :text="article.description"
       :img="`${imgEndpoint}/${article.imgName}`"
       :name="article.owner.name"
       :editMode="viewUser"
@@ -70,5 +70,6 @@ export default {
 
 .article-list {
   padding: var(--spacing-half);
+  width: 100%;
 }
 </style>
