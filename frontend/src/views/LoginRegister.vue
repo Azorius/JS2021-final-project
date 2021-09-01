@@ -2,7 +2,7 @@
   <div class="view">
     <InputField label="email" :value="email" />
     <InputField label="name" :value="name" />
-    <InputField label="password" :value="password" />
+    <InputField label="password" :value="password" type="password" />
     <button @click="login">Login</button>
     <button @click="register">Register</button>
     <button @click="autofill">Debug: autofill</button>
