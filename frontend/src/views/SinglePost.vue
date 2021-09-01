@@ -3,7 +3,7 @@
     <div
       class="article-image"
       :style="{
-        backgroundImage: `url(http://localhost:3000/pictures/${article.imgName})`,
+        backgroundImage: `url(${imgEndpoint}/${article.imgName})`,
       }"
     >
       <h1>{{ article.title }}</h1>
@@ -21,6 +21,11 @@ export default {
     return {
       article: {},
     }
+  },
+  computed: {
+    imgEndpoint() {
+      return process.env.VUE_APP_IMG_ENDPOINT
+    },
   },
   created() {
     console.log('mounted')

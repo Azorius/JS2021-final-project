@@ -6,7 +6,7 @@
       :key="`article-${index}`"
       :title="article.title"
       :text="article.text"
-      img="http://localhost:3000/pictures/default-img.jpg"
+      :img="`${imgEndpoint}/${article.imgName}`"
       @click="openArticle(article.id)"
     />
   </div>
@@ -28,6 +28,9 @@ export default {
   },
   computed: {
     ...mapGetters(['articles', 'userArticles']),
+    imgEndpoint() {
+      return process.env.VUE_APP_IMG_ENDPOINT
+    },
   },
   methods: {
     openArticle(id) {
