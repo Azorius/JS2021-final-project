@@ -47,6 +47,12 @@ export default createStore({
     setCurrentUser(state, user) {
       state.currentUser = user
     },
+    deleteArticle(state, id) {
+      state.articles.splice(
+        state.articles.findIndex(article => article.id == id),
+        1
+      )
+    },
   },
   actions: {
     requestArticles(context, id = null) {
@@ -63,6 +69,14 @@ export default createStore({
         })
         .catch(error => {
           console.log(error)
+        })
+    },
+
+    deletePost(context, id) {
+      axios
+        .delete(api(`/posts/${id}`), auth(context.getters.token))
+        .then(() => {
+          context.commit('deleteArticle', id)
         })
     },
 
