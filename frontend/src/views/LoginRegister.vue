@@ -8,6 +8,7 @@
       @valid="setValidationState"
     />
     <InputField
+      v-if="this.$route.name == 'Register'"
       label="name"
       :value="name"
       minlength="2"
@@ -23,12 +24,14 @@
       @valid="setValidationState"
     />
     <button
+      v-if="this.$route.name == 'Login'"
       :disabled="!(validFields.email && validFields.password)"
       @click="login"
     >
       Login
     </button>
     <button
+      v-if="this.$route.name == 'Register'"
       :disabled="
         !(validFields.email && validFields.password && validFields.name)
       "
@@ -87,6 +90,9 @@ export default {
       this.validFields[name] = value
       console.log(this.validFields)
     },
+  },
+  mounted() {
+    console.log(this.$route)
   },
 }
 </script>
