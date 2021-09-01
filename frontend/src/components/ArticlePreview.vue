@@ -11,6 +11,18 @@
         <div class="author-block">
           <img src="@/assets/placeholder_icon.png" />
           <p>{{ name }}</p>
+          <img
+            v-if="editMode"
+            class="action-button"
+            @click="action('delete')"
+            src="@/assets/icon_delete.png"
+          />
+          <img
+            v-if="editMode"
+            class="action-button"
+            @click="action('edit')"
+            src="@/assets/icon_edit.png"
+          />
         </div>
       </div>
     </div>
@@ -25,6 +37,10 @@ export default {
     text: String,
     img: String,
     name: String,
+    editMode: {
+      default: true,
+      type: Boolean,
+    },
   },
 }
 </script>
@@ -65,6 +81,10 @@ export default {
 .author-block > p {
   margin: auto;
   margin-left: var(--spacing);
+}
+
+.action-button {
+  margin-left: var(--spacing-half);
 }
 
 .container:hover {
