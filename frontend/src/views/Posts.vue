@@ -9,6 +9,7 @@
       :img="`${imgEndpoint}/${article.imgName}`"
       :name="article.owner.name"
       :editMode="viewUser"
+      @delete="deleteArticle(article.id)"
       @click="openArticle(article.id)"
     />
   </div>
@@ -37,6 +38,9 @@ export default {
   methods: {
     openArticle(id) {
       this.$router.push(`/posts/${id}`)
+    },
+    deleteArticle(id) {
+      this.$store.dispatch('deletePost', id)
     },
   },
   mounted() {

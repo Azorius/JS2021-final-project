@@ -14,7 +14,7 @@
           <img
             v-if="editMode"
             class="action-button"
-            @click="action('delete')"
+            @click.stop="action('delete')"
             src="@/assets/icon_delete.png"
           />
           <img
@@ -40,6 +40,11 @@ export default {
     editMode: {
       default: false,
       type: Boolean,
+    },
+  },
+  methods: {
+    action(action) {
+      this.$emit(action)
     },
   },
 }
