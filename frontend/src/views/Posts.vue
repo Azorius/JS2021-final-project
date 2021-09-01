@@ -8,6 +8,7 @@
       :text="article.text"
       :img="`${imgEndpoint}/${article.imgName}`"
       :name="article.owner.name"
+      :editMode="viewUser"
       @click="openArticle(article.id)"
     />
   </div>

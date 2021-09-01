@@ -38,7 +38,7 @@ export default {
     img: String,
     name: String,
     editMode: {
-      default: true,
+      default: false,
       type: Boolean,
     },
   },
