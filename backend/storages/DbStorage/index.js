@@ -30,9 +30,10 @@ class DbStorage {
         FROM ${this._table} 
         JOIN ${rows[0].foreign_table} 
         ON ${this._table}.${rows[0].column_name} = ${rows[0].foreign_table}.${rows[0].foreign_column}
+        ORDER BY id_${this._table} DESC
         ${query
           ? `${query.startWith ? `WHERE id_${this._table} >= ${query.startWith}` : ''}
-            ${query.limit ? `ORDER BY id_${this._table} ASC LIMIT ${query.limit}` : ''}` 
+            ${query.limit ? `ORDER BY id_${this._table} DESC LIMIT ${query.limit}` : ''}` 
           : ''}
       `);
       return rows;
@@ -51,9 +52,10 @@ class DbStorage {
         JOIN ${rows[0].foreign_table} 
         ON ${this._table}.${rows[0].column_name} = ${rows[0].foreign_table}.${rows[0].foreign_column} 
         WHERE ${field[0]} = ?
+        ORDER BY id_${this._table} DESC
         ${query
           ? `${query.startWith ? `AND id_${this._table} >= ${query.startWith}` : ''}
-            ${query.limit ? `ORDER BY id_${this._table} ASC LIMIT ${query.limit}` : ''}` 
+            ${query.limit ? `ORDER BY id_${this._table} DESC LIMIT ${query.limit}` : ''}` 
           : ''}`,
         [field[1]]
       );
