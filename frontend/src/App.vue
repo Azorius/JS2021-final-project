@@ -2,7 +2,9 @@
   <div class="content">
     <div id="nav">
       <NavigationBar
-        :links="navLinks.filter(link => (link.login ? loginStatus : true))"
+        :links="
+          navLinks.filter(link => (loginStatus ? link.login : link.logout))
+        "
         @actionPressed="actionPressed"
       />
     </div>
@@ -22,12 +24,54 @@ export default {
   data() {
     return {
       navLinks: [
-        { login: false, name: 'Home', link: '/' },
-        { login: false, name: 'Articles', link: '/posts' },
-        { login: true, name: 'Add', link: '/posts/edit' },
-        { login: false, name: 'Login/Register', link: '/login' },
-        { login: true, name: 'My Posts', link: '/posts/user' },
-        { login: true, name: 'Logout', action: 'logout' },
+        {
+          logout: true,
+          login: true,
+          name: 'Home',
+          link: '/',
+        },
+        {
+          logout: true,
+          login: true,
+          name: 'Articles',
+          link: '/posts',
+        },
+        {
+          login: true,
+          name: 'Add',
+          link: '/posts/edit',
+          img: '/icon_add.png',
+        },
+        {
+          logout: true,
+          name: 'Login',
+          link: '/login',
+          submenu: 'user',
+        },
+        {
+          logout: true,
+          name: 'Register',
+          link: '/register',
+          submenu: 'user',
+        },
+        {
+          login: true,
+          name: 'My Posts',
+          link: '/posts/user',
+          submenu: 'user',
+        },
+        {
+          login: true,
+          name: 'Logout',
+          action: 'logout',
+          submenu: 'user',
+        },
+        {
+          login: true,
+          logout: true,
+          menu: 'user',
+          img: '/icon_user.png',
+        },
       ],
     }
   },
@@ -43,6 +87,11 @@ export default {
         })
       }
     },
+  },
+  created() {
+    if (this.$route.name != 'Home') {
+      this.$router.push('/')
+    }
   },
 }
 </script>

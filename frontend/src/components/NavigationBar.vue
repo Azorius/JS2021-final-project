@@ -1,22 +1,40 @@
 <template>
   <header>
-    <div>
-      <div class="navbar">
-        <img src="@/assets/placeholder_icon.png" alt="" />
+    <div class="navbar">
+      <img src="@/assets/placeholder_icon.png" alt="" />
+      <div class="text-links">
         <div
-          v-for="(link, index) in links"
-          :key="`link-${index}`"
+          v-for="(link, index) in links.filter(
+            item => !item.submenu && !item.img
+          )"
           class="navlink"
+          :key="`link-${index}`"
+          @click="pressed(link)"
         >
-          <router-link class="router-link" v-if="link.link" :to="link.link">
-            <div>
-              {{ link.name }}
-            </div>
-          </router-link>
-
-          <div v-else @click="actionPressed(link.action)">
-            {{ link.name }}
-          </div>
+          {{ link.name }}
+        </div>
+      </div>
+      <div class="img-links">
+        <div
+          v-for="(link, index) in links.filter(
+            item => !item.submenu && item.img
+          )"
+          class="imglink"
+          :key="`link-${index}`"
+          @click="pressed(link)"
+          @mouseover="link.isHover = true"
+          @mouseleave="link.isHover = false"
+          :style="{
+            backgroundImage: `url(${
+              link.isHover ? link.img.replace('.png', '_hover.png') : link.img
+            })`,
+          }"
+        >
+          <Dropdown
+            v-if="link.menu"
+            :options="links.filter(item => link.menu == item.submenu)"
+            @optionClicked="dropdownOptionClicked"
+          />
         </div>
       </div>
     </div>
@@ -24,23 +42,44 @@
 </template>
 
 <script>
+import Dropdown from '@/components/Dropdown'
+
 export default {
   name: 'NavigationBar',
+  components: {
+    Dropdown,
+  },
   props: {
     links: Array,
   },
   methods: {
-    actionPressed(action) {
-      this.$emit('actionPressed', action)
+    pressed(link) {
+      if (link.action) {
+        this.$emit('actionPressed', link.action)
+      }
+      if (link.link) {
+        this.$router.push(link.link)
+      }
+    },
+    dropdownOptionClicked(option) {
+      this.pressed(option)
     },
   },
 }
 </script>
 
 <style scoped>
+.text-links {
+  display: flex;
+  margin-right: auto;
+}
+.img-links {
+  display: flex;
+}
 header {
   display: flex;
   justify-content: center;
+  margin-top: var(--spacing);
 }
 header > div {
   width: var(--content-width);
@@ -52,23 +91,27 @@ header > div {
 .navbar {
   flex-direction: row;
   display: flex;
-  background: #555555;
+  border-bottom: 1px solid indigo;
+  height: 58px;
 }
 
 .navlink {
   display: flex;
-}
-
-.navlink div {
-  width: 8rem;
+  width: 6rem;
   height: 3rem;
   text-align: center;
-  vertical-align: middle;
+  justify-content: center;
   padding-top: 12px;
-
   box-sizing: border-box;
-  color: #ffffff;
+  color: indigo;
   font-weight: bold;
+}
+
+.imglink {
+  width: 3rem;
+  height: 3rem;
+  background-size: cover;
+  margin-left: var(--spacing-half);
 }
 
 .router-link {
@@ -76,7 +119,8 @@ header > div {
 }
 
 .navlink:hover {
-  background: #777777;
+  background: rgb(96, 0, 165);
+  color: white;
 }
 
 img {
