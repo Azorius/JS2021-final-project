@@ -22,13 +22,13 @@ export default createStore({
   },
   getters: {
     latestArticles(state) {
-      return state.articles.slice(-3).reverse()
+      return state.articles.slice(0, 3)
     },
     articles(state) {
-      return state.articles.slice().reverse()
+      return state.articles.slice()
     },
     userArticles(state) {
-      return state.userArticles.slice().reverse()
+      return state.userArticles.slice()
     },
     token(state) {
       return state.currentUser.token
@@ -50,10 +50,21 @@ export default createStore({
     },
     deleteArticle(state, id) {
       state.articles.splice(
-        state.articles.findIndex(article => article.id == id),
+        state.articles.findIndex(article => article.id === id),
         1
       )
     },
+    addArticle(state, article) {
+      state.articles.push(article);
+      state.userArticles.push(article);
+    },
+    updateArticle(state, { article, id }) {
+      const idxAll = state.articles.findIndex(article => article.id === Number(id))
+      state.articles[idxAll] = { ...state.articles[idxAll], ...article}
+
+      const idxOwner = state.userArticles.findIndex(article => article.id === Number(id))
+      state.userArticles[idxOwner] = { ...state.userArticles[idxOwner], ...article}
+    }
   },
   actions: {
     requestArticles(context, id = null) {
@@ -81,17 +92,35 @@ export default createStore({
         })
     },
 
-    sendPost(context, { data, id = null }) {
+    addPost(context, { data }) {
       return axios({
-        url: api(`/posts${id ? `/${id}` : ''}`),
-        method: id ? 'patch' : 'post',
+        url: api(`/posts`),
+        method: 'post',
         data,
         ...auth(context.getters.token, {
           'content-type': 'multipart/form-data',
         }),
       })
-        .then(response => {
-          return response
+        .then(({data}) => {
+          context.commit('addArticle', data.data.post)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+
+    updatePost(context, { data, id }) {
+      return axios({
+        url: api(`/posts/${id}`),
+        method: 'patch',
+        data,
+        ...auth(context.getters.token, {
+          'content-type': 'multipart/form-data',
+        }),
+      })
+        .then(({data}) => {
+          console.log(data.data)
+          context.commit('updateArticle', { article: {...data.data, imgName: data.data.image_url}, id })
         })
         .catch(error => {
           console.log(error)

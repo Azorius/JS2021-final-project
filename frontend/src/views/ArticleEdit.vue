@@ -1,19 +1,21 @@
 <template>
   <div class="content">
     <div class="editor">
-      <InputField label="title" maxlength="50" @edit="edited" />
+      <InputField label="title" :value="title" maxlength="50" @edit="edited"/>
       <InputField
         label="description"
+        :value="description"
         maxlength="280"
         @edit="edited"
-        :textarea="edited"
+        textarea
         :rows="4"
       />
       <InputField
         label="text"
+        :value="text"
         maxlength="4000"
         @edit="edited"
-        :textarea="edited"
+        textarea
         :rows="10"
       />
       <div class="image-select-block">
@@ -22,7 +24,10 @@
         <label class="file-label">{{ selectedFileName }}</label>
         <label class="file-button" for="imageFile">Select Image</label>
       </div>
-      <button @click="submitArticle">Submit</button>
+      <button 
+        @click="submitArticle"
+        :disabled="!(inputFields.title && inputFields.description && inputFields.text)"
+      >Submit</button>
     </div>
   </div>
 </template>
@@ -54,30 +59,49 @@ export default {
     submitArticle() {
       let formData = new FormData()
       let imagefile = document.querySelector('#imageFile')
-      formData.append('postImg', imagefile.files[0])
+
+      if (imagefile.files[0]) {
+        console.log('here')
+        formData.append('postImg', imagefile.files[0])
+      }
       formData.append('title', this.inputFields.title)
       formData.append('text', this.inputFields.text)
       formData.append('description', this.inputFields.description)
+
       let payload = {
         data: formData,
       }
+
       if (this.$route.params.id) {
         payload.id = this.$route.params.id
+        this.$store.dispatch('updatePost', payload).then(() => {
+          this.$router.push('/posts/user')
+        })
+        return;
       }
-
-      this.$store.dispatch('sendPost', payload).then(() => {
+      
+      this.$store.dispatch('addPost', payload).then(() => {
         this.$router.push('/posts/user')
       })
     },
   },
   created() {
-    if (this.$route.params.id) {
-      let article = this.$store.getters.userArticles.find(
+    const { id } = this.$route.params
+    if (id) {
+      const article = this.$store.getters.userArticles.find(
         article => article.id == this.$route.params.id
       )
-      this.title = article.title
-      this.description = article.description
-      this.text = article.text
+
+      const { title, description, text } = article
+
+      this.title = title
+      this.description = description
+      this.text = text
+      this.inputFields = {
+        title,
+        description,
+        text,
+      }
     }
   },
 }
