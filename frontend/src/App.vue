@@ -121,14 +121,12 @@ body {
 }
 
 .content-wrapper {
-  border: 1px solid red;
   display: flex;
   justify-content: center;
   widows: 100%;
 }
 
 .content {
-  border: 1px solid fuchsia;
   display: flex;
   justify-content: center;
   flex-direction: column;
