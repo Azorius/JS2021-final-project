@@ -27,6 +27,7 @@
           <Dropdown
             v-if="link.menu"
             :options="links.filter(item => link.menu == item.submenu)"
+            @optionClicked="dropdownOptionClicked"
           />
         </div>
       </div>
@@ -53,6 +54,9 @@ export default {
       if (link.link) {
         this.$router.push(link.link)
       }
+    },
+    dropdownOptionClicked(option) {
+      this.pressed(option)
     },
   },
 }

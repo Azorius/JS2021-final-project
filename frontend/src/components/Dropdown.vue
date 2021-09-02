@@ -10,7 +10,11 @@
       @mouseleave="mouseoverMenu = false"
       v-if="mouseoverTrigger || mouseoverMenu"
     >
-      <div v-for="option in options" :key="`option-${option.name}`">
+      <div
+        v-for="option in options"
+        :key="`option-${option.name}`"
+        @click="optionClicked(option)"
+      >
         {{ option.name }}
       </div>
     </div>
@@ -29,7 +33,11 @@ export default {
       mouseoverMenu: false,
     }
   },
-  methods: {},
+  methods: {
+    optionClicked(option) {
+      this.$emit('optionClicked', option)
+    },
+  },
 }
 </script>
 
