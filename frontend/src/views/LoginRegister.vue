@@ -2,31 +2,28 @@
   <div class="view">
     <InputField
       label="email"
-      :value="email"
       minlength="2"
       maxlength="255"
-      @valid="setValidationState"
+      @edit="inputEdited"
       :email="true"
     />
     <InputField
       v-if="this.$route.name == 'Register'"
       label="name"
-      :value="name"
       minlength="2"
       maxlength="30"
-      @valid="setValidationState"
+      @edit="inputEdited"
     />
     <InputField
       label="password"
-      :value="password"
       type="password"
       minlength="6"
       maxlength="255"
-      @valid="setValidationState"
+      @edit="inputEdited"
     />
     <button
       v-if="this.$route.name == 'Login'"
-      :disabled="!(validFields.email && validFields.password)"
+      :disabled="!(inputFields.email && inputFields.password)"
       @click="login"
     >
       Login
@@ -34,7 +31,7 @@
     <button
       v-if="this.$route.name == 'Register'"
       :disabled="
-        !(validFields.email && validFields.password && validFields.name)
+        !(inputFields.email && inputFields.password && inputFields.name)
       "
       @click="register"
     >
@@ -53,19 +50,16 @@ export default {
   },
   data() {
     return {
-      email: '',
-      name: '',
-      password: '',
-      validFields: {},
+      inputFields: {},
     }
   },
   methods: {
     register() {
       this.$store
         .dispatch('register', {
-          email: this.email,
-          name: this.name,
-          password: this.password,
+          email: this.inputFields.email,
+          name: this.inputFields.name,
+          password: this.inputFields.password,
         })
         .then(response => {
           this.debug = response
@@ -74,26 +68,17 @@ export default {
     login() {
       this.$store
         .dispatch('login', {
-          email: this.email,
-          password: this.password,
+          email: this.inputFields.email,
+          password: this.inputFields.password,
         })
         .then(data => {
-          console.log('i am here')
           console.log(data)
         })
     },
-    autofill() {
-      this.email = 'test@test.com'
-      this.name = 'test'
-      this.password = '123456'
-      this.validFields = {
-        password: true,
-        email: true,
-      }
-    },
-    setValidationState(name, value) {
-      this.validFields[name] = value
-      console.log(this.validFields)
+    autofill() {},
+    inputEdited(name, value) {
+      this.inputFields[name] = value
+      console.log(this.inputFields)
     },
   },
   mounted() {

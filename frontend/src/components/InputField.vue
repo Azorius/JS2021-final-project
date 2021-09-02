@@ -65,26 +65,26 @@ export default {
       switch (true) {
         case val.length < this.minlength:
           message = 'too short'
-          this.setOk(false)
+          this.setOk(null)
           break
         case this.email &&
           !/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(val):
           message = 'invalid email'
-          this.setOk(false)
+          this.setOk(null)
           break
         case val.length <= this.maxlength:
           message = `${val.length}/${this.maxlength}`
-          this.setOk(true)
+          this.setOk(val)
           break
         default:
-          this.setOk(true)
+          this.setOk(val)
           message = 'ok'
       }
 
       this.$el.querySelector('#message').innerHTML = message
     },
     setOk(value) {
-      this.$emit('valid', this.label, value)
+      this.$emit('edit', this.label, value)
     },
   },
 }
