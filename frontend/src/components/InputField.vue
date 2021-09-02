@@ -53,6 +53,10 @@ export default {
     cols: {
       default: null,
     },
+    email: {
+      default: false,
+      type: Boolean,
+    },
   },
   methods: {
     change(event) {
@@ -63,13 +67,14 @@ export default {
           message = 'too short'
           this.setOk(false)
           break
+        case this.email &&
+          !/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(val):
+          message = 'invalid email'
+          this.setOk(false)
+          break
         case val.length <= this.maxlength:
           message = `${val.length}/${this.maxlength}`
           this.setOk(true)
-          break
-        case val.length > this.maxlength:
-          message = 'too long'
-          this.setOk(false)
           break
         default:
           this.setOk(true)

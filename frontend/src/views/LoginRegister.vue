@@ -6,6 +6,7 @@
       minlength="2"
       maxlength="255"
       @valid="setValidationState"
+      :email="true"
     />
     <InputField
       v-if="this.$route.name == 'Register'"
