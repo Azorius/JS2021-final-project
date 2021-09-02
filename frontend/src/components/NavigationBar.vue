@@ -80,12 +80,8 @@ header {
   display: flex;
   justify-content: center;
   margin-top: var(--spacing);
-}
-header > div {
-  width: var(--content-width);
   padding-left: var(--spacing);
   padding-right: var(--spacing);
-  box-sizing: border-box;
 }
 
 .navbar {
@@ -93,6 +89,7 @@ header > div {
   display: flex;
   border-bottom: 1px solid indigo;
   height: 58px;
+  width: 100%;
 }
 
 .navlink {
