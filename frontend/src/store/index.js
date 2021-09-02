@@ -36,6 +36,13 @@ export default createStore({
     loginStatus(state) {
       return state.currentUser && state.currentUser.token
     },
+    lastId(state) {
+      if (!state.articles.length > 0) return null
+      return state.articles[state.articles.length - 1].id
+    },
+    unsortedArticles(state) {
+      return state.articles
+    },
   },
   mutations: {
     // todo: simplify
@@ -131,21 +138,21 @@ export default createStore({
         })
     },
 
-    //?startWith=4&count=10
     requestMoreArticles(context) {
-      var id =
-        context.getters.articles.length > 0
-          ? context.getters.articles.slice(-1).id
-          : null
+      var id = context.getters.lastId
+      //   console.log('Requesting... startWith ', id)
       return axios
-        .get(api(`/posts?${id ? `startsWith=${id}&` : ''}count=3`))
+        .get(api(`/posts?${id ? `startWith=${id + 1}&` : ''}limit=3`))
         .then(response => {
-          let articles = []
-          articles.push(context.getters.articles)
-          articles.push(response.data.data.posts)
-          //   articles.concat(context.getters.articles, response.data.data.posts)
+          //   console.log('response received')
+          console.log(response.data.data.posts.map(post => post.id))
+          let articles = [
+            ...context.getters.unsortedArticles,
+            ...response.data.data.posts,
+          ]
+          //   console.log(articles)
           context.commit('updateArticles', articles)
-          console.log(articles)
+          return response.data.data.posts.length > 0
         })
     },
   },

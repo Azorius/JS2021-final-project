@@ -28,7 +28,7 @@ import ArticlePreview from '@/components/ArticlePreview'
 import { mapGetters } from 'vuex'
 // import Vue from 'vue'
 
-// var observer = null
+var observer = null
 
 export default {
   name: 'Posts',
@@ -38,7 +38,7 @@ export default {
   data() {
     return {
       viewUser: false,
-      ongoingRequest: false,
+      blockRequest: true,
     }
   },
   computed: {
@@ -66,15 +66,21 @@ export default {
       this.viewUser = true
       this.$store.dispatch('requestUserArticles')
     } else {
-      this.$store.dispatch('requestArticles')
-      //   observer = new IntersectionObserver(() => {
-      //     this.ongoingRequest = true
-      //     this.$store.dispatch('requestMoreArticles').then(() => {
-      //       this.ongoingRequest = false
-      //     })
-      //     // console.log(entries)
-      //   })
-      //   observer.observe(document.querySelector('#suspect'))
+      observer = new IntersectionObserver(event => {
+        // console.log(event)
+        if (!this.blockRequest && event[0].intersectionRatio > 0) {
+          this.blockRequest = true
+          this.$store.dispatch('requestMoreArticles').then(val => {
+            if (!val) {
+              observer.unobserve(document.querySelector('#suspect'))
+            }
+            console.log(val)
+            this.blockRequest = false
+          })
+        }
+      })
+      observer.observe(document.querySelector('#suspect'))
+      this.blockRequest = false
     }
   },
 }
