@@ -88,7 +88,6 @@ export default {
       this.validFields = {
         password: true,
         email: true,
-        name: true,
       }
     },
     setValidationState(name, value) {
