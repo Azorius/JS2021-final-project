@@ -30,11 +30,10 @@ class DbStorage {
         FROM ${this._table} 
         JOIN ${rows[0].foreign_table} 
         ON ${this._table}.${rows[0].column_name} = ${rows[0].foreign_table}.${rows[0].foreign_column}
-        ORDER BY id_${this._table} DESC
-        ${query
-          ? `${query.startWith ? `WHERE id_${this._table} >= ${query.startWith}` : ''}
+        ${Object.keys(query).length
+          ? `${query.startWith ? `AND id_${this._table} <= ${query.startWith}` : ''}
             ${query.limit ? `ORDER BY id_${this._table} DESC LIMIT ${query.limit}` : ''}` 
-          : ''}
+          : `ORDER BY id_${this._table} DESC`}
       `);
       return rows;
     } catch (e) {
@@ -52,11 +51,10 @@ class DbStorage {
         JOIN ${rows[0].foreign_table} 
         ON ${this._table}.${rows[0].column_name} = ${rows[0].foreign_table}.${rows[0].foreign_column} 
         WHERE ${field[0]} = ?
-        ORDER BY id_${this._table} DESC
-        ${query
-          ? `${query.startWith ? `AND id_${this._table} >= ${query.startWith}` : ''}
+        ${Object.keys(query).length
+          ? `${query.startWith ? `AND id_${this._table} <= ${query.startWith}` : ''}
             ${query.limit ? `ORDER BY id_${this._table} DESC LIMIT ${query.limit}` : ''}` 
-          : ''}`,
+          : `ORDER BY id_${this._table} DESC`}`,
         [field[1]]
       );
       return rows;      
