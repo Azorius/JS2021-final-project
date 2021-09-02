@@ -12,15 +12,23 @@
         :value="description"
         maxlength="280"
         @valid="setValidationState"
+        :textarea="true"
+        :rows="4"
       />
       <InputField
         label="Article Text"
         :value="text"
         maxlength="4000"
         @valid="setValidationState"
+        :textarea="true"
+        :rows="10"
       />
-      <label>image</label>
-      <input type="file" id="imageFile" />
+      <div class="image-select-block">
+        <input type="file" id="imageFile" @change="fileChange" />
+
+        <label class="file-label">{{ selectedFileName }}</label>
+        <label class="file-button" for="imageFile">Select Image</label>
+      </div>
       <button @click="submitArticle">Submit</button>
     </div>
   </div>
@@ -39,10 +47,14 @@ export default {
       title: '',
       description: '',
       text: '',
+      selectedFileName: '',
     }
   },
   methods: {
     setValidationState() {},
+    fileChange() {
+      this.selectedFileName = document.querySelector('#imageFile').files[0].name
+    },
     submitArticle() {
       let formData = new FormData()
       let imagefile = document.querySelector('#imageFile')
@@ -81,24 +93,34 @@ export default {
   display: flex;
   flex-direction: column;
   width: 30rem;
-
-  border: 1px solid fuchsia;
-  box-sizing: border-box;
 }
 
-.inputstyle {
-  height: 100px;
-  width: 100%;
+#imageFile {
+  display: none;
+}
+.image-select-block {
+  margin-top: var(--spacing);
+  display: flex;
+}
+.file-button {
+  height: 2rem;
+  width: 8rem;
+  background: var(--color-primary);
+  color: white;
+  padding-top: 4px;
+  display: flex;
+  justify-content: center;
+}
+.file-button:hover {
+  background: var(--color-primary-hover);
+}
+
+.file-label {
+  flex: 1;
 }
 
 .content {
   display: flex;
   justify-content: center;
-  border: 1px solid coral;
-  box-sizing: border-box;
-}
-
-textarea {
-  resize: none;
 }
 </style>

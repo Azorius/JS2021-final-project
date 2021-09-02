@@ -103,11 +103,16 @@ export default {
   --spacing-half: 10px;
   --spacing: 20px;
   --content-width: 62rem;
+
+  --color-primary: indigo;
+  --color-primary-hover: rgb(96, 0, 165);
+  --color-primary-disabled: rgb(153, 143, 160);
 }
 * {
   font-family: 'Quicksand', sans-serif;
   padding: 0px;
   margin: 0px;
+  box-sizing: border-box;
 }
 
 body {
