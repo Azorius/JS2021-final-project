@@ -8,7 +8,7 @@
         @actionPressed="actionPressed"
       />
       <ViewHeader :text="$route.meta.header" />
-      <router-view class="page-content" />
+      <router-view />
     </div>
   </div>
 </template>
@@ -102,7 +102,7 @@ export default {
 :root {
   --spacing-half: 10px;
   --spacing: 20px;
-  --content-width: 62rem;
+  --content-width: 62.2rem;
 
   --color-primary: indigo;
   --color-primary-hover: rgb(96, 0, 165);
@@ -120,20 +120,20 @@ body {
   overflow-y: scroll;
 }
 
+.content-wrapper {
+  border: 1px solid red;
+  display: flex;
+  justify-content: center;
+  widows: 100%;
+}
+
 .content {
+  border: 1px solid fuchsia;
   display: flex;
   justify-content: center;
   flex-direction: column;
-  width: var(--content-width);
-}
-.content-wrapper {
-  display: flex;
-  justify-content: center;
-}
-
-.page-wrapper {
-  display: flex;
-  justify-content: center;
+  max-width: var(--content-width);
+  width: 100%;
 }
 
 .page-content {

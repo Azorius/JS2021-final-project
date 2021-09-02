@@ -46,9 +46,11 @@ export default {
 
 .article-list {
   padding: var(--spacing-half);
+  display: flex;
+  flex-flow: wrap;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 64rem) {
   .article-card {
     width: 100%;
   }
