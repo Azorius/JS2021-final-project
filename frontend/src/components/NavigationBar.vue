@@ -1,7 +1,7 @@
 <template>
   <header>
     <div class="navbar">
-      <img src="@/assets/placeholder_icon.png" alt="" />
+      <img src="@/assets/icon.png" alt="" @click="this.$router.push('/')" />
       <div class="text-links">
         <div
           v-for="(link, index) in links.filter(

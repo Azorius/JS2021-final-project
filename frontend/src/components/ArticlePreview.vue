@@ -9,19 +9,24 @@
         <h2>{{ title }}</h2>
         <p>{{ text }}</p>
         <div class="author-block">
-          <img src="@/assets/placeholder_icon.png" />
+          <div class="author-icon">{{ authorName }}</div>
+          <!-- <img src="@/assets/placeholder_icon.png" /> -->
           <p>{{ name }}</p>
           <img
             v-if="editMode"
             class="action-button"
+            @mouseover="deleteHover = true"
+            @mouseleave="deleteHover = false"
             @click.stop="action('delete')"
-            src="@/assets/icon_delete.png"
+            :src="editHover ? '/icon_delete_hover.png' : '/icon_delete.png'"
           />
           <img
             v-if="editMode"
             class="action-button"
+            @mouseover="editHover = true"
+            @mouseleave="editHover = false"
             @click.stop="action('edit')"
-            src="@/assets/icon_edit.png"
+            :src="editHover ? '/icon_edit_hover.png' : '/icon_edit.png'"
           />
         </div>
       </div>
@@ -42,9 +47,20 @@ export default {
       type: Boolean,
     },
   },
+  data() {
+    return {
+      editHover: false,
+      deleteHover: false,
+    }
+  },
   methods: {
     action(action) {
       this.$emit(action)
+    },
+  },
+  computed: {
+    authorName() {
+      return this.name[0].toUpperCase()
     },
   },
 }
@@ -57,6 +73,18 @@ export default {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
+}
+
+.author-icon {
+  background: gray;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  text-align: center;
+  font-weight: 800;
+  font-size: 2rem;
+  padding-top: 3px;
+  color: white;
 }
 
 .article-contents-wrapper {
