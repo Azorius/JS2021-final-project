@@ -50,7 +50,7 @@ export default createStore({
     },
     deleteArticle(state, id) {
       state.articles.splice(
-        state.articles.findIndex(article => article.id == id),
+        state.articles.findIndex(article => article.id === id),
         1
       )
     },
@@ -58,6 +58,13 @@ export default createStore({
       state.articles.push(article);
       state.userArticles.push(article);
     },
+    updateArticle(state, { article, id }) {
+      const idxAll = state.articles.findIndex(article => article.id === Number(id))
+      state.articles[idxAll] = { ...state.articles[idxAll], ...article}
+
+      const idxOwner = state.userArticles.findIndex(article => article.id === Number(id))
+      state.userArticles[idxOwner] = { ...state.userArticles[idxOwner], ...article}
+    }
   },
   actions: {
     requestArticles(context, id = null) {
@@ -85,10 +92,10 @@ export default createStore({
         })
     },
 
-    addPost(context, { data, id = null }) {
+    addPost(context, { data }) {
       return axios({
-        url: api(`/posts${id ? `/${id}` : ''}`),
-        method: id ? 'patch' : 'post',
+        url: api(`/posts`),
+        method: 'post',
         data,
         ...auth(context.getters.token, {
           'content-type': 'multipart/form-data',
@@ -96,6 +103,24 @@ export default createStore({
       })
         .then(({data}) => {
           context.commit('addArticle', data.data.post)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+
+    updatePost(context, { data, id }) {
+      return axios({
+        url: api(`/posts/${id}`),
+        method: 'patch',
+        data,
+        ...auth(context.getters.token, {
+          'content-type': 'multipart/form-data',
+        }),
+      })
+        .then(({data}) => {
+          console.log(data.data)
+          context.commit('updateArticle', { article: {...data.data, imgName: data.data.image_url}, id })
         })
         .catch(error => {
           console.log(error)
