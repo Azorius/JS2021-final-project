@@ -88,7 +88,6 @@ export default {
   display: flex;
   flex-direction: column;
   width: 30rem;
-  border: 1px solid fuchsia;
 }
 
 #imageFile {
