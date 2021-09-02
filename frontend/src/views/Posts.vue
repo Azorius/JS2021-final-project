@@ -74,7 +74,6 @@ export default {
             if (!val) {
               observer.unobserve(document.querySelector('#suspect'))
             }
-            console.log(val)
             this.blockRequest = false
           })
         }

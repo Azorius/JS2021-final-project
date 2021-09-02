@@ -62,16 +62,23 @@ export default createStore({
       )
     },
     addArticle(state, article) {
-      state.articles.push(article);
-      state.userArticles.push(article);
+      state.articles.push(article)
+      state.userArticles.push(article)
     },
     updateArticle(state, { article, id }) {
-      const idxAll = state.articles.findIndex(article => article.id === Number(id))
-      state.articles[idxAll] = { ...state.articles[idxAll], ...article}
+      const idxAll = state.articles.findIndex(
+        article => article.id === Number(id)
+      )
+      state.articles[idxAll] = { ...state.articles[idxAll], ...article }
 
-      const idxOwner = state.userArticles.findIndex(article => article.id === Number(id))
-      state.userArticles[idxOwner] = { ...state.userArticles[idxOwner], ...article}
-    }
+      const idxOwner = state.userArticles.findIndex(
+        article => article.id === Number(id)
+      )
+      state.userArticles[idxOwner] = {
+        ...state.userArticles[idxOwner],
+        ...article,
+      }
+    },
   },
   actions: {
     requestArticles(context, id = null) {
@@ -108,7 +115,7 @@ export default createStore({
           'content-type': 'multipart/form-data',
         }),
       })
-        .then(({data}) => {
+        .then(({ data }) => {
           context.commit('addArticle', data.data.post)
         })
         .catch(error => {
@@ -125,9 +132,12 @@ export default createStore({
           'content-type': 'multipart/form-data',
         }),
       })
-        .then(({data}) => {
+        .then(({ data }) => {
           console.log(data.data)
-          context.commit('updateArticle', { article: {...data.data, imgName: data.data.image_url}, id })
+          context.commit('updateArticle', {
+            article: { ...data.data, imgName: data.data.image_url },
+            id,
+          })
         })
         .catch(error => {
           console.log(error)
@@ -169,17 +179,13 @@ export default createStore({
 
     requestMoreArticles(context) {
       var id = context.getters.lastId
-      //   console.log('Requesting... startWith ', id)
       return axios
-        .get(api(`/posts?${id ? `startWith=${id + 1}&` : ''}limit=3`))
+        .get(api(`/posts?${id ? `startWith=${id - 1}&` : ''}limit=3`))
         .then(response => {
-          //   console.log('response received')
-          console.log(response.data.data.posts.map(post => post.id))
           let articles = [
             ...context.getters.unsortedArticles,
             ...response.data.data.posts,
           ]
-          //   console.log(articles)
           context.commit('updateArticles', articles)
           return response.data.data.posts.length > 0
         })
