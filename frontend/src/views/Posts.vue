@@ -17,6 +17,9 @@
         @click="openArticle(article.id)"
       />
     </div>
+
+    <!-- will be observed by intersection observer -->
+    <div id="suspect"></div>
   </div>
 </template>
 
@@ -24,6 +27,10 @@
 import ArticlePreview from '@/components/ArticlePreview'
 import { mapGetters } from 'vuex'
 // import Vue from 'vue'
+
+const observer = new IntersectionObserver(entries => {
+  console.log(entries)
+})
 
 export default {
   name: 'Posts',
@@ -62,6 +69,8 @@ export default {
     } else {
       this.$store.dispatch('requestArticles')
     }
+
+    observer.observe(document.querySelector('#suspect'))
   },
 }
 </script>
