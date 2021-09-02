@@ -1,37 +1,40 @@
 <template>
   <header>
-    <div>
-      <div class="navbar">
-        <img src="@/assets/placeholder_icon.png" alt="" />
-        <div
-          v-for="(link, index) in links"
-          :key="`link-${index}`"
-          class="navlink"
-        >
-          <router-link class="router-link" v-if="link.link" :to="link.link">
-            <div>
-              {{ link.name }}
-            </div>
-          </router-link>
-
-          <div v-else @click="actionPressed(link.action)">
-            {{ link.name }}
-          </div>
-        </div>
+    <div class="navbar">
+      <img src="@/assets/placeholder_icon.png" alt="" />
+      <div
+        v-for="(link, index) in links.filter(
+          item => !item.submenu && !item.img
+        )"
+        class="navlink"
+        :key="`link-${index}`"
+        @click="pressed(link)"
+      >
+        {{ link.name }}
       </div>
     </div>
   </header>
 </template>
 
 <script>
+// import Dropdown from '@/components/Dropdown'
+
 export default {
   name: 'NavigationBar',
+  components: {
+    // Dropdown,
+  },
   props: {
     links: Array,
   },
   methods: {
-    actionPressed(action) {
-      this.$emit('actionPressed', action)
+    pressed(link) {
+      if (link.action) {
+        this.$emit('actionPressed', link.action)
+      }
+      if (link.link) {
+        this.$router.push(link.link)
+      }
     },
   },
 }
@@ -52,20 +55,16 @@ header > div {
 .navbar {
   flex-direction: row;
   display: flex;
-  background: #555555;
+  background: indigo;
 }
 
 .navlink {
   display: flex;
-}
-
-.navlink div {
   width: 8rem;
   height: 3rem;
   text-align: center;
   vertical-align: middle;
   padding-top: 12px;
-
   box-sizing: border-box;
   color: #ffffff;
   font-weight: bold;
