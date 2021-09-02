@@ -22,7 +22,13 @@
           class="imglink"
           :key="`link-${index}`"
           @click="pressed(link)"
-          :style="{ backgroundImage: `url(${link.img})` }"
+          @mouseover="link.isHover = true"
+          @mouseleave="link.isHover = false"
+          :style="{
+            backgroundImage: `url(${
+              link.isHover ? link.img.replace('.png', '_hover.png') : link.img
+            })`,
+          }"
         >
           <Dropdown
             v-if="link.menu"
@@ -73,6 +79,7 @@ export default {
 header {
   display: flex;
   justify-content: center;
+  margin-top: var(--spacing);
 }
 header > div {
   width: var(--content-width);
@@ -84,7 +91,8 @@ header > div {
 .navbar {
   flex-direction: row;
   display: flex;
-  background: indigo;
+  border-bottom: 1px solid indigo;
+  height: 58px;
 }
 
 .navlink {
@@ -92,10 +100,10 @@ header > div {
   width: 8rem;
   height: 3rem;
   text-align: center;
-  vertical-align: middle;
+  justify-content: center;
   padding-top: 12px;
   box-sizing: border-box;
-  color: #ffffff;
+  color: indigo;
   font-weight: bold;
 }
 
@@ -111,6 +119,7 @@ header > div {
 
 .navlink:hover {
   background: rgb(96, 0, 165);
+  color: white;
 }
 
 img {

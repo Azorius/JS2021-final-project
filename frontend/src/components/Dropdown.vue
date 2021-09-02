@@ -10,12 +10,14 @@
       @mouseleave="mouseoverMenu = false"
       v-if="mouseoverTrigger || mouseoverMenu"
     >
-      <div
-        v-for="option in options"
-        :key="`option-${option.name}`"
-        @click="optionClicked(option)"
-      >
-        {{ option.name }}
+      <div>
+        <div
+          v-for="option in options"
+          :key="`option-${option.name}`"
+          @click="optionClicked(option)"
+        >
+          {{ option.name }}
+        </div>
       </div>
     </div>
   </div>
@@ -58,11 +60,15 @@ export default {
 }
 
 .dropdwon > div {
+  border: 1px solid indigo;
+}
+
+.dropdwon > div > div {
   list-style: none;
   padding: none;
   justify-content: left;
-  background: indigo;
-  color: white;
+  color: indigo;
+  background: white;
   height: 3rem;
   width: 6rem;
   padding-top: 12px;
@@ -70,7 +76,8 @@ export default {
   display: flex;
   justify-content: center;
 }
-.dropdwon > div:hover {
+.dropdwon > div > div:hover {
   background: rgb(96, 0, 165);
+  color: white;
 }
 </style>
