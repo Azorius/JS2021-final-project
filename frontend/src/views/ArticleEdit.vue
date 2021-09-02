@@ -116,6 +116,10 @@ export default {
 
 .content {
   display: flex;
+  flex-direction: row;
   justify-content: center;
+  width: 100%;
+  padding-left: var(--spacing);
+  padding-right: var(--spacing);
 }
 </style>
