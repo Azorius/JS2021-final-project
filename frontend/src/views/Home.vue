@@ -32,7 +32,7 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch('requestArticles')
+    this.$store.dispatch('requestMoreArticles')
   },
 }
 </script>

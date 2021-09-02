@@ -36,6 +36,13 @@ export default createStore({
     loginStatus(state) {
       return state.currentUser && state.currentUser.token
     },
+    lastId(state) {
+      if (!state.articles.length > 0) return null
+      return state.articles[state.articles.length - 1].id
+    },
+    unsortedArticles(state) {
+      return state.articles
+    },
   },
   mutations: {
     // todo: simplify
@@ -55,16 +62,23 @@ export default createStore({
       )
     },
     addArticle(state, article) {
-      state.articles.push(article);
-      state.userArticles.push(article);
+      state.articles.push(article)
+      state.userArticles.push(article)
     },
     updateArticle(state, { article, id }) {
-      const idxAll = state.articles.findIndex(article => article.id === Number(id))
-      state.articles[idxAll] = { ...state.articles[idxAll], ...article}
+      const idxAll = state.articles.findIndex(
+        article => article.id === Number(id)
+      )
+      state.articles[idxAll] = { ...state.articles[idxAll], ...article }
 
-      const idxOwner = state.userArticles.findIndex(article => article.id === Number(id))
-      state.userArticles[idxOwner] = { ...state.userArticles[idxOwner], ...article}
-    }
+      const idxOwner = state.userArticles.findIndex(
+        article => article.id === Number(id)
+      )
+      state.userArticles[idxOwner] = {
+        ...state.userArticles[idxOwner],
+        ...article,
+      }
+    },
   },
   actions: {
     requestArticles(context, id = null) {
@@ -101,7 +115,7 @@ export default createStore({
           'content-type': 'multipart/form-data',
         }),
       })
-        .then(({data}) => {
+        .then(({ data }) => {
           context.commit('addArticle', data.data.post)
         })
         .catch(error => {
@@ -118,9 +132,12 @@ export default createStore({
           'content-type': 'multipart/form-data',
         }),
       })
-        .then(({data}) => {
+        .then(({ data }) => {
           console.log(data.data)
-          context.commit('updateArticle', { article: {...data.data, imgName: data.data.image_url}, id })
+          context.commit('updateArticle', {
+            article: { ...data.data, imgName: data.data.image_url },
+            id,
+          })
         })
         .catch(error => {
           console.log(error)
@@ -157,6 +174,20 @@ export default createStore({
         .post(api('/users/logout'), null, auth(context.getters.token))
         .then(() => {
           context.commit('setCurrentUser', null)
+        })
+    },
+
+    requestMoreArticles(context) {
+      var id = context.getters.lastId
+      return axios
+        .get(api(`/posts?${id ? `startWith=${id - 1}&` : ''}limit=3`))
+        .then(response => {
+          let articles = [
+            ...context.getters.unsortedArticles,
+            ...response.data.data.posts,
+          ]
+          context.commit('updateArticles', articles)
+          return response.data.data.posts.length > 0
         })
     },
   },
