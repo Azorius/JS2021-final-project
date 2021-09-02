@@ -15,5 +15,7 @@ export default {
 <style scoped>
 .view-header {
   margin-top: 4rem;
+  padding-left: var(--spacing);
+  padding-right: var(--spacing);
 }
 </style>
