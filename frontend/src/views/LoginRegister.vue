@@ -85,6 +85,11 @@ export default {
       this.email = 'test@test.com'
       this.name = 'test'
       this.password = '123456'
+      this.validFields = {
+        password: true,
+        email: true,
+        name: true,
+      }
     },
     setValidationState(name, value) {
       this.validFields[name] = value
