@@ -1,44 +1,44 @@
 <template>
   <div class="view">
-    <InputField
-      label="email"
-      :value="email"
-      minlength="2"
-      maxlength="255"
-      @valid="setValidationState"
-    />
-    <InputField
-      v-if="this.$route.name == 'Register'"
-      label="name"
-      :value="name"
-      minlength="2"
-      maxlength="30"
-      @valid="setValidationState"
-    />
-    <InputField
-      label="password"
-      :value="password"
-      type="password"
-      minlength="6"
-      maxlength="255"
-      @valid="setValidationState"
-    />
-    <button
-      v-if="this.$route.name == 'Login'"
-      :disabled="!(validFields.email && validFields.password)"
-      @click="login"
-    >
-      Login
-    </button>
-    <button
-      v-if="this.$route.name == 'Register'"
-      :disabled="
-        !(validFields.email && validFields.password && validFields.name)
-      "
-      @click="register"
-    >
-      Register
-    </button>
+    <form class="view" v-on:submit.prevent="onSubmit">
+      <InputField
+        label="email"
+        minlength="2"
+        maxlength="255"
+        @edit="inputEdited"
+        :email="true"
+      />
+      <InputField
+        v-if="this.$route.name == 'Register'"
+        label="name"
+        minlength="2"
+        maxlength="30"
+        @edit="inputEdited"
+      />
+      <InputField
+        label="password"
+        type="password"
+        minlength="6"
+        maxlength="255"
+        @edit="inputEdited"
+      />
+      <button
+        v-if="this.$route.name == 'Login'"
+        :disabled="!(inputFields.email && inputFields.password)"
+        @click="login"
+      >
+        Login
+      </button>
+      <button
+        v-if="this.$route.name == 'Register'"
+        :disabled="
+          !(inputFields.email && inputFields.password && inputFields.name)
+        "
+        @click="register"
+      >
+        Register
+      </button>
+    </form>
     <button @click="autofill">Debug: autofill</button>
   </div>
 </template>
@@ -52,19 +52,16 @@ export default {
   },
   data() {
     return {
-      email: '',
-      name: '',
-      password: '',
-      validFields: {},
+      inputFields: {},
     }
   },
   methods: {
     register() {
       this.$store
         .dispatch('register', {
-          email: this.email,
-          name: this.name,
-          password: this.password,
+          email: this.inputFields.email,
+          name: this.inputFields.name,
+          password: this.inputFields.password,
         })
         .then(response => {
           this.debug = response
@@ -73,26 +70,17 @@ export default {
     login() {
       this.$store
         .dispatch('login', {
-          email: this.email,
-          password: this.password,
+          email: this.inputFields.email,
+          password: this.inputFields.password,
         })
         .then(data => {
-          console.log('i am here')
           console.log(data)
         })
     },
-    autofill() {
-      this.email = 'test@test.com'
-      this.name = 'test'
-      this.password = '123456'
-      this.validFields = {
-        password: true,
-        email: true,
-      }
-    },
-    setValidationState(name, value) {
-      this.validFields[name] = value
-      console.log(this.validFields)
+    autofill() {},
+    inputEdited(name, value) {
+      this.inputFields[name] = value
+      console.log(this.inputFields)
     },
   },
   mounted() {
