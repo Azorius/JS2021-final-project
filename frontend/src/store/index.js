@@ -130,5 +130,23 @@ export default createStore({
           context.commit('setCurrentUser', null)
         })
     },
+
+    //?startWith=4&count=10
+    requestMoreArticles(context) {
+      var id =
+        context.getters.articles.length > 0
+          ? context.getters.articles.slice(-1).id
+          : null
+      return axios
+        .get(api(`/posts?${id ? `startsWith=${id}&` : ''}count=3`))
+        .then(response => {
+          let articles = []
+          articles.push(context.getters.articles)
+          articles.push(response.data.data.posts)
+          //   articles.concat(context.getters.articles, response.data.data.posts)
+          context.commit('updateArticles', articles)
+          console.log(articles)
+        })
+    },
   },
 })
