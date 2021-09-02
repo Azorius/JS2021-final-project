@@ -5,6 +5,9 @@
 </template>
 <script>
 export default {
-  name: ViewHeader,
+  name: 'ViewHeader',
+  props: {
+    text: String,
+  },
 }
 </script>

@@ -1,25 +1,26 @@
 <template>
-  <div class="content">
-    <div id="nav">
+  <div class="content-wrapper">
+    <div class="content">
       <NavigationBar
         :links="
           navLinks.filter(link => (loginStatus ? link.login : link.logout))
         "
         @actionPressed="actionPressed"
       />
-    </div>
-    <div class="page-wrapper">
+      <ViewHeader :text="$route.meta.header" />
       <router-view class="page-content" />
     </div>
   </div>
 </template>
 <script>
 import NavigationBar from '@/components/NavigationBar'
+import ViewHeader from '@/components/ViewHeader'
 import { mapGetters } from 'vuex'
 
 export default {
   components: {
     NavigationBar,
+    ViewHeader,
   },
   data() {
     return {
@@ -118,6 +119,11 @@ body {
   display: flex;
   justify-content: center;
   flex-direction: column;
+  width: var(--content-width);
+}
+.content-wrapper {
+  display: flex;
+  justify-content: center;
 }
 
 .page-wrapper {
