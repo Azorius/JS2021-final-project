@@ -54,6 +54,10 @@ export default createStore({
         1
       )
     },
+    addArticle(state, article) {
+      state.articles.push(article);
+      state.userArticles.push(article);
+    },
   },
   actions: {
     requestArticles(context, id = null) {
@@ -81,7 +85,7 @@ export default createStore({
         })
     },
 
-    sendPost(context, { data, id = null }) {
+    addPost(context, { data, id = null }) {
       return axios({
         url: api(`/posts${id ? `/${id}` : ''}`),
         method: id ? 'patch' : 'post',
@@ -90,8 +94,8 @@ export default createStore({
           'content-type': 'multipart/form-data',
         }),
       })
-        .then(response => {
-          return response
+        .then(({data}) => {
+          context.commit('addArticle', data.data.post)
         })
         .catch(error => {
           console.log(error)
