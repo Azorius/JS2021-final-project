@@ -4,7 +4,18 @@
       <label>{{ label }}</label>
       <label id="message"></label>
     </div>
+
+    <textarea
+      v-if="textarea == true"
+      :minlength="minlength"
+      :maxlength="maxlength"
+      :value="value"
+      v-on:input="change"
+      :rows="rows"
+      :cols="cols"
+    />
     <input
+      v-else
       :type="type"
       :minlength="minlength"
       :maxlength="maxlength"
@@ -30,6 +41,16 @@ export default {
       default: 0,
     },
     maxlength: {
+      default: null,
+    },
+    textarea: {
+      default: false,
+      type: Boolean,
+    },
+    rows: {
+      default: 1,
+    },
+    cols: {
       default: null,
     },
   },
@@ -86,6 +107,12 @@ input {
   outline: none;
   padding-left: var(--spacing-half);
   padding-right: var(--spacing-half);
+}
+textarea {
+  border: 1px solid #999;
+  outline: none;
+  padding: var(--spacing-half);
+  resize: none;
 }
 input:focus {
   border: 1px solid indigo;
