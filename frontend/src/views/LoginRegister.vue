@@ -1,42 +1,44 @@
 <template>
   <div class="view">
-    <InputField
-      label="email"
-      minlength="2"
-      maxlength="255"
-      @edit="inputEdited"
-      :email="true"
-    />
-    <InputField
-      v-if="this.$route.name == 'Register'"
-      label="name"
-      minlength="2"
-      maxlength="30"
-      @edit="inputEdited"
-    />
-    <InputField
-      label="password"
-      type="password"
-      minlength="6"
-      maxlength="255"
-      @edit="inputEdited"
-    />
-    <button
-      v-if="this.$route.name == 'Login'"
-      :disabled="!(inputFields.email && inputFields.password)"
-      @click="login"
-    >
-      Login
-    </button>
-    <button
-      v-if="this.$route.name == 'Register'"
-      :disabled="
-        !(inputFields.email && inputFields.password && inputFields.name)
-      "
-      @click="register"
-    >
-      Register
-    </button>
+    <form class="view" v-on:submit.prevent="onSubmit">
+      <InputField
+        label="email"
+        minlength="2"
+        maxlength="255"
+        @edit="inputEdited"
+        :email="true"
+      />
+      <InputField
+        v-if="this.$route.name == 'Register'"
+        label="name"
+        minlength="2"
+        maxlength="30"
+        @edit="inputEdited"
+      />
+      <InputField
+        label="password"
+        type="password"
+        minlength="6"
+        maxlength="255"
+        @edit="inputEdited"
+      />
+      <button
+        v-if="this.$route.name == 'Login'"
+        :disabled="!(inputFields.email && inputFields.password)"
+        @click="login"
+      >
+        Login
+      </button>
+      <button
+        v-if="this.$route.name == 'Register'"
+        :disabled="
+          !(inputFields.email && inputFields.password && inputFields.name)
+        "
+        @click="register"
+      >
+        Register
+      </button>
+    </form>
     <button @click="autofill">Debug: autofill</button>
   </div>
 </template>
