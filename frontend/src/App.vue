@@ -40,7 +40,7 @@ export default {
           login: true,
           name: 'Add',
           link: '/posts/edit',
-          img: '@/assets/icon_add.png',
+          img: '/icon_add.png',
         },
         {
           logout: true,
@@ -70,7 +70,7 @@ export default {
           login: true,
           logout: true,
           menu: 'user',
-          img: '@/assets/icon_add.png',
+          img: '/icon_user.png',
         },
       ],
     }

@@ -1,10 +1,19 @@
 <template>
-  <div class="dropdwon">
-    <ul>
-      <li v-for="option in options" :key="`option-${option.name}`">
+  <div
+    class="trigger"
+    @mouseover="mouseoverTrigger = true"
+    @mouseleave="mouseoverTrigger = false"
+  >
+    <div
+      class="dropdwon"
+      @mouseover="mouseoverMenu = true"
+      @mouseleave="mouseoverMenu = false"
+      v-if="mouseoverTrigger || mouseoverMenu"
+    >
+      <div v-for="option in options" :key="`option-${option.name}`">
         {{ option.name }}
-      </li>
-    </ul>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -14,30 +23,46 @@ export default {
   props: {
     options: Array,
   },
+  data() {
+    return {
+      mouseoverTrigger: false,
+      mouseoverMenu: false,
+    }
+  },
+  methods: {},
 }
 </script>
 
 <style scoped>
+.trigger {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
 .dropdwon {
   text-align: left;
   position: absolute;
   right: 0;
-  top: 9rem;
-  background: rgb(82, 44, 87);
+  top: 3rem;
   z-index: 1;
-  padding: 0px;
+  padding-top: 5px;
 }
 
-.dropdwon > ul {
+.dropdwon > div {
   list-style: none;
   padding: none;
   justify-content: left;
-  padding: 0px;
-  margin: 0px;
-
-  border: 1px solid darkred;
-}
-.dropdwon > ul > li {
+  background: indigo;
   color: white;
+  height: 3rem;
+  width: 6rem;
+  padding-top: 12px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+}
+.dropdwon > div:hover {
+  background: rgb(96, 0, 165);
 }
 </style>
