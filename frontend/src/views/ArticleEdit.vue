@@ -1,14 +1,24 @@
 <template>
   <div class="content">
     <div class="editor">
-      <input type="text" maxlength="50" v-model="title" />
-      <textarea
-        cols="30"
+      <InputField
+        label="Article Title"
+        :value="title"
+        maxlength="50"
+        @valid="setValidationState"
+      />
+      <InputField
+        label="Article Description"
+        :value="description"
         maxlength="280"
-        rows="3"
-        v-model="description"
-      ></textarea>
-      <textarea cols="30" rows="10" maxlength="4000" v-model="text"></textarea>
+        @valid="setValidationState"
+      />
+      <InputField
+        label="Article Text"
+        :value="text"
+        maxlength="4000"
+        @valid="setValidationState"
+      />
       <label>image</label>
       <input type="file" id="imageFile" />
       <button @click="submitArticle">Submit</button>
@@ -17,7 +27,13 @@
 </template>
 
 <script>
+import InputField from '@/components/InputField'
+
 export default {
+  name: 'ArticleEdit',
+  components: {
+    InputField,
+  },
   data() {
     return {
       title: '',
@@ -26,6 +42,7 @@ export default {
     }
   },
   methods: {
+    setValidationState() {},
     submitArticle() {
       let formData = new FormData()
       let imagefile = document.querySelector('#imageFile')
@@ -67,6 +84,11 @@ export default {
 
   border: 1px solid fuchsia;
   box-sizing: border-box;
+}
+
+.inputstyle {
+  height: 100px;
+  width: 100%;
 }
 
 .content {
