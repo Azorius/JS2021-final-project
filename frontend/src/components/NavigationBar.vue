@@ -97,7 +97,7 @@ header > div {
 
 .navlink {
   display: flex;
-  width: 8rem;
+  width: 6rem;
   height: 3rem;
   text-align: center;
   justify-content: center;
@@ -111,6 +111,7 @@ header > div {
   width: 3rem;
   height: 3rem;
   background-size: cover;
+  margin-left: var(--spacing-half);
 }
 
 .router-link {
