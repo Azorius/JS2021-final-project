@@ -39,7 +39,6 @@
         Register
       </button>
     </form>
-    <button @click="autofill">Debug: autofill</button>
   </div>
 </template>
 <script>
@@ -77,7 +76,6 @@ export default {
           console.log(data)
         })
     },
-    autofill() {},
     inputEdited(name, value) {
       this.inputFields[name] = value
       console.log(this.inputFields)
