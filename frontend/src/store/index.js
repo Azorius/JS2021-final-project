@@ -22,13 +22,13 @@ export default createStore({
   },
   getters: {
     latestArticles(state) {
-      return state.articles.slice(-3).reverse()
+      return state.articles.slice(0, 3)
     },
     articles(state) {
-      return state.articles.slice().reverse()
+      return state.articles.slice()
     },
     userArticles(state) {
-      return state.userArticles.slice().reverse()
+      return state.userArticles.slice()
     },
     token(state) {
       return state.currentUser.token
