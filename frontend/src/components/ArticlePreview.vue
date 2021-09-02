@@ -66,7 +66,6 @@ export default {
 .contents {
   height: 100%;
   padding: var(--spacing);
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
 }

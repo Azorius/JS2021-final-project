@@ -1,18 +1,22 @@
 <template>
   <div class="article-list">
-    <ArticlePreview
-      class="article-card"
+    <div
+      class="article-card-wrapper"
       v-for="(article, index) in viewUser ? userArticles : articles"
       :key="`article-${index}`"
-      :title="article.title"
-      :text="article.description"
-      :img="`${imgEndpoint}/${article.imgName}`"
-      :name="article.owner.name"
-      :editMode="viewUser"
-      @delete="deleteArticle(article.id)"
-      @edit="editArticle(article.id)"
-      @click="openArticle(article.id)"
-    />
+    >
+      <ArticlePreview
+        class="article-card"
+        :title="article.title"
+        :text="article.description"
+        :img="`${imgEndpoint}/${article.imgName}`"
+        :name="article.owner.name"
+        :editMode="viewUser"
+        @delete="deleteArticle(article.id)"
+        @edit="editArticle(article.id)"
+        @click="openArticle(article.id)"
+      />
+    </div>
   </div>
 </template>
 
@@ -63,9 +67,12 @@ export default {
 </script>
 
 <style scoped>
+.article-card-wrapper {
+  padding: var(--spacing-half);
+}
 .article-card {
   height: 19rem;
-  margin: var(--spacing-half);
+  width: 100%;
 }
 
 .article-list {

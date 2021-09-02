@@ -136,20 +136,6 @@ body {
   width: 100%;
 }
 
-.page-content {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  max-width: var(--content-width);
-  box-sizing: border-box;
-}
-
-@media (max-width: 768px) {
-  .page-content {
-    width: 100%;
-  }
-}
-
 button {
   background: indigo;
   color: white;
