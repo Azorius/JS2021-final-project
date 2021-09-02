@@ -11,3 +11,9 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.view-header {
+  margin-top: 4rem;
+}
+</style>
