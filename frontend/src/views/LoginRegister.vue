@@ -39,7 +39,6 @@
         Register
       </button>
     </form>
-    <button @click="autofill">Debug: autofill</button>
   </div>
 </template>
 <script>
@@ -77,7 +76,6 @@ export default {
           console.log(data)
         })
     },
-    autofill() {},
     inputEdited(name, value) {
       this.inputFields[name] = value
       console.log(this.inputFields)
@@ -92,8 +90,13 @@ export default {
 <style scoped>
 .view {
   display: flex;
+  justify-content: center;
+  padding-left: var(--spacing-half);
+  padding-right: var(--spacing-half);
+}
+form {
+  display: flex;
   flex-direction: column;
   width: 20rem;
-  word-break: break-all;
 }
 </style>
