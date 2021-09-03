@@ -34,7 +34,7 @@ export default {
         {
           logout: true,
           login: true,
-          name: 'Articles',
+          name: 'Posts',
           link: '/posts',
         },
         {
