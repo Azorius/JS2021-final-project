@@ -62,8 +62,8 @@ export default {
           name: this.inputFields.name,
           password: this.inputFields.password,
         })
-        .then(response => {
-          this.debug = response
+        .then(() => {
+          this.$router.push('/welcome')
         })
     },
     login() {
@@ -72,8 +72,8 @@ export default {
           email: this.inputFields.email,
           password: this.inputFields.password,
         })
-        .then(data => {
-          console.log(data)
+        .then(() => {
+          this.$router.push('/posts/user')
         })
     },
     inputEdited(name, value) {
