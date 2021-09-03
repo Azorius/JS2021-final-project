@@ -28,11 +28,9 @@ export default {
     },
   },
   created() {
-    console.log('mounted')
     this.article = this.$store.getters.articles.find(
       article => article.id == this.$route.params.id
     )
-    console.log(this.article)
   },
 }
 </script>

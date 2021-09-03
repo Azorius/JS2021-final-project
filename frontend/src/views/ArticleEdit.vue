@@ -61,7 +61,6 @@ export default {
       let imagefile = document.querySelector('#imageFile')
 
       if (imagefile.files[0]) {
-        console.log('here')
         formData.append('postImg', imagefile.files[0])
       }
       formData.append('title', this.inputFields.title)
