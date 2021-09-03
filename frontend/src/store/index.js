@@ -69,7 +69,10 @@ export default createStore({
       const idxAll = state.articles.findIndex(
         article => article.id === Number(id)
       )
-      state.articles[idxAll] = { ...state.articles[idxAll], ...article }
+      state.articles[idxAll] = {
+        ...state.articles[idxAll],
+        ...article,
+      }
 
       const idxOwner = state.userArticles.findIndex(
         article => article.id === Number(id)
@@ -132,12 +135,14 @@ export default createStore({
           'content-type': 'multipart/form-data',
         }),
       })
-        .then(({ data }) => {
-          console.log(data.data)
-          context.commit('updateArticle', {
-            article: { ...data.data, imgName: data.data.image_url },
-            id,
-          })
+        .then(({ data: { data } }) => {
+          const article = {
+            title: data.title,
+            text: data.text,
+            description: data.description,
+          }
+          if (data.image_url) article.imgName = data.image_url
+          context.commit('updateArticle', { article, id })
         })
         .catch(error => {
           console.log(error)
