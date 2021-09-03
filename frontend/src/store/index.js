@@ -62,8 +62,8 @@ export default createStore({
       )
     },
     addArticle(state, article) {
-      state.articles.push(article)
-      state.userArticles.push(article)
+      state.articles.unshift(article)
+      state.userArticles.unshift(article)
     },
     updateArticle(state, { article, id }) {
       const idxAll = state.articles.findIndex(
