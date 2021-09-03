@@ -5,6 +5,7 @@ import NotFound from '../views/NotFound.vue'
 import ArticleEdit from '../views/ArticleEdit.vue'
 import LoginRegister from '../views/LoginRegister.vue'
 import SinglePost from '../views/SinglePost.vue'
+import Welcome from '../views/Welcome.vue'
 
 const routes = [
   {
@@ -49,6 +50,12 @@ const routes = [
     name: 'Posts',
     component: Posts,
     meta: { header: 'All Posts' },
+  },
+  {
+    path: '/welcome',
+    name: 'Welcome',
+    component: Welcome,
+    meta: { header: 'Success!' },
   },
   {
     path: '/:pathMatch(.*)*',
