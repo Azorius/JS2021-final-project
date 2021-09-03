@@ -66,10 +66,15 @@ export default createStore({
       state.userArticles.unshift(article)
     },
     updateArticle(state, { article, id }) {
+      console.log(article)
       const idxAll = state.articles.findIndex(
         article => article.id === Number(id)
       )
-      state.articles[idxAll] = { ...state.articles[idxAll], ...article }
+      state.articles[idxAll] = {
+        ...state.articles[idxAll],
+        ...article,
+        imgUrl: article.image_url || state.articles[idxAll],
+      }
 
       const idxOwner = state.userArticles.findIndex(
         article => article.id === Number(id)
@@ -77,6 +82,7 @@ export default createStore({
       state.userArticles[idxOwner] = {
         ...state.userArticles[idxOwner],
         ...article,
+        imgUrl: article.image_url || state.articles[idxAll],
       }
     },
   },
@@ -135,7 +141,7 @@ export default createStore({
         .then(({ data }) => {
           console.log(data.data)
           context.commit('updateArticle', {
-            article: { ...data.data, imgName: data.data.image_url },
+            article: { ...data.data },
             id,
           })
         })
