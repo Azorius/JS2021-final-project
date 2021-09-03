@@ -145,7 +145,7 @@ export default createStore({
     },
 
     register(context, data) {
-      axios
+      return axios
         .post(api('/users/signup'), data)
         .then(response => {
           return response.data

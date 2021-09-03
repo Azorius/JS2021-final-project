@@ -38,6 +38,7 @@
       >
         Register
       </button>
+      <label class="error-label">{{ errorMessage }}</label>
     </form>
   </div>
 </template>
@@ -52,6 +53,7 @@ export default {
   data() {
     return {
       inputFields: {},
+      errorMessage: '',
     }
   },
   methods: {
@@ -62,8 +64,12 @@ export default {
           name: this.inputFields.name,
           password: this.inputFields.password,
         })
-        .then(() => {
-          this.$router.push('/welcome')
+        .then(response => {
+          if (response.status == 'error') {
+            this.errorMessage = response.message
+          } else {
+            this.$router.push('/welcome')
+          }
         })
     },
     login() {
@@ -72,13 +78,17 @@ export default {
           email: this.inputFields.email,
           password: this.inputFields.password,
         })
-        .then(() => {
-          this.$router.push('/posts/user')
+        .then(response => {
+          if (response.status == 'error') {
+            this.errorMessage = response.message
+          } else {
+            this.$router.push('/posts/user')
+          }
         })
     },
     inputEdited(name, value) {
       this.inputFields[name] = value
-      console.log(this.inputFields)
+      //   console.log(this.inputFields)
     },
   },
   mounted() {
@@ -98,5 +108,10 @@ form {
   display: flex;
   flex-direction: column;
   width: 20rem;
+}
+
+.error-label {
+  color: crimson;
+  padding-top: var(--spacing-half);
 }
 </style>
