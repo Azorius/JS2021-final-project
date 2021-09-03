@@ -6,6 +6,7 @@ import ArticleEdit from '../views/ArticleEdit.vue'
 import LoginRegister from '../views/LoginRegister.vue'
 import SinglePost from '../views/SinglePost.vue'
 import Welcome from '../views/Welcome.vue'
+import UserPosts from '../views/UserPosts.vue'
 
 const routes = [
   {
@@ -36,7 +37,7 @@ const routes = [
   {
     path: '/posts/user',
     name: 'UserPosts',
-    component: Posts,
+    component: UserPosts,
     meta: { header: 'My Posts' },
   },
   {
