@@ -73,7 +73,6 @@ export default createStore({
       state.articles[idxAll] = {
         ...state.articles[idxAll],
         ...article,
-        imgUrl: article.image_url || state.articles[idxAll],
       }
 
       const idxOwner = state.userArticles.findIndex(
@@ -138,12 +137,14 @@ export default createStore({
           'content-type': 'multipart/form-data',
         }),
       })
-        .then(({ data }) => {
-          console.log(data.data)
-          context.commit('updateArticle', {
-            article: { ...data.data },
-            id,
-          })
+        .then(({ data: { data } }) => {
+          const article = {
+            title: data.title,
+            text: data.text,
+            description: data.description,
+          }
+          if (data.image_url) article.imgName = data.image_url
+          context.commit('updateArticle', { article, id })
         })
         .catch(error => {
           console.log(error)
