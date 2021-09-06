@@ -91,11 +91,11 @@ export default {
   created() {
     const { id } = this.$route.params
     if (id) {
-      const article = this.$store.getters.userPosts.find(
-        article => article.id == this.$route.params.id
+      const post = this.$store.getters.userPosts.find(
+        post => post.id == this.$route.params.id
       )
 
-      const { title, description, text } = article
+      const { title, description, text } = post
 
       this.title = title
       this.description = description
