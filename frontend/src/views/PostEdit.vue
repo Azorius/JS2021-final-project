@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <div class="editor">
-      <InputField label="title" :value="title" maxlength="50" @edit="edited"/>
+      <InputField label="title" :value="title" maxlength="50" @edit="edited" />
       <InputField
         label="description"
         :value="description"
@@ -24,10 +24,14 @@
         <label class="file-label">{{ selectedFileName }}</label>
         <label class="file-button" for="imageFile">Select Image</label>
       </div>
-      <button 
+      <button
         @click="submitArticle"
-        :disabled="!(inputFields.title && inputFields.description && inputFields.text)"
-      >Submit</button>
+        :disabled="
+          !(inputFields.title && inputFields.description && inputFields.text)
+        "
+      >
+        Submit
+      </button>
     </div>
   </div>
 </template>
@@ -36,7 +40,7 @@
 import InputField from '@/components/InputField'
 
 export default {
-  name: 'ArticleEdit',
+  name: 'PostEdit',
   components: {
     InputField,
   },
@@ -76,9 +80,9 @@ export default {
         this.$store.dispatch('updatePost', payload).then(() => {
           this.$router.push('/posts/user')
         })
-        return;
+        return
       }
-      
+
       this.$store.dispatch('addPost', payload).then(() => {
         this.$router.push('/posts/user')
       })
