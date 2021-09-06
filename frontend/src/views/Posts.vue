@@ -1,20 +1,20 @@
 <template>
-  <div class="article-list">
+  <div class="post-list">
     <div
-      class="article-card-wrapper"
-      v-for="(article, index) in viewUser ? userPosts : posts"
-      :key="`article-${index}`"
+      class="post-card-wrapper"
+      v-for="(post, index) in viewUser ? userPosts : posts"
+      :key="`post-${index}`"
     >
       <PostCard
-        class="article-card"
-        :title="article.title"
-        :text="article.description"
-        :img="`${imgEndpoint}/${article.imgName}`"
-        :name="article.owner.name"
+        class="post-card"
+        :title="post.title"
+        :text="post.description"
+        :img="`${imgEndpoint}/${post.imgName}`"
+        :name="post.owner.name"
         :editMode="viewUser"
-        @delete="deletePost(article.id)"
-        @edit="editPost(article.id)"
-        @click="openPost(article.id)"
+        @delete="deletePost(post.id)"
+        @edit="editPost(post.id)"
+        @click="openPost(post.id)"
       />
     </div>
 
@@ -86,15 +86,15 @@ export default {
 </script>
 
 <style scoped>
-.article-card-wrapper {
+.post-card-wrapper {
   padding: var(--spacing-half);
 }
-.article-card {
+.post-card {
   height: 19rem;
   width: 100%;
 }
 
-.article-list {
+.post-list {
   padding: var(--spacing-half);
   width: 100%;
 }
