@@ -4,7 +4,7 @@ import Posts from '../views/Posts.vue'
 import NotFound from '../views/NotFound.vue'
 import ArticleEdit from '../views/ArticleEdit.vue'
 import LoginRegister from '../views/LoginRegister.vue'
-import SinglePost from '../views/SinglePost.vue'
+import Post from '../views/Post.vue'
 import Welcome from '../views/Welcome.vue'
 import UserPosts from '../views/UserPosts.vue'
 
@@ -42,8 +42,8 @@ const routes = [
   },
   {
     path: '/posts/:id',
-    name: 'SinglePost',
-    component: SinglePost,
+    name: 'Post',
+    component: Post,
     meta: { header: '' },
   },
   {
