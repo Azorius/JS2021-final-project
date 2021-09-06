@@ -5,7 +5,7 @@
       v-for="(article, index) in viewUser ? userArticles : articles"
       :key="`article-${index}`"
     >
-      <ArticlePreview
+      <PostCard
         class="article-card"
         :title="article.title"
         :text="article.description"
@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import ArticlePreview from '@/components/ArticlePreview'
+import PostCard from '@/components/PostCard'
 import { mapGetters } from 'vuex'
 // import Vue from 'vue'
 
@@ -33,7 +33,7 @@ var observer = null
 export default {
   name: 'Posts',
   components: {
-    ArticlePreview,
+    PostCard,
   },
   data() {
     return {

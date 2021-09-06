@@ -36,7 +36,7 @@
 
 <script>
 export default {
-  name: 'ArticlePreviewSmall',
+  name: 'PostCard',
   props: {
     title: String,
     text: String,
