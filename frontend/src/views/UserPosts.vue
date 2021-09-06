@@ -1,23 +1,23 @@
 <template>
-  <div class="article-list">
+  <div class="post-list">
     <h2 v-if="userPosts.length == 0" class="no-posts-label">
       You have no posts. Press + to add a post.
     </h2>
     <div
-      class="article-card-wrapper"
-      v-for="(article, index) in viewUser ? userPosts : posts"
-      :key="`article-${index}`"
+      class="post-card-wrapper"
+      v-for="(post, index) in viewUser ? userPosts : posts"
+      :key="`post-${index}`"
     >
       <PostCard
-        class="article-card"
-        :title="article.title"
-        :text="article.description"
-        :img="`${imgEndpoint}/${article.imgName}`"
-        :name="article.owner.name"
+        class="post-card"
+        :title="post.title"
+        :text="post.description"
+        :img="`${imgEndpoint}/${post.imgName}`"
+        :name="post.owner.name"
         :editMode="viewUser"
-        @delete="deleteArticle(article.id)"
-        @edit="editArticle(article.id)"
-        @click="openArticle(article.id)"
+        @delete="deleteArticle(post.id)"
+        @edit="editArticle(post.id)"
+        @click="openArticle(post.id)"
       />
     </div>
 
@@ -92,15 +92,15 @@ export default {
 .no-posts-label {
   padding-left: var(--spacing-half);
 }
-.article-card-wrapper {
+.post-card-wrapper {
   padding: var(--spacing-half);
 }
-.article-card {
+.post-card {
   height: 19rem;
   width: 100%;
 }
 
-.article-list {
+.post-list {
   padding: var(--spacing-half);
   width: 100%;
 }
