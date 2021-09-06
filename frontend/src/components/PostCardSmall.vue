@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="article-card" :style="{ backgroundImage: `url(${img})` }">
+    <div class="post-card" :style="{ backgroundImage: `url(${img})` }">
       <h3>{{ title }}</h3>
     </div>
   </div>
@@ -17,7 +17,7 @@ export default {
 </script>
 
 <style scoped>
-.article-card {
+.post-card {
   width: 100%;
   height: 100%;
 
@@ -30,7 +30,7 @@ export default {
   background-position: center center;
 }
 
-.article-card:hover {
+.post-card:hover {
   cursor: pointer;
   opacity: 0.6;
 }
