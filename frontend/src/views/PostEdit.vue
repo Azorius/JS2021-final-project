@@ -91,7 +91,7 @@ export default {
   created() {
     const { id } = this.$route.params
     if (id) {
-      const article = this.$store.getters.userArticles.find(
+      const article = this.$store.getters.userPosts.find(
         article => article.id == this.$route.params.id
       )
 

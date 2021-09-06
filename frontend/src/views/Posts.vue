@@ -2,7 +2,7 @@
   <div class="article-list">
     <div
       class="article-card-wrapper"
-      v-for="(article, index) in viewUser ? userArticles : articles"
+      v-for="(article, index) in viewUser ? userPosts : posts"
       :key="`article-${index}`"
     >
       <PostCard
@@ -12,9 +12,9 @@
         :img="`${imgEndpoint}/${article.imgName}`"
         :name="article.owner.name"
         :editMode="viewUser"
-        @delete="deleteArticle(article.id)"
-        @edit="editArticle(article.id)"
-        @click="openArticle(article.id)"
+        @delete="deletePost(article.id)"
+        @edit="editPost(article.id)"
+        @click="openPost(article.id)"
       />
     </div>
 
@@ -42,35 +42,35 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['articles', 'userArticles']),
+    ...mapGetters(['posts', 'userPosts']),
     imgEndpoint() {
       return process.env.VUE_APP_IMG_ENDPOINT
     },
   },
   methods: {
-    openArticle(id) {
+    openPost(id) {
       this.$router.push(`/posts/${id}`)
     },
-    editArticle(id) {
+    editPost(id) {
       this.$router.push(`/posts/edit/${id}`)
     },
-    deleteArticle(id) {
+    deletePost(id) {
       this.$store.dispatch('deletePost', id).then(() => {
         // could not figure out a good way to do this - Vue did not react to
-        this.$store.dispatch('requestUserArticles')
+        this.$store.dispatch('requestUserPosts')
       })
     },
   },
   mounted() {
     if (this.$route.name == 'UserPosts') {
       this.viewUser = true
-      this.$store.dispatch('requestUserArticles')
+      this.$store.dispatch('requestUserPosts')
     } else {
       observer = new IntersectionObserver(event => {
         // console.log(event)
         if (!this.blockRequest && event[0].intersectionRatio > 0) {
           this.blockRequest = true
-          this.$store.dispatch('requestMoreArticles').then(val => {
+          this.$store.dispatch('requestMorePosts').then(val => {
             if (!val) {
               observer.unobserve(document.querySelector('#suspect'))
             }

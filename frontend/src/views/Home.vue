@@ -2,7 +2,7 @@
   <div class="article-list">
     <PostCardSmall
       class="article-card"
-      v-for="(article, index) in latestArticles"
+      v-for="(article, index) in latestPosts"
       :key="`article-${index}`"
       :title="article.title"
       :img="`${imgEndpoint}/${article.imgName}`"
@@ -21,7 +21,7 @@ export default {
     PostCardSmall,
   },
   computed: {
-    ...mapGetters(['latestArticles']),
+    ...mapGetters(['latestPosts']),
     imgEndpoint() {
       return process.env.VUE_APP_IMG_ENDPOINT
     },
@@ -32,7 +32,7 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch('requestMoreArticles')
+    this.$store.dispatch('requestMorePosts')
   },
 }
 </script>

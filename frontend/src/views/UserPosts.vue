@@ -1,11 +1,11 @@
 <template>
   <div class="article-list">
-    <h2 v-if="userArticles.length == 0" class="no-posts-label">
+    <h2 v-if="userPosts.length == 0" class="no-posts-label">
       You have no posts. Press + to add a post.
     </h2>
     <div
       class="article-card-wrapper"
-      v-for="(article, index) in viewUser ? userArticles : articles"
+      v-for="(article, index) in viewUser ? userPosts : posts"
       :key="`article-${index}`"
     >
       <PostCard
@@ -45,7 +45,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['articles', 'userArticles']),
+    ...mapGetters(['posts', 'userPosts']),
     imgEndpoint() {
       return process.env.VUE_APP_IMG_ENDPOINT
     },
@@ -60,20 +60,20 @@ export default {
     deleteArticle(id) {
       this.$store.dispatch('deletePost', id).then(() => {
         // could not figure out a good way to do this - Vue did not react to
-        this.$store.dispatch('requestUserArticles')
+        this.$store.dispatch('requestUserPosts')
       })
     },
   },
   mounted() {
     if (this.$route.name == 'UserPosts') {
       this.viewUser = true
-      this.$store.dispatch('requestUserArticles')
+      this.$store.dispatch('requestUserPosts')
     } else {
       observer = new IntersectionObserver(event => {
         // console.log(event)
         if (!this.blockRequest && event[0].intersectionRatio > 0) {
           this.blockRequest = true
-          this.$store.dispatch('requestMoreArticles').then(val => {
+          this.$store.dispatch('requestMorePosts').then(val => {
             if (!val) {
               observer.unobserve(document.querySelector('#suspect'))
             }

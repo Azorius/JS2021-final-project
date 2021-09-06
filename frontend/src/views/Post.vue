@@ -28,7 +28,7 @@ export default {
     },
   },
   created() {
-    this.article = this.$store.getters.articles.find(
+    this.article = this.$store.getters.posts.find(
       article => article.id == this.$route.params.id
     )
   },
