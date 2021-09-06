@@ -1,27 +1,27 @@
 <template>
-  <div class="article-list">
-    <ArticlePreviewSmall
-      class="article-card"
-      v-for="(article, index) in latestArticles"
-      :key="`article-${index}`"
-      :title="article.title"
-      :img="`${imgEndpoint}/${article.imgName}`"
-      @click="openArticle(article.id)"
+  <div class="post-list">
+    <PostCardSmall
+      class="post-card"
+      v-for="(post, index) in latestPosts"
+      :key="`post-${index}`"
+      :title="post.title"
+      :img="`${imgEndpoint}/${post.imgName}`"
+      @click="openArticle(post.id)"
     />
   </div>
 </template>
 
 <script>
-import ArticlePreviewSmall from '@/components/ArticlePreviewSmall'
+import PostCardSmall from '@/components/PostCardSmall'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'Home',
   components: {
-    ArticlePreviewSmall,
+    PostCardSmall,
   },
   computed: {
-    ...mapGetters(['latestArticles']),
+    ...mapGetters(['latestPosts']),
     imgEndpoint() {
       return process.env.VUE_APP_IMG_ENDPOINT
     },
@@ -32,31 +32,31 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch('requestMoreArticles')
+    this.$store.dispatch('requestMorePosts')
   },
 }
 </script>
 
 <style scoped>
-.article-card {
+.post-card {
   width: 19rem;
   height: 19rem;
   margin: var(--spacing-half);
 }
 
-.article-list {
+.post-list {
   padding: var(--spacing-half);
   display: flex;
   flex-flow: wrap;
 }
 
 @media (max-width: 64rem) {
-  .article-card {
+  .post-card {
     width: 100%;
   }
 }
 @media (max-width: 480px) {
-  .article-card {
+  .post-card {
     display: inline-block;
 
     width: 100%;

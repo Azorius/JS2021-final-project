@@ -1,25 +1,25 @@
 <template>
   <div class="view">
     <div
-      class="article-image"
+      class="post-image"
       :style="{
-        backgroundImage: `url(${imgEndpoint}/${article.imgName})`,
+        backgroundImage: `url(${imgEndpoint}/${post.imgName})`,
       }"
     >
-      <h1>{{ article.title }}</h1>
+      <h1>{{ post.title }}</h1>
     </div>
-    <p>By: {{ article.owner.name }} Posted: {{ article.date }}</p>
+    <p>By: {{ post.owner.name }} Posted: {{ post.date }}</p>
     <br />
-    <h4>{{ article.description }}</h4>
-    <p>{{ article.text }}</p>
+    <h4>{{ post.description }}</h4>
+    <p>{{ post.text }}</p>
   </div>
 </template>
 <script>
 export default {
-  name: 'SinglePost',
+  name: 'Post',
   data() {
     return {
-      article: {},
+      post: {},
     }
   },
   computed: {
@@ -28,8 +28,8 @@ export default {
     },
   },
   created() {
-    this.article = this.$store.getters.articles.find(
-      article => article.id == this.$route.params.id
+    this.post = this.$store.getters.posts.find(
+      post => post.id == this.$route.params.id
     )
   },
 }
@@ -43,7 +43,7 @@ export default {
   margin: var(--spacing);
 }
 
-.article-image {
+.post-image {
   width: 100%;
   height: 19rem;
 
@@ -54,7 +54,7 @@ export default {
   display: flex;
 }
 
-.article-image > h1 {
+.post-image > h1 {
   align-self: flex-end;
   color: #fff;
   padding-bottom: var(--spacing);

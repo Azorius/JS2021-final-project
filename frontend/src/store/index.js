@@ -16,19 +16,19 @@ function auth(token, additionalHeaders) {
 export default createStore({
   strict: true,
   state: {
-    articles: [],
-    userArticles: [],
+    posts: [],
+    userPosts: [],
     currentUser: null,
   },
   getters: {
-    latestArticles(state) {
-      return state.articles.slice(0, 3)
+    latestPosts(state) {
+      return state.posts.slice(0, 3)
     },
-    articles(state) {
-      return state.articles.slice()
+    posts(state) {
+      return state.posts.slice()
     },
-    userArticles(state) {
-      return state.userArticles.slice()
+    userPosts(state) {
+      return state.userPosts.slice()
     },
     token(state) {
       return state.currentUser.token
@@ -37,64 +37,60 @@ export default createStore({
       return state.currentUser && state.currentUser.token
     },
     lastId(state) {
-      if (!state.articles.length > 0) return null
-      return state.articles[state.articles.length - 1].id
+      if (!state.posts.length > 0) return null
+      return state.posts[state.posts.length - 1].id
     },
-    unsortedArticles(state) {
-      return state.articles
+    unsortedPosts(state) {
+      return state.posts
     },
   },
   mutations: {
     // todo: simplify
-    updateArticles(state, articles) {
-      state.articles = articles
+    updatePosts(state, posts) {
+      state.posts = posts
     },
-    setUserArticles(state, articles) {
-      state.userArticles = articles
+    setuserPosts(state, posts) {
+      state.userPosts = posts
     },
     setCurrentUser(state, user) {
       state.currentUser = user
     },
-    deleteArticle(state, id) {
-      state.articles.splice(
-        state.articles.findIndex(article => article.id === id),
+    deletePost(state, id) {
+      state.posts.splice(
+        state.posts.findIndex(post => post.id === id),
         1
       )
     },
-    addArticle(state, article) {
-      state.articles.unshift(article)
-      state.userArticles.unshift(article)
+    addPost(state, post) {
+      state.posts.unshift(post)
+      state.userPosts.unshift(post)
     },
-    updateArticle(state, { article, id }) {
-      const idxAll = state.articles.findIndex(
-        article => article.id === Number(id)
-      )
-      state.articles[idxAll] = {
-        ...state.articles[idxAll],
-        ...article,
+    updatePost(state, { post, id }) {
+      const idxAll = state.posts.findIndex(post => post.id === Number(id))
+      state.posts[idxAll] = {
+        ...state.posts[idxAll],
+        ...post,
       }
 
-      const idxOwner = state.userArticles.findIndex(
-        article => article.id === Number(id)
-      )
-      state.userArticles[idxOwner] = {
-        ...state.userArticles[idxOwner],
-        ...article,
+      const idxOwner = state.userPosts.findIndex(post => post.id === Number(id))
+      state.userPosts[idxOwner] = {
+        ...state.userPosts[idxOwner],
+        ...post,
       }
     },
   },
   actions: {
-    requestArticles(context, id = null) {
+    requestPosts(context, id = null) {
       axios.get(api(`/posts${id ? `/${id}` : ''}`)).then(response => {
-        context.commit('updateArticles', response.data.data.posts)
+        context.commit('updatePosts', response.data.data.posts)
       })
     },
 
-    requestUserArticles(context) {
+    requestUserPosts(context) {
       axios
         .get(api('/users/current'), auth(context.getters.token))
         .then(response => {
-          context.commit('setUserArticles', response.data.data.user.posts)
+          context.commit('setuserPosts', response.data.data.user.posts)
         })
         .catch(error => {
           console.log(error)
@@ -105,7 +101,7 @@ export default createStore({
       return axios
         .delete(api(`/posts/${id}`), auth(context.getters.token))
         .then(() => {
-          context.commit('deleteArticle', id)
+          context.commit('deletePost', id)
         })
     },
 
@@ -119,7 +115,7 @@ export default createStore({
         }),
       })
         .then(({ data }) => {
-          context.commit('addArticle', data.data.post)
+          context.commit('addPost', data.data.post)
         })
         .catch(error => {
           console.log(error)
@@ -136,13 +132,13 @@ export default createStore({
         }),
       })
         .then(({ data: { data } }) => {
-          const article = {
+          const post = {
             title: data.title,
             text: data.text,
             description: data.description,
           }
-          if (data.image_url) article.imgName = data.image_url
-          context.commit('updateArticle', { article, id })
+          if (data.image_url) post.imgName = data.image_url
+          context.commit('updatePost', { post, id })
         })
         .catch(error => {
           console.log(error)
@@ -182,16 +178,16 @@ export default createStore({
         })
     },
 
-    requestMoreArticles(context) {
+    requestMorePosts(context) {
       var id = context.getters.lastId
       return axios
         .get(api(`/posts?${id ? `startWith=${id - 1}&` : ''}limit=3`))
         .then(response => {
-          let articles = [
-            ...context.getters.unsortedArticles,
+          let posts = [
+            ...context.getters.unsortedPosts,
             ...response.data.data.posts,
           ]
-          context.commit('updateArticles', articles)
+          context.commit('updatePosts', posts)
           return response.data.data.posts.length > 0
         })
     },

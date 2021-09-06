@@ -1,23 +1,23 @@
 <template>
-  <div class="article-list">
-    <h2 v-if="userArticles.length == 0" class="no-posts-label">
+  <div class="post-list">
+    <h2 v-if="userPosts.length == 0" class="no-posts-label">
       You have no posts. Press + to add a post.
     </h2>
     <div
-      class="article-card-wrapper"
-      v-for="(article, index) in viewUser ? userArticles : articles"
-      :key="`article-${index}`"
+      class="post-card-wrapper"
+      v-for="(post, index) in viewUser ? userPosts : posts"
+      :key="`post-${index}`"
     >
-      <ArticlePreview
-        class="article-card"
-        :title="article.title"
-        :text="article.description"
-        :img="`${imgEndpoint}/${article.imgName}`"
-        :name="article.owner.name"
+      <PostCard
+        class="post-card"
+        :title="post.title"
+        :text="post.description"
+        :img="`${imgEndpoint}/${post.imgName}`"
+        :name="post.owner.name"
         :editMode="viewUser"
-        @delete="deleteArticle(article.id)"
-        @edit="editArticle(article.id)"
-        @click="openArticle(article.id)"
+        @delete="deleteArticle(post.id)"
+        @edit="editArticle(post.id)"
+        @click="openArticle(post.id)"
       />
     </div>
 
@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import ArticlePreview from '@/components/ArticlePreview'
+import PostCard from '@/components/PostCard'
 import { mapGetters } from 'vuex'
 // import Vue from 'vue'
 
@@ -36,7 +36,7 @@ var observer = null
 export default {
   name: 'UserPosts',
   components: {
-    ArticlePreview,
+    PostCard,
   },
   data() {
     return {
@@ -45,7 +45,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['articles', 'userArticles']),
+    ...mapGetters(['posts', 'userPosts']),
     imgEndpoint() {
       return process.env.VUE_APP_IMG_ENDPOINT
     },
@@ -60,20 +60,20 @@ export default {
     deleteArticle(id) {
       this.$store.dispatch('deletePost', id).then(() => {
         // could not figure out a good way to do this - Vue did not react to
-        this.$store.dispatch('requestUserArticles')
+        this.$store.dispatch('requestUserPosts')
       })
     },
   },
   mounted() {
     if (this.$route.name == 'UserPosts') {
       this.viewUser = true
-      this.$store.dispatch('requestUserArticles')
+      this.$store.dispatch('requestUserPosts')
     } else {
       observer = new IntersectionObserver(event => {
         // console.log(event)
         if (!this.blockRequest && event[0].intersectionRatio > 0) {
           this.blockRequest = true
-          this.$store.dispatch('requestMoreArticles').then(val => {
+          this.$store.dispatch('requestMorePosts').then(val => {
             if (!val) {
               observer.unobserve(document.querySelector('#suspect'))
             }
@@ -92,15 +92,15 @@ export default {
 .no-posts-label {
   padding-left: var(--spacing-half);
 }
-.article-card-wrapper {
+.post-card-wrapper {
   padding: var(--spacing-half);
 }
-.article-card {
+.post-card {
   height: 19rem;
   width: 100%;
 }
 
-.article-list {
+.post-list {
   padding: var(--spacing-half);
   width: 100%;
 }
