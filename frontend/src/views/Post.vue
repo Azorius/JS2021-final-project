@@ -16,7 +16,7 @@
 </template>
 <script>
 export default {
-  name: 'SinglePost',
+  name: 'Post',
   data() {
     return {
       article: {},
