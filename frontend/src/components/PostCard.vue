@@ -1,10 +1,7 @@
 <template>
   <div class="container">
-    <div
-      class="article-image"
-      :style="{ backgroundImage: `url(${img})` }"
-    ></div>
-    <div class="article-contents-wrapper">
+    <div class="post-image" :style="{ backgroundImage: `url(${img})` }"></div>
+    <div class="post-contents-wrapper">
       <div class="contents">
         <h2>{{ title }}</h2>
         <p>{{ text }}</p>
@@ -36,7 +33,7 @@
 
 <script>
 export default {
-  name: 'ArticlePreviewSmall',
+  name: 'PostCard',
   props: {
     title: String,
     text: String,
@@ -67,7 +64,7 @@ export default {
 </script>
 
 <style scoped>
-.article-image {
+.post-image {
   width: 50%;
 
   background-size: cover;
@@ -87,7 +84,7 @@ export default {
   color: white;
 }
 
-.article-contents-wrapper {
+.post-contents-wrapper {
   width: 50%;
 }
 
@@ -138,12 +135,12 @@ export default {
     flex-direction: column;
   }
 
-  .article-image {
+  .post-image {
     width: 100%;
     height: 30%;
   }
 
-  .article-contents-wrapper {
+  .post-contents-wrapper {
     width: 100%;
     height: 70%;
   }
