@@ -118,12 +118,16 @@ export default {
 
 .container:hover {
   cursor: pointer;
-  opacity: 0.6;
+  opacity: 0.8;
+
+  transform: scale(1.01);
 }
 
 .container {
   width: 100%;
   height: 100%;
+
+  transition: 0.2s;
 
   display: flex;
   background: #ffffff;

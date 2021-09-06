@@ -32,12 +32,15 @@ export default {
 
 .post-card:hover {
   cursor: pointer;
-  opacity: 0.6;
+  opacity: 0.9;
+  transform: scale(1.01);
 }
 
 .container {
   width: 100%;
   height: 100%;
+
+  transition: 0.12s;
 }
 
 h3 {
