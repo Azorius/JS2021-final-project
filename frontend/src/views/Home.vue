@@ -1,6 +1,6 @@
 <template>
   <div class="article-list">
-    <ArticlePreviewSmall
+    <PostCardSmall
       class="article-card"
       v-for="(article, index) in latestArticles"
       :key="`article-${index}`"
@@ -12,13 +12,13 @@
 </template>
 
 <script>
-import ArticlePreviewSmall from '@/components/ArticlePreviewSmall'
+import PostCardSmall from '@/components/PostCardSmall'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'Home',
   components: {
-    ArticlePreviewSmall,
+    PostCardSmall,
   },
   computed: {
     ...mapGetters(['latestArticles']),

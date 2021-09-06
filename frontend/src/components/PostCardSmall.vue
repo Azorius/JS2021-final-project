@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  name: 'ArticlePreviewSmall',
+  name: 'PostCardSmall',
   props: {
     title: String,
     img: String,
