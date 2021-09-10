@@ -5,7 +5,7 @@
     </h2>
     <div
       class="post-card-wrapper"
-      v-for="(post, index) in viewUser ? userPosts : posts"
+      v-for="(post, index) in userPosts"
       :key="`post-${index}`"
     >
       <PostCard
@@ -14,15 +14,12 @@
         :text="post.description"
         :img="`${imgEndpoint}/${post.imgName}`"
         :name="post.owner.name"
-        :editMode="viewUser"
+        :editMode="true"
         @delete="deleteArticle(post.id)"
         @edit="editArticle(post.id)"
         @click="openArticle(post.id)"
       />
     </div>
-
-    <!-- will be observed by intersection observer -->
-    <div id="suspect"></div>
   </div>
 </template>
 
@@ -31,21 +28,13 @@ import PostCard from '@/components/PostCard'
 import { mapGetters } from 'vuex'
 // import Vue from 'vue'
 
-var observer = null
-
 export default {
   name: 'UserPosts',
   components: {
     PostCard,
   },
-  data() {
-    return {
-      viewUser: false,
-      blockRequest: true,
-    }
-  },
   computed: {
-    ...mapGetters(['posts', 'userPosts']),
+    ...mapGetters(['userPosts']),
     imgEndpoint() {
       return process.env.VUE_APP_IMG_ENDPOINT
     },
@@ -65,25 +54,8 @@ export default {
     },
   },
   mounted() {
-    if (this.$route.name == 'UserPosts') {
-      this.viewUser = true
-      this.$store.dispatch('requestUserPosts')
-    } else {
-      observer = new IntersectionObserver(event => {
-        // console.log(event)
-        if (!this.blockRequest && event[0].intersectionRatio > 0) {
-          this.blockRequest = true
-          this.$store.dispatch('requestMorePosts').then(val => {
-            if (!val) {
-              observer.unobserve(document.querySelector('#suspect'))
-            }
-            this.blockRequest = false
-          })
-        }
-      })
-      observer.observe(document.querySelector('#suspect'))
-      this.blockRequest = false
-    }
+    this.viewUser = true
+    this.$store.dispatch('requestUserPosts')
   },
 }
 </script>
