@@ -2,7 +2,7 @@
   <div class="post-list">
     <div
       class="post-card-wrapper"
-      v-for="(post, index) in viewUser ? userPosts : posts"
+      v-for="(post, index) in posts"
       :key="`post-${index}`"
     >
       <PostCard
@@ -11,7 +11,6 @@
         :text="post.description"
         :img="`${imgEndpoint}/${post.imgName}`"
         :name="post.owner.name"
-        :editMode="viewUser"
         @delete="deletePost(post.id)"
         @edit="editPost(post.id)"
         @click="openPost(post.id)"
@@ -37,12 +36,11 @@ export default {
   },
   data() {
     return {
-      viewUser: false,
       blockRequest: true,
     }
   },
   computed: {
-    ...mapGetters(['posts', 'userPosts']),
+    ...mapGetters(['posts']),
     imgEndpoint() {
       return process.env.VUE_APP_IMG_ENDPOINT
     },
@@ -51,36 +49,22 @@ export default {
     openPost(id) {
       this.$router.push(`/posts/${id}`)
     },
-    editPost(id) {
-      this.$router.push(`/posts/edit/${id}`)
-    },
-    deletePost(id) {
-      this.$store.dispatch('deletePost', id).then(() => {
-        // could not figure out a good way to do this - Vue did not react to
-        this.$store.dispatch('requestUserPosts')
-      })
-    },
   },
   mounted() {
-    if (this.$route.name == 'UserPosts') {
-      this.viewUser = true
-      this.$store.dispatch('requestUserPosts')
-    } else {
-      observer = new IntersectionObserver(event => {
-        // console.log(event)
-        if (!this.blockRequest && event[0].intersectionRatio > 0) {
-          this.blockRequest = true
-          this.$store.dispatch('requestMorePosts').then(val => {
-            if (!val) {
-              observer.unobserve(document.querySelector('#suspect'))
-            }
-            this.blockRequest = false
-          })
-        }
-      })
-      observer.observe(document.querySelector('#suspect'))
-      this.blockRequest = false
-    }
+    observer = new IntersectionObserver(event => {
+      // console.log(event)
+      if (!this.blockRequest && event[0].intersectionRatio > 0) {
+        this.blockRequest = true
+        this.$store.dispatch('requestMorePosts').then(val => {
+          if (!val) {
+            observer.unobserve(document.querySelector('#suspect'))
+          }
+          this.blockRequest = false
+        })
+      }
+    })
+    observer.observe(document.querySelector('#suspect'))
+    this.blockRequest = false
   },
 }
 </script>
